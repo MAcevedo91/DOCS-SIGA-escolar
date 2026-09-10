@@ -84,6 +84,10 @@ Digitalización estricta de las actuaciones requeridas por la Superintendencia d
 * Matriz de permisos jerárquica con 5 roles escolares autorizados.
 * Bitácora invisible de auditoría de todas las operaciones CRUD.
 
+### Pilar 6: Inteligencia Artificial Generativa y Predictiva (Evolución Post-MVP)
+* **Asistente de Redacción Normativa Asistida (Google Gemini Flash):** Generación automática de propuestas estructuradas de informes de incidentes en formato JSON, con sanitización previa de datos personales (DLP) y revisión obligatoria *Human-in-the-Loop*.
+* **Agente de Inteligencia Predictiva y Soluciones Preventivas:** Motor de análisis de tendencias longitudinales que correlaciona antecedentes, pertenencia al PIE y recurrencia temporal para anticipar escaladas de conflicto y sugerir planes de intervención psicosocial formativos.
+
 ---
 
 ## 3. FRICCIÓN OPERATIVA EN TERRENO Y SOLUCIONES DE DISEÑO (TOMA DE REQUERIMIENTOS 2)
@@ -97,6 +101,7 @@ A partir de la elicitación directa con el equipo de convivencia escolar, se map
 | **Dificultad para controlar plazos legales y normativos.** | Se gestionan por memoria, notas adhesivas o mensajes informales de WhatsApp. | **Bandeja de Entrada Inteligente Matutina:** Panel que lista los casos ordenados por urgencia de vencimiento normativo (hoy, próximos, atrasados). |
 | **Falta de guía en casos complejos.** | Inseguridad técnica al momento de oficializar denuncias o aplicar sanciones. | **Checklist Normativo RICE Paso a Paso:** Flujo interactivo que indica requisitos legales obligatorios cumplidos y pendientes según la Superintendencia. |
 | **Dificultad para detectar reincidencias tempranas.** | Casos leves dispersos no permiten notar el patrón acumulativo. | **Motor de Alertas Preventivas:** Detección automática de patrones (ej. *"Este estudiante registra 3 incidentes en los últimos 45 días; evaluar protocolo de acoso escolar"*). Sugiere análisis formativo profesional. |
+| **Enfoque reactivo del abordaje escolar.** | Se interviene únicamente cuando el incidente ya ocurrió o escaló a violencia. | **Agente Preventivo y Predictivo con IA:** Anticipación de focos de conflicto y propuesta de planes de mediación formativos para la Dupla Psicosocial. |
 
 ---
 
@@ -104,19 +109,25 @@ A partir de la elicitación directa con el equipo de convivencia escolar, se map
 
 ### 4.1 Requerimientos Funcionales (RF)
 
-| Código | Nombre del Requerimiento | Descripción Técnica | Prioridad |
-| :--- | :--- | :--- | :---: |
-| **RF-01** | Autenticación y Seguridad de Acceso | Autenticación vía JWT (expiración 8h), contraseñas con bcrypt (coste 10), protección contra fuerza bruta (bloqueo por 15 min tras 5 intentos fallidos). | Crítica |
-| **RF-02** | Control de Acceso por Roles (RBAC) | Permisos diferenciados para 5 roles: `ADMINISTRADOR`, `DIRECTIVO`, `EQUIPO_FORMACION`, `INSPECTOR`, `DOCENTE`. | Crítica |
-| **RF-03** | Bitácora de Auditoría Invisible | Registro inmutable en formato JSONB de toda operación de creación, edición o eliminación de registros, incluyendo IP, user-agent y usuario responsable. | Alta |
-| **RF-04** | Gestión de Usuarios del Establecimiento | CRUD de usuarios con validación de estado activo y salvaguarda contra la eliminación del último administrador activo. | Alta |
-| **RF-05** | Ficha del Estudiante e Importación Masiva | Perfil integral con historial conductual, importador masivo vía CSV con validación de RUT chileno (Módulo 11) y marca PIE. | Alta |
-| **RF-06** | Registro de Incidentes Escolares | Formulario con selector en cascada (Nivel $\rightarrow$ Letra $\rightarrow$ Alumnos), 7 tipos de abordaje, niveles de gravedad (Leve, Grave, Gravísimo) y múltiples involucrados. | Crítica |
-| **RF-07** | Alertas Tempranas de Casos Críticos | Generación y visualización inmediata de alertas ante incidentes Graves y Gravísimos con escalamiento visual en el Dashboard. | Alta |
-| **RF-08** | Activación de Protocolos RICE | Creación guiada de protocolos normativos vinculados a incidentes, con validación de pertenencia de estudiantes. | Crítica |
-| **RF-09** | Checklist y Trazabilidad RICE | Checklist interactivo por pasos normativos, con observaciones obligatorias para transiciones de estado (`EN_PROCESO`, `CERRADO`, etc.). | Alta |
-| **RF-10** | Dashboard Analítico en Tiempo Real | Visualización gráfica interactiva (Recharts): distribución por abordaje (Donut Chart), recurrencia mensual y semáforo de urgencia de protocolos. | Media |
-| **RF-11** | Emisión de Historial en PDF | Exportación de fichas conductuales en PDF con membrete institucional, firmas de responsabilidad y fecha de emisión. | Media |
+| Código | Nombre del Requerimiento | Descripción Técnica | Prioridad | Estado |
+| :--- | :--- | :--- | :---: | :---: |
+| **RF-01** | Autenticación y Seguridad de Acceso | Autenticación vía JWT (expiración 8h), contraseñas con bcrypt (coste 10), protección contra fuerza bruta (bloqueo por 15 min tras 5 intentos fallidos). | Crítica | Implementado (MVP) |
+| **RF-02** | Control de Acceso por Roles (RBAC) | Permisos diferenciados para 5 roles: `ADMINISTRADOR`, `DIRECTIVO`, `EQUIPO_FORMACION`, `INSPECTOR`, `DOCENTE`. | Crítica | Implementado (MVP) |
+| **RF-03** | Bitácora de Auditoría Invisible | Registro inmutable en formato JSONB de toda operación de creación, edición o eliminación de registros, incluyendo IP, user-agent y usuario responsable. | Alta | Implementado (MVP) |
+| **RF-04** | Gestión de Usuarios del Establecimiento | CRUD de usuarios con validación de estado activo y salvaguarda contra la eliminación del último administrador activo. | Alta | Implementado (MVP) |
+| **RF-05** | Ficha del Estudiante e Importación Masiva | Perfil integral con historial conductual, importador masivo vía CSV con validación de RUT chileno (Módulo 11) y marca PIE. | Alta | Implementado (MVP) |
+| **RF-06** | Registro de Incidentes Escolares | Formulario con selector en cascada (Nivel $\rightarrow$ Letra $\rightarrow$ Alumnos), 7 tipos de abordaje, niveles de gravedad (Leve, Grave, Gravísimo) y múltiples involucrados. | Crítica | Implementado (MVP) |
+| **RF-07** | Alertas Tempranas de Casos Críticos | Generación y visualización inmediata de alertas ante incidentes Graves y Gravísimos con escalamiento visual en el Dashboard. | Alta | Implementado (MVP) |
+| **RF-08** | Activación de Protocolos RICE | Creación guiada de protocolos normativos vinculados a incidentes, con validación de pertenencia de estudiantes. | Crítica | Implementado (MVP) |
+| **RF-09** | Checklist y Trazabilidad RICE | Checklist interactivo por pasos normativos, con observaciones obligatorias para transiciones de estado (`EN_PROCESO`, `CERRADO`, etc.). | Alta | Implementado (MVP) |
+| **RF-10** | Dashboard Analítico en Tiempo Real | Visualización gráfica interactiva (Recharts): distribución por abordaje (Donut Chart), recurrencia mensual y semáforo de urgencia de protocolos. | Media | Implementado (MVP) |
+| **RF-11** | Emisión de Historial en PDF | Exportación de fichas conductuales en PDF con membrete institucional, firmas de responsabilidad y fecha de emisión. | Media | Implementado (MVP) |
+| **RF-12** | Asistente de Redacción de Informes con IA | Generación asistida de propuestas de informe de incidente mediante Google Gemini Flash en formato JSON estructurado (contexto, hechos objetivos, medidas, acuerdos y seguimiento). | Alta | Fase Evolutiva (Sprint 6) |
+| **RF-13** | Revisión Modular y Human-in-the-Loop | Interfaz modal interactiva para edición independiente de secciones del informe, regeneración controlada y guardado de borradores antes de la aprobación final. | Alta | Fase Evolutiva (Sprint 6) |
+| **RF-14** | Oficialización y Emisión de Reporte PDF | Generación de informe PDF oficial con membrete del colegio, código de verificación, fecha de aprobación y bloques de firma para Coordinación y Dirección. | Alta | Fase Evolutiva (Sprint 6) |
+| **RF-15** | Motor Predictivo de Riesgo de Convivencia | Algoritmo de detección preventiva que correlaciona recurrencia temporal, severidad de faltas, factores de inclusión (PIE) y cambios en patrones de conducta para estimar riesgo de escalada. | Alta | Fase Evolutiva (Sprint 7) |
+| **RF-16** | Generador de Planes de Acción Preventivos | Agente inteligente con Google Gemini Flash que formula recomendaciones formativas personalizadas (talleres de aula, mediación restaurativa, derivación temprana a redes). | Alta | Fase Evolutiva (Sprint 7) |
+| **RF-17** | Monitoreo de Efectividad Preventiva | Métricas de seguimiento para evaluar si las intervenciones formativas y acuerdos restaurativos redujeron efectivamente el índice de riesgo conductual del estudiante. | Media | Fase Evolutiva (Sprint 7) |
 
 ### 4.2 Requerimientos No Funcionales (RNF)
 
@@ -130,6 +141,10 @@ A partir de la elicitación directa con el equipo de convivencia escolar, se map
 | **RNF-06** | **Accesibilidad (a11y)** | Cumplimiento de directrices WCAG 2.1 nivel AA: contrastes legibles, navegación completa por teclado, atributos ARIA y etiquetas explícitas. |
 | **RNF-07** | **Diseño Responsivo** | Interfaz adaptativa *Mobile-First* operable fluidamente desde pantallas de 360 px hasta monitores 4K. |
 | **RNF-08** | **Mantenibilidad y Cobertura** | Cobertura mínima de pruebas unitarias superior al 80-90% en lógica de negocio crítica y componentes visuales principales. |
+| **RNF-09** | **Privacidad en IA y DLP Escolar** | Anonimización y sanitización estricta de PII (RUTs, nombres, domicilios) antes de enviar prompts a la API de Gemini (Ley N° 19.628). |
+| **RNF-10** | **Latencia y Eficiencia en Inferencia** | Tiempo de generación de borrador o diagnóstico predictivo inferior a 3.5 segundos en P95 utilizando Google Gemini Flash. |
+| **RNF-11** | **Ética y Criterio Pedagógico No Punitivo (XAI)** | El agente de IA opera bajo directrices de explicabilidad (XAI), con prohibición estricta de sugerir sanciones punitivas o expulsiones escolares. |
+| **RNF-12** | **Resiliencia y Circuit Breaker de IA** | Ante caída de conectividad o saturación de cuota del proveedor de IA, el sistema debe degradar grácilmente a plantillas editables sin interrumpir el flujo. |
 
 ---
 
@@ -143,6 +158,9 @@ A partir de la elicitación directa con el equipo de convivencia escolar, se map
 | **Registro de Incidentes** | Total | Total | Total | Total | Su Curso |
 | **Gestión y Checklist RICE** | Total | Total | Total | Seguimiento | Sin acceso |
 | **Fichas Confidenciales y Derivaciones** | Total | Total | Total | Sin acceso | Sin acceso |
+| **Generación de Borrador con IA (RF-12)** | Total | Total | Total | Con permiso | Sin acceso |
+| **Aprobación de Reporte y Firma PDF (RF-14)**| Total | Total | Total | Sin acceso | Sin acceso |
+| **Agente Predictivo y Planes Preventivos (RF-15/16)** | Total | Total | Total | Sin acceso | Sin acceso |
 | **Descarga de Historial PDF** | Total | Total | Total | Con permiso | Su Curso |
 | **Bitácora de Auditoría** | Total | Lectura | Sin acceso | Sin acceso | Sin acceso |
 
@@ -156,6 +174,7 @@ A partir de la elicitación directa con el equipo de convivencia escolar, se map
 | `requerimientos.docx` | Cap. III: Especificación de Requerimientos Funcionales | Catálogos RICE, Derivaciones, Matriz RBAC. |
 | `Toma de requerimientos 2.docx` | Cap. IV: Diseño de la Solución de Software | Bandeja Inteligente, Checklist RICE, Scoring. |
 | `requerimientosSIGA.md` | Cap. V: Priorización y Casos de Uso Críticos | Flujos guiados de contingencia y reportes. |
+| `PROPUESTA_IA_CLIENTE.md` | Cap. VI: Arquitectura Evolutiva y Solución Avanzada (Post-MVP) | Asistente de Informes IA y Agente Predictivo Preventivo (Gemini Flash). |
 
 ---
 

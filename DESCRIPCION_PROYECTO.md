@@ -28,6 +28,12 @@ Panel de control con indicadores clave en tiempo real: total de incidentes, inci
 **Exportación de reportes PDF**
 Generación automática del historial conductual de un estudiante en formato PDF con membrete institucional, datos personales, listado cronológico de incidentes y espacios para firmas del Coordinador de Convivencia y el Director del establecimiento.
 
+**Asistente de redacción de reportes con IA (Google Gemini Flash)**
+Generación asistida de informes y actas oficiales de incidentes en formato estructurado (contexto, hechos objetivos, medidas adoptadas, acuerdos y seguimiento). El sistema sanitiza la información sensible de los estudiantes (DLP) antes de consultar el modelo y entrega un borrador modular en pantalla que el profesional de convivencia puede revisar y editar libremente antes de su aprobación definitiva y emisión en PDF.
+
+**Agente predictivo y de soluciones preventivas (Google Gemini Flash)**
+Motor de analítica predictiva que correlaciona la recurrencia temporal, gravedad de faltas, antecedentes de mediación y pertenencia al Programa de Integración Escolar (PIE) para anticipar focos de escalada de violencia. El agente formula automáticamente propuestas de planes de intervención formativos y estrategias restaurativas para la Dupla Psicosocial y los Profesores Jefes, transformando el modelo escolar de reactivo a proactivo.
+
 **Bitácora de auditoría**
 Registro automático e invisible de todos los eventos CRUD del sistema, cumpliendo el requerimiento RF-03. Cada operación queda registrada con usuario, tenant, acción, tabla afectada, timestamp e IP de origen.
 
@@ -51,6 +57,7 @@ El proyecto fue desarrollado íntegramente con tecnologías de código abierto, 
 | csv-parse | 7 | Parseo de archivos CSV |
 | xlsx | 0.18 | Parseo de archivos Excel |
 | pdfkit | 0.19 | Generación de PDFs |
+| @google/genai | 0.1 | SDK oficial de Google Gemini (Flash 1.5/2.0) |
 | Helmet | 8 | Headers de seguridad HTTP |
 | CORS | 2 | Control de orígenes permitidos |
 | dotenv | 17 | Gestión de variables de entorno |
@@ -68,13 +75,14 @@ El proyecto fue desarrollado íntegramente con tecnologías de código abierto, 
 | Axios | 1 | Cliente HTTP con interceptores |
 | react-hook-form | 7 | Gestión de formularios |
 | lucide-react | 0.383 | Íconos SVG |
-| recharts | 2 | Gráficos estadísticos |
+| recharts | 2 | Gráficos estadísticos y curvas predictivas |
 
 ### Base de datos e infraestructura
 
 | Servicio | Tecnología | Descripción |
 |---------|-----------|-------------|
 | Base de datos | PostgreSQL 15 (Supabase) | BD relacional multi-tenant con RLS |
+| Inteligencia Artificial | Google Gemini Flash | Modelo fundacional de alta velocidad y costo cero en AI Studio |
 | Deploy Backend | Render | Plataforma PaaS, deploy automático desde GitHub |
 | Deploy Frontend | Vercel | Hosting estático optimizado para React/Vite |
 | Repositorios | GitHub | Control de versiones con ramas main/develop |
@@ -88,3 +96,7 @@ El proyecto fue desarrollado íntegramente con tecnologías de código abierto, 
 **Auditoría fire-and-forget** — El middleware de auditoría utiliza `setImmediate()` para registrar los eventos de forma asíncrona sin agregar latencia a las respuestas de la API.
 
 **Validación RUT chileno** — El sistema implementa el algoritmo del módulo 11 para validar y normalizar los RUTs durante la importación masiva, rechazando solo los inválidos sin detener el proceso completo.
+
+**Privacidad por diseño en IA (DLP Sanitization)** — Antes de enviar información de incidentes o estudiantes a la API de Google Gemini Flash, el backend ejecuta un pipeline de enmascaramiento que elimina RUTs, direcciones y teléfonos, y sustituye nombres por roles sintácticos (`[Estudiante 1 - Víctima]`). Los datos reales se reinyectan únicamente al momento de la renderización local, protegiendo la privacidad de los menores según la Ley N° 19.628.
+
+**Inteligencia artificial explicable (XAI) y enfoque no punitivo** — El agente predictivo y el asistente normativo operan bajo restricciones estrictas de diseño: nunca emiten sanciones punitivas automáticas ni cierran casos de forma autónoma. Toda recomendación preventiva explicita los factores objetivos que la originaron, garantizando que el criterio profesional pedagógico de la Dupla Psicosocial y el equipo de convivencia escolar sea el centro de la toma de decisiones (*Human-in-the-Loop*).
