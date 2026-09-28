@@ -18,6 +18,9 @@ DOCS/
 ├── manual_de_usuario/                       # Manuales y guías paso a paso para el usuario final / cliente
 │   └── MANUAL_DE_USUARIO.md                  # [DOCUMENTO MAESTRO] Guía didáctica de uso para directivos, inspectores y docentes
 │
+├── defensa_y_negocio/                       # Estrategia de defensa de título, mercado EdTech y modelo de negocio
+│   └── GUIA_DEFENSA_ESTRATEGICA_Y_NEGOCIO.md # [DOCUMENTO MAESTRO] Guía de defensa: cifras de mercado, stakeholders, RICE y normativa
+│
 ├── requerimientos/                           # Levantamiento y especificación de requerimientos
 │   ├── REQUERIMIENTOS_CONSOLIDADOS.md        # [DOCUMENTO MAESTRO] Síntesis consolidada de RF y RNF
 │   └── fuentes_originales/                   # Entrevistas, minutas y documentos originales en bruto
@@ -93,6 +96,9 @@ Para facilitar la lectura y evitar la redundancia de archivos dispersos, la info
 
 6. [**INFORME_EJECUCION_Y_AVANCE_PROYECTO.md**](INFORME_EJECUCION_Y_AVANCE_PROYECTO.md):  
    Bitácora oficial de avance del proyecto, actualizada continuamente con cada incremento funcional verificado y certificado.
+
+7. [**GUIA_DEFENSA_ESTRATEGICA_Y_NEGOCIO.md**](defensa_y_negocio/GUIA_DEFENSA_ESTRATEGICA_Y_NEGOCIO.md):  
+   Guía maestra para la defensa del proyecto de título ante la comisión evaluadora: análisis del mercado educativo chileno (~11.600 colegios, TAM/SAM/SOM), marco legal vinculante (Ley 20.536, Res. Exenta 781, Ley 21.719, Art. 175 CPP), los 10 protocolos RICE, ficha técnica de la Escuela El Salvador (483 estudiantes, SLEP Atacama), mapeo de stakeholders, diferenciación contra ERPs tradicionales (Lirmi, WebClass) y respuestas modelo a preguntas desafiantes de la comisión.
 
 ---
 
