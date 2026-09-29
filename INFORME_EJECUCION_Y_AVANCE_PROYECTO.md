@@ -477,6 +477,33 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
       * *Prueba 3 (Compilación Vite):* `npm run build` exitoso con generación de service worker PWA y chunks minificados.
       * *Prueba 4 (Linting ESLint):* Cero errores en componentes y suites de prueba.
 
+
+* **HU 6.2 — Modal de Revisión Modular y Control Human-in-the-Loop en Frontend:**
+  * **TAREA 6.2.1 (Daniel Flores) — Componente `ModalRevisionReporteIA.jsx` con Edición por Secciones y Tabs:**
+    * ✅ **Estado: Implementado, Desplegado y Validado en Terreno.**
+    * **Frontend (`ModalRevisionReporteIA.jsx`, `reportesService.js`):**
+      * Creación del servicio frontend en `src/services/reportesService.js` (`getReportesIncidente`, `generarBorradoresReporte`, `guardarBorradorReporte`, `aprobarReporte`, `descargarReportePdf`).
+      * Modal amplio responsivo (`max-w-5xl`), accesible, con backdrop desenfocado (`backdrop-blur-sm`) y scroll fluido.
+      * Barra de pestañas superiores dinámica para alternar entre informes diferenciados cuando el incidente involucra a más de un alumno, preservando el estado de edición en memoria sin sobreescrituras ni pérdidas al alternar de tab.
+      * Desglose modular en las 5 secciones obligatorias de la Circular N° 482: Contexto institucional, Hechos objetivos, Medidas adoptadas, Acuerdos/compromisos formativos y Plan de seguimiento.
+      * Contadores dinámicos de caracteres por bloque e indicadores visuales de estado (*"Propuesta IA Gemini Flash"*, *"Editado manualmente"*, *"Borrador en revisión"* y *"Oficializado / Aprobado"*).
+    * **Resultados de Validación Real en Terreno:**
+      * *Prueba 1 (Vitest - reportesService):* 6/6 tests unitarios aprobados en `src/__tests__/services/reportesService.test.js`.
+      * *Prueba 2 (Vitest - ModalRevisionReporteIA):* 8/8 tests unitarios aprobados en `src/__tests__/components/reportes/ModalRevisionReporteIA.test.jsx`.
+      * *Prueba 3 (Preservación de Estado):* Comprobación de persistencia reactiva en memoria al alternar entre pestañas de alumnos víctimas e involucrados.
+  * **TAREA 6.2.2 (Daniel Flores) — Lógica de Guardado de Borradores y Control de Aprobación RBAC:**
+    * ✅ **Estado: Implementado, Desplegado y Validado en Terreno.**
+    * **Frontend (`IncidenteDetallePage.jsx`, `ModalRevisionReporteIA.jsx`):**
+      * Incorporación de botón principal de acción con ícono de destello (`Sparkles`) en el encabezado de `IncidenteDetallePage.jsx` para roles autorizados (`Administrador`, `Directivo`, `Equipo de Formación`, `Inspector`).
+      * Pantalla modal de espera institucional durante la llamada con Gemini Flash detallando la aplicación de la política DLP de privacidad (Ley 19.628).
+      * Botón *"Guardar Borrador"* que realiza persistencia silenciosa mediante `PATCH /reportes/:reporteId` con notificación Toast de feedback.
+      * Botón *"Aprobar y Oficializar"* con diálogo modal interno de confirmación y advertencia legal, restringido estrictamente a roles directivos/coordinación (`Administrador`, `Directivo`, `Equipo de Formación`). Para el rol `Inspector`, se deshabilita con insignia de seguridad explicativa.
+      * Botón *"Descargar Acta Oficial (PDF)"* activo de inmediato para reportes que ya han sido oficializados.
+    * **Resultados de Validación Real en Terreno:**
+      * *Prueba 1 (Vitest - IncidenteDetallePage):* 4/4 tests unitarios aprobados en `src/__tests__/pages/IncidenteDetallePage.test.jsx`.
+      * *Prueba 2 (RBAC en Interfaz):* Bloqueo visual del botón de aprobación ante rol Inspector y renderizado condicional para Jefatura.
+      * *Prueba 3 (Build Vite & ESLint):* Compilación de producción exitosa en 2.61s sin errores de linting.
+
 ---
 
 ### SPRINT 6: Asistente de Redacción Normativa con IA y Emisión Oficial PDF (En Ejecución)
