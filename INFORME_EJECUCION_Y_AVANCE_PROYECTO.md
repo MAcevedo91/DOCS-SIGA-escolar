@@ -52,7 +52,7 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 3** | 25 jun – 01 jul 2026 | Analítica (Recharts), Reportes PDF, Deploy Producción y UAT | 38 pts | 38 pts | ✅ Cerrado |
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
-| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 15 pts | 🟡 En Ejecución (HU 6.1 y Tarea 6.3.1 Completadas) |
+| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 18 pts | 🟡 En Ejecución (100% Backend Marcelo Acevedo Completado: 6.1.1, 6.1.2, 6.1.3, 6.3.1, 6.4.1) |
 
 ---
 
@@ -548,6 +548,23 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
    * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
      * *Suite Jest:* 18/18 pruebas unitarias aprobadas al 100% integrando `pdfService.test.js` (generación de buffer válido con bytes mágicos `%PDF-`) y `reportesController.test.js` (validación de cabeceras, nombres de archivo y rechazo 400 en borradores).
      * *Certificación Global de Suite Backend:* **38/38 pruebas aprobadas al 100%** integrando `pdfService.test.js` (2), `reportesController.test.js` (16), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
+
+5. **`SE-73` TASK 6.4.1 — Integración Nodemailer y Despacho Automatizado con PDF Adjunto (3 SP | Marcelo Acevedo):**
+   * **Descripción Técnica:** Implementación del módulo de notificación formal automatizada para el apoderado titular del estudiante foco tras la oficialización del caso. Integra plantilla HTML con diseño institucional, despacho con PDF oficial adjunto mediante Nodemailer y encolamiento asíncrono con mecanismo de resiliencia no bloqueante.
+   * **Entregables de Código:**
+     * Plantilla de correo HTML formal `src/templates/emails/informe-oficial-apoderado.html` con membrete corporativo (`#1e3a5f`), saludo empático y no estigmatizante, ficha resumen del suceso y aviso explícito de documento legal en PDF adjunto.
+     * Función `renderInformeOficialApoderadoTemplate` en `src/utils/emailTemplates.js`.
+     * Función `enviarEmailInformeOficialApoderado` en `src/services/emailService.js` con soporte para adjuntos en base64 compatibles con encolamiento Redis/Bull.
+     * Adaptación de `src/workers/emailWorker.js` para procesar y adjuntar archivos PDF decodificados en `mailOptions.attachments`.
+     * Integración en `reportesService.aprobarReporte`: al aprobar formalmente el informe, consulta al apoderado titular (`es_titular: true`), genera el `pdfBuffer` y despacha el correo, actualizando `email_apoderado_enviado: true` y `fecha_envio_email: NOW()` en la tabla `reportes_incidentes`.
+     * Suite de pruebas automatizadas en `src/__tests__/services/emailServiceReporte.test.js`.
+   * **Mecanismos de Seguridad y Resiliencia Implementados:**
+     * *Privacidad Estricta de Menores (Ley N° 19.628 / Circular N° 482):* El correo y su adjunto se dirigen con exclusividad al apoderado titular del alumno foco; no se filtran antecedentes, nombres ni contactos de terceras partes.
+     * *Mecanismo No Bloqueante (Circuit Breaker):* Si el servicio SMTP o la cola experimentan indisponibilidad o latencia, la aprobación jurídica del reporte en base de datos permanece inalterada y validada, registrándose la situación en logs de auditoría para entrega presencial.
+     * *Manejo de Casos sin Correo Electrónico:* Si el apoderado titular carece de email, el sistema conserva el flag en `false` alertando la necesidad de notificación física en inspectoría.
+   * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Suite Jest:* 3/3 pruebas unitarias aprobadas al 100% en `emailServiceReporte.test.js` (renderizado de plantilla, despacho con adjunto PDF y flujo integrado en `aprobarReporte`).
+     * *Certificación Global de Suite Backend Sprint 6 (Marcelo Acevedo):* **41/41 pruebas aprobadas al 100%** integrando `emailServiceReporte.test.js` (3), `pdfService.test.js` (2), `reportesController.test.js` (16), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
 
 ---
 

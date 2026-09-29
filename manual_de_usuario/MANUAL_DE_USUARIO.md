@@ -295,6 +295,16 @@ Una vez que el informe cuenta con la **Aprobación Formal** de la jefatura:
    - **Líneas de Firma Física:** Espacios designados para la firma y timbre del Coordinador/a de Convivencia Escolar y del Director/a o Inspector/a General.
 3. **Regla de Seguridad e Inmutabilidad:** Los informes en estado *Borrador* no pueden descargarse en PDF, garantizando que ningún documento provisional o no aprobado circule fuera del establecimiento.
 
+### Notificación Automática por Correo Electrónico al Apoderado Titular
+
+De manera complementaria a la descarga física, el sistema agiliza la comunicación con la familia:
+1. **Despacho Inmediato al Aprobar:** En el mismo instante en que el Coordinador/a de Convivencia o Dirección oficializa el reporte, SIGA Escolar despacha un correo electrónico formal al apoderado titular del alumno.
+2. **Contenido del Correo:**
+   - Saludo institucional respetuoso y empático (no estigmatizante).
+   - Resumen del caso (fecha, folio oficial y alumno foco).
+   - **Copia íntegra del informe en PDF adjunto**, idéntico al documento impreso en el colegio.
+3. **Casos sin Correo Registrado:** Si la familia no cuenta con email en la ficha escolar, el sistema alertará visualmente al personal para proceder con citación presencial y entrega de la copia física.
+
 ---
 
 ## 15. Preguntas Frecuentes y Solución de Problemas

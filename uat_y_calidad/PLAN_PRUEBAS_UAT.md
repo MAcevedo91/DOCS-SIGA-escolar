@@ -188,6 +188,31 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 
 ---
 
+
+### CP-11: Asistencia de Redacción Normativa con IA (Gemini Flash y DLP Escolar)
+- **Objetivo:** Verificar la generación automática de borradores de actas estructuradas bajo Circular N° 482 y la sanitización estricta de PII (RUTs, teléfonos y nombres).
+- **Precondición:** Incidente registrado con al menos un estudiante; usuario Inspector, Dupla Psicosocial o Directivo autenticado.
+- **Pasos:**
+  1. Ingresar al detalle de un incidente y pulsar "Generar Informe con IA".
+  2. Comprobar que el borrador propuesto por Google Gemini Flash se desglosa en las 5 secciones requeridas (Contexto, Hechos, Medidas, Acuerdos y Seguimiento).
+  3. Verificar que en incidentes con múltiples alumnos involucrados se generen informes diferenciados e independientes por estudiante.
+  4. Constatar que ningún RUT o dato de contacto real fue transmitido al modelo externo.
+- **Resultado Esperado:** El sistema produce una propuesta objetiva y formal en menos de 4 segundos, respetando la reserva de identidad de contrapartes y estructurando las 5 secciones normativas.
+- **Severidad en caso de falla:** **Bloqueante**.
+
+### CP-12: Emisión Oficial de Informe en PDF y Notificación al Apoderado Titular
+- **Objetivo:** Validar la oficialización del informe por parte de la jefatura, la descarga del PDF con membrete/firmas y el despacho automatizado por correo a la familia.
+- **Precondición:** Borrador de informe generado; usuario Directivo o Coordinador de Convivencia autenticado.
+- **Pasos:**
+  1. Intentar descargar el PDF mientras el informe permanece en estado `Borrador` (debe ser rechazado).
+  2. Aprobar formalmente el informe.
+  3. Descargar el documento PDF oficial generado y revisar membrete de la Escuela El Salvador, folio correlativo, glosa de autenticidad y campos de firma física.
+  4. Verificar la bandeja de correo del apoderado titular del alumno foco y constatar la recepción de la notificación formal con el PDF adjunto.
+- **Resultado Esperado:** El PDF solo es descargable tras la aprobación oficial. El apoderado recibe en su correo la copia exacta de su pupilo sin exposición de datos de terceros. Si el apoderado carece de email, el sistema alerta para entrega presencial.
+- **Severidad en caso de falla:** **Mayor**.
+
+---
+
 ## 4. Clasificación de Severidad y Criterios de Aprobación
 
 ### 4.1 Categorización de Hallazgos
@@ -200,8 +225,8 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 
 ### 4.2 Criterio Formal de Aprobación
 El UAT se dictaminará formalmente como **APROBADO** si se cumplen simultáneamente las siguientes condiciones:
-1. El **100% de los casos de prueba clasificados como Bloqueantes** (CP-01, CP-02, CP-04, CP-05, CP-07) resultan aprobados exitosamente.
-2. Al menos **9 de los 10 casos de prueba totales** resultan aprobados.
+1. El **100% de los casos de prueba clasificados como Bloqueantes** (CP-01, CP-02, CP-04, CP-05, CP-07, CP-11) resultan aprobados exitosamente.
+2. Al menos **11 de los 12 casos de prueba totales** resultan aprobados.
 3. No existe riesgo de filtración de datos sensibles ni inconsistencias en la base de datos de producción.
 
 ---
