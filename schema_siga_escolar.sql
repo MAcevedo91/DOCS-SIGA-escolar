@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
                           'Docente',
                           'Equipo de Formación'
                       )),
+    avatar_url        VARCHAR(500),
     activo            BOOLEAN NOT NULL DEFAULT TRUE,
     intentos_fallidos INT     NOT NULL DEFAULT 0,
     bloqueado_hasta   TIMESTAMP WITH TIME ZONE,

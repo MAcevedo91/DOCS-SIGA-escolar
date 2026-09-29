@@ -211,6 +211,17 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 - **Resultado Esperado:** El PDF solo es descargable tras la aprobación oficial. El apoderado recibe en su correo la copia exacta de su pupilo sin exposición de datos de terceros. Si el apoderado carece de email, el sistema alerta para entrega presencial.
 - **Severidad en caso de falla:** **Mayor**.
 
+### CP-13: Almacenamiento Seguro de Fotos de Perfil (Supabase Storage) y Visualización en Directorio
+- **Objetivo:** Verificar la subida segura de fotografías de perfil de funcionarios institucionales a Supabase Storage y su despliegue visual en las cards de cursos del Directorio de Estudiantes.
+- **Precondición:** Usuario profesional autenticado en la plataforma.
+- **Pasos:**
+  1. Acceder al perfil de usuario y seleccionar una fotografía válida (JPG/PNG/WebP de hasta 2 MB).
+  2. Subir la imagen y constatar que el sistema devuelva la URL pública generada en Supabase Storage.
+  3. Probar el intento de subida de un archivo mayor a 2 MB o con extensión no permitida (ej. PDF o ejecutable) y constatar el rechazo con HTTP 400.
+  4. Dirigirse al **Directorio de Estudiantes** y constatar que en la tarjeta del curso correspondiente aparezca la fotografía circular del Profesor Jefe asignado (con fallback automático a icono neutro en caso de no tener foto).
+- **Resultado Esperado:** La fotografía se almacena en memoria y se transfiere a Supabase Storage sin persistencia en disco efímero; el directorio muestra la imagen del profesional con alta nitidez y recorte circular.
+- **Severidad en caso de falla:** **Menor**.
+
 ---
 
 ## 4. Clasificación de Severidad y Criterios de Aprobación
@@ -226,7 +237,7 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 ### 4.2 Criterio Formal de Aprobación
 El UAT se dictaminará formalmente como **APROBADO** si se cumplen simultáneamente las siguientes condiciones:
 1. El **100% de los casos de prueba clasificados como Bloqueantes** (CP-01, CP-02, CP-04, CP-05, CP-07, CP-11) resultan aprobados exitosamente.
-2. Al menos **11 de los 12 casos de prueba totales** resultan aprobados.
+2. Al menos **12 de los 13 casos de prueba totales** resultan aprobados.
 3. No existe riesgo de filtración de datos sensibles ni inconsistencias en la base de datos de producción.
 
 ---

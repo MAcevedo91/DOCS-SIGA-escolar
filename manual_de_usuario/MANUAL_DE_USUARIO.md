@@ -248,6 +248,20 @@ El administrador del colegio puede crear y gestionar los accesos del personal:
 4. Presiona **"Guardar Usuario"**.
 5. Si un funcionario deja de trabajar en el establecimiento, el administrador puede desactivar su cuenta con un solo clic, impidiendo su acceso inmediato sin borrar los incidentes que haya registrado históricamente.
 
+### Carga y Actualización de Foto de Perfil (Avatar Institucional)
+
+Para que los profesionales aparezcan identificados con su fotografía en las tarjetas de cursos del Directorio de Estudiantes y en los expedientes:
+1. **Acceso al Perfil o Edición de Usuario:**  
+   - El propio funcionario o el Administrador puede ingresar a la vista de usuario.
+2. **Subida de Fotografía:**  
+   - Selecciona el botón **"Subir Foto"** o haz clic sobre el círculo de avatar.
+   - Elige una imagen en formato **JPG, PNG o WebP** (tamaño máximo: **2 MB**).
+3. **Almacenamiento Seguro en la Nube:**  
+   - El sistema almacena la fotografía en **Supabase Storage** bajo estándares de alta disponibilidad y CDN rápida.
+   - Si se actualiza la foto, la versión anterior se elimina automáticamente para no ocupar espacio innecesario.
+4. **Visualización en el Directorio:**  
+   - La fotografía aparecerá de inmediato en la tarjeta del curso donde el profesional figure como Profesor Jefe, facilitando el reconocimiento visual para todo el equipo educativo. Si el profesional aún no tiene foto, el sistema mostrará un icono neutro de respaldo.
+
 ---
 
 ## 13. Configuración de Plazos y Reglas Escolares
