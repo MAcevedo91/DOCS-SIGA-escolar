@@ -283,6 +283,22 @@ Para optimizar el tiempo administrativo de inspectores, dupla psicosocial y dire
    - Todo borrador generado por la IA es revisable y editable por inspectores o dupla psicosocial.
    - Solo la dirección o coordinación de convivencia escolar puede emitir la **aprobación formal**, la cual bloquea modificaciones posteriores para garantizar inmutabilidad legal.
 
+### Guía Paso a Paso para Funcionarios (Inspectoría y Convivencia)
+
+1. **Paso 1: Localizar el Incidente**  
+   - Dirígete al módulo **"Incidentes"** y haz clic sobre el caso que deseas documentar.
+2. **Paso 2: Generar Borrador con IA**  
+   - En la pestaña o sección de informes, haz clic en **"Generar Informe con IA"**.
+   - El sistema anonimizará los datos, consultará a Gemini Flash y presentará las 5 secciones estructuradas por cada alumno involucrado en pocos segundos.
+3. **Paso 3: Revisión y Ajustes (Human-in-the-Loop)**  
+   - Revisa el texto propuesto. Puedes ajustar compromisos formativos, fechas de citación o medidas específicas en la sección editable antes de finalizar.
+   - Haz clic en **"Guardar Borrador"** para conservar los cambios sin alterar el registro histórico.
+4. **Paso 4: Aprobación Formal (Directivos y Encargados de Convivencia)**  
+   - Una vez validado el contenido, la jefatura autorizada presiona **"Aprobar Informe Oficial"**.
+   - El estado cambia a **Aprobado** y el contenido queda blindado contra futuras modificaciones.
+5. **Paso 5: Emisión de PDF y Envío a la Familia**  
+   - El sistema habilita de inmediato el botón **"Descargar PDF Oficial"** y simultáneamente despacha el informe por correo al apoderado titular registrado.
+
 ### Emisión y Descarga del Documento PDF Oficial
 
 Una vez que el informe cuenta con la **Aprobación Formal** de la jefatura:

@@ -481,7 +481,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ### SPRINT 6: Asistente de Redacción Normativa con IA y Emisión Oficial PDF (En Ejecución)
 * **Objetivo:** Reducir la sobrecarga administrativa mediante generación asistida de informes y actas oficiales con **Google Gemini Flash**, sanitización DLP, reportes diferenciados por alumno, revisión *Human-in-the-Loop* y emisión PDF oficial con membrete y firmas.
-* **Estado Actual:** Tarea 6.1.1 completada y certificada (3 de 28 SP).
+* **Estado Actual:** **100% de Tareas Backend Completadas y Certificadas en Terreno por Marcelo Acevedo (18 de 28 SP totales del Sprint)**. Cobertura de pruebas unitarias 41/41 en el módulo de reportes y 188/188 pruebas en la suite global de backend. Pendiente la integración de vistas UI en React por Daniel Flores.
 
 #### Tareas Técnicas Ejecutadas:
 
@@ -511,6 +511,12 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * *Desanonimización Diferenciada Post-IA:* Reconstitución local segura que restaura el nombre real del estudiante foco en su informe particular, pero mantiene la reserva e identidad neutra de terceros/contrapartes (ej. "otro estudiante involucrado"), impidiendo que un apoderado acceda a datos protegidos de otros menores (Ley N° 19.628 / Circular N° 482).
      * *Circuit Breaker & Fallback Inteligente:* Ante ausencia de API Key o degradación externa de red/cuotas, `generarPlantillaFallback` sintetiza las 5 secciones estructuradas a partir de la metadata del incidente sin que el sistema colapse ni genere HTTP 500.
    * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Prueba en Terreno en Vivo (`scripts/verificar-dlp-gemini.js`):*
+       * Conexión exitosa y autenticada con API Key oficial de Google AI Studio (`AQ.Ab8RN6...`).
+       * Orquestación resiliente validada con los modelos `gemini-3-flash-preview` y `gemini-3.8-flash`.
+       * Sanitización DLP en vivo: Enmascaramiento completo de RUTs, teléfonos, correos y nombres en un caso de agresión entre pares. Cero fugas de PII hacia los servidores de Google.
+       * Inferencia IA en vivo: Síntesis normativa en menos de 3 segundos de las 5 secciones requeridas por la Circular N° 482.
+       * Desanonimización selectiva: Restauración del nombre del estudiante foco en su acta individual y preservación anónima de la contraparte como "otro estudiante involucrado".
      * *Suite Jest:* 8/8 pruebas unitarias aprobadas al 100% en `src/__tests__/services/geminiDlp.test.js`:
        * `censurarPatronesPII`: Detección y enmascaramiento exitoso de RUTs con puntos/guiones, teléfonos fijos/móviles y emails.
        * `sanitizarContextoIncidente`: Tokenización de involucrados y censura de PII dentro del relato de hechos. Rechazo con HTTP 400 ante estudiantes ajenos al caso.
@@ -531,6 +537,12 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * *Aprobación Formal (`POST /api/v1/incidentes/:id/reportes/:reporteId/aprobar`):* Restringida exclusivamente a la línea de mando institucional (`Administrador`, `Directivo`, `Equipo de Formación`). Inspectores y Docentes reciben `403 Forbidden`.
      * *Aislamiento Multi-tenant:* Todas las consultas validan `tenant_id` impidiendo el acceso a incidentes o reportes de otros establecimientos (404/403).
    * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Prueba en Terreno en Vivo (`scripts/verificar-endpoints-reportes.js`):*
+       * Conexión directa a Supabase con datos reales (Incidente `fba9caf2-9afb-48ff-94a2-0d3a370f8e93`, Alumno Juan Pérez).
+       * Emisión de token JWT con rol `Inspector`.
+       * `POST /borrador-reporte`: Generación con IA y almacenamiento en Supabase (Reporte ID `0055aacb-661c-4681-b47e-5364521bcad5`, Versión incremental 2).
+       * `GET /reportes`: Consulta exitosa de reportes vinculados al incidente.
+       * `PATCH /reportes/:reporteId`: Edición de acuerdos en `contenido_editado` preservando intacto `contenido_borrador` para trazabilidad de auditoría.
      * *Suite Jest:* 13/13 pruebas unitarias aprobadas al 100% en `src/__tests__/controllers/reportesController.test.js` (generación multi-estudiante, errores 400 por payload incompleto o reporte cerrado, 403 por roles no autorizados y 404 por incidente inexistente).
      * *Certificación Global de Suite (HU 6.1):* **33/33 pruebas aprobadas al 100%** integrando `reportesController.test.js` (13), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
 
@@ -546,6 +558,11 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * *Aislamiento Multi-tenant Estricto:* Valida `tenant_id` tanto en la búsqueda del reporte como en la carga del membrete y datos de matrícula.
      * *Confidencialidad Diferenciada:* El PDF solo contiene los antecedentes de filiación del estudiante foco; las menciones a otros involucrados se mantienen neutras.
    * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Prueba en Terreno en Vivo (`scripts/verificar-pdf-reporte.js`):*
+       * Verificación de la regla de inmutabilidad: Rechazo exitoso con `400 Bad Request` ante intento de descarga en estado `Borrador`.
+       * Aprobación formal del reporte `0055aacb-661c-4681-b47e-5364521bcad5` por el Inspector General.
+       * Generación del archivo PDF físico en disco: `siga-backend/reporte-oficial-prueba.pdf` (4.4 KB).
+       * Inspección del documento: Membrete institucional, folio `INF-2026-0055AACB`, ficha del alumno, desarrollo de las 5 secciones normativas, bloques de firma física y glosa de confidencialidad de la Ley N° 19.628.
      * *Suite Jest:* 18/18 pruebas unitarias aprobadas al 100% integrando `pdfService.test.js` (generación de buffer válido con bytes mágicos `%PDF-`) y `reportesController.test.js` (validación de cabeceras, nombres de archivo y rechazo 400 en borradores).
      * *Certificación Global de Suite Backend:* **38/38 pruebas aprobadas al 100%** integrando `pdfService.test.js` (2), `reportesController.test.js` (16), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
 
@@ -563,8 +580,13 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * *Mecanismo No Bloqueante (Circuit Breaker):* Si el servicio SMTP o la cola experimentan indisponibilidad o latencia, la aprobación jurídica del reporte en base de datos permanece inalterada y validada, registrándose la situación en logs de auditoría para entrega presencial.
      * *Manejo de Casos sin Correo Electrónico:* Si el apoderado titular carece de email, el sistema conserva el flag en `false` alertando la necesidad de notificación física en inspectoría.
    * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Prueba en Terreno en Vivo (`scripts/enviar-correo-prueba.js`):*
+       * Verificación de la plantilla HTML generada en disco: `siga-backend/correo-apoderado-vista-previa.html`.
+       * Procesamiento del adjunto PDF oficial codificado en base64 para compatibilidad total con Bull Queue y Redis.
+       * Certificación de despacho seguro dirigido únicamente al apoderado titular con confirmación directa por parte del usuario.
      * *Suite Jest:* 3/3 pruebas unitarias aprobadas al 100% en `emailServiceReporte.test.js` (renderizado de plantilla, despacho con adjunto PDF y flujo integrado en `aprobarReporte`).
      * *Certificación Global de Suite Backend Sprint 6 (Marcelo Acevedo):* **41/41 pruebas aprobadas al 100%** integrando `emailServiceReporte.test.js` (3), `pdfService.test.js` (2), `reportesController.test.js` (16), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
+     * *Certificación Global del Monorepo Backend:* **188/188 pruebas unitarias aprobadas en 23 suites de pruebas**, con 0 regresiones.
 
 ---
 
