@@ -283,6 +283,18 @@ Para optimizar el tiempo administrativo de inspectores, dupla psicosocial y dire
    - Todo borrador generado por la IA es revisable y editable por inspectores o dupla psicosocial.
    - Solo la dirección o coordinación de convivencia escolar puede emitir la **aprobación formal**, la cual bloquea modificaciones posteriores para garantizar inmutabilidad legal.
 
+### Emisión y Descarga del Documento PDF Oficial
+
+Una vez que el informe cuenta con la **Aprobación Formal** de la jefatura:
+1. El sistema habilita el botón de descarga del **PDF Oficial**.
+2. El documento se genera en formato estándar A4 con:
+   - **Membrete Oficial:** Con identificación de la *Escuela Coeducacional N° 1 El Salvador*, RBD, dirección y fecha de emisión.
+   - **Folio Único Correlativo:** Código de trazabilidad institucional (ej. `INF-2026-A1B2C3`).
+   - **Ficha del Alumno y del Caso:** Datos del estudiante foco, curso, apoderado titular, fecha y gravedad.
+   - **Desarrollo Normativo:** Las 5 secciones estructuradas y redactadas formalmente.
+   - **Líneas de Firma Física:** Espacios designados para la firma y timbre del Coordinador/a de Convivencia Escolar y del Director/a o Inspector/a General.
+3. **Regla de Seguridad e Inmutabilidad:** Los informes en estado *Borrador* no pueden descargarse en PDF, garantizando que ningún documento provisional o no aprobado circule fuera del establecimiento.
+
 ---
 
 ## 15. Preguntas Frecuentes y Solución de Problemas

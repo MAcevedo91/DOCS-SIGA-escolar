@@ -52,7 +52,7 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 3** | 25 jun – 01 jul 2026 | Analítica (Recharts), Reportes PDF, Deploy Producción y UAT | 38 pts | 38 pts | ✅ Cerrado |
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
-| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 11 pts | 🟡 En Ejecución (HU 6.1 Completada: Tareas 6.1.1, 6.1.2 y 6.1.3) |
+| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 15 pts | 🟡 En Ejecución (HU 6.1 y Tarea 6.3.1 Completadas) |
 
 ---
 
@@ -533,6 +533,21 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
    * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
      * *Suite Jest:* 13/13 pruebas unitarias aprobadas al 100% en `src/__tests__/controllers/reportesController.test.js` (generación multi-estudiante, errores 400 por payload incompleto o reporte cerrado, 403 por roles no autorizados y 404 por incidente inexistente).
      * *Certificación Global de Suite (HU 6.1):* **33/33 pruebas aprobadas al 100%** integrando `reportesController.test.js` (13), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
+
+4. **`SE-71` TASK 6.3.1 — Servicio de Renderizado PDFKit y Endpoint de Descarga Oficial (4 SP | Marcelo Acevedo):**
+   * **Descripción Técnica:** Implementación del motor de renderizado server-side para la emisión del informe oficial de convivencia escolar en formato PDF estándar A4 mediante PDFKit, diseñado con los estándares gráficos e institucionales de la Escuela Coeducacional N° 1 El Salvador y blindado bajo estrictas reglas de inmutabilidad jurídica (disponible únicamente para reportes en estado Aprobado).
+   * **Entregables de Código:**
+     * Función `generarInformeOficialIncidentePDF` en `siga-backend/src/services/pdfService.js`: renderizado de membrete institucional azul corporativo (`#1e3a5f`), folio único correlativo (`INF-2026-XXXX`), ficha del alumno foco y apoderado titular, bloques estructurados de las 5 secciones de la Circular N° 482 con saltos de página dinámicos, recuadros de firmas físicas (Convivencia y Dirección) y glosa legal de confidencialidad (Ley N° 19.628).
+     * Handler `descargarReportePdfHandler` en `siga-backend/src/controllers/reportesController.js` con control de inmutabilidad (bloqueo HTTP 400 ante reportes en borrador) y enriquecimiento de datos desde tablas `tenants`, `estudiantes`, `cursos` y `apoderados`.
+     * Ruta REST segura en `siga-backend/src/routes/incidentes.routes.js`: `GET /api/v1/incidentes/:id/reportes/:reporteId/pdf` retornando stream binario con `Content-Type: application/pdf` y `Content-Disposition: inline`.
+     * Suites de pruebas automatizadas en `src/__tests__/services/pdfService.test.js` y `src/__tests__/controllers/reportesController.test.js`.
+   * **Mecanismos de Seguridad e Integridad Implementados:**
+     * *Inmutabilidad Normativa:* Si el reporte está en estado `Borrador`, la API rechaza la solicitud de descarga con `400 Bad Request` impidiendo la circulación de documentos no autorizados.
+     * *Aislamiento Multi-tenant Estricto:* Valida `tenant_id` tanto en la búsqueda del reporte como en la carga del membrete y datos de matrícula.
+     * *Confidencialidad Diferenciada:* El PDF solo contiene los antecedentes de filiación del estudiante foco; las menciones a otros involucrados se mantienen neutras.
+   * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Suite Jest:* 18/18 pruebas unitarias aprobadas al 100% integrando `pdfService.test.js` (generación de buffer válido con bytes mágicos `%PDF-`) y `reportesController.test.js` (validación de cabeceras, nombres de archivo y rechazo 400 en borradores).
+     * *Certificación Global de Suite Backend:* **38/38 pruebas aprobadas al 100%** integrando `pdfService.test.js` (2), `reportesController.test.js` (16), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
 
 ---
 
