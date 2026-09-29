@@ -23,7 +23,8 @@
 11. [Importación Masiva de Alumnos (Uso Administrativo)](#11-importación-masiva-de-alumnos-uso-administrativo)
 12. [Gestión de Usuarios del Establecimiento](#12-gestión-de-usuarios-del-establecimiento)
 13. [Configuración de Plazos y Reglas Escolares](#13-configuración-de-plazos-y-reglas-escolares)
-14. [Preguntas Frecuentes y Solución de Problemas](#14-preguntas-frecuentes-y-solución-de-problemas)
+14. [Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales](#14-asistente-de-redacción-normativa-con-ia-gemini-flash-y-reportes-oficiales)
+15. [Preguntas Frecuentes y Solución de Problemas](#15-preguntas-frecuentes-y-solución-de-problemas)
 
 ---
 
@@ -261,7 +262,30 @@ El equipo directivo y de convivencia puede ajustar los parámetros del colegio:
 
 ---
 
-## 14. Preguntas Frecuentes y Solución de Problemas
+## 14. Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales
+
+Para optimizar el tiempo administrativo de inspectores, dupla psicosocial y directivos, SIGA Escolar incorpora un **Asistente de Redacción Normativa basado en Inteligencia Artificial (Google Gemini Flash)** que transforma relatos informales en actas estructuradas de acuerdo con la **Circular N° 482 de la Superintendencia de Educación**.
+
+### ¿Cómo funciona la generación de informes con IA?
+
+1. **Protección Estricta de la Privacidad (DLP Escolar):**
+   - Antes de procesar el texto con la IA, el sistema enmascara automáticamente los RUTs, teléfonos, correos y nombres reales de los alumnos y apoderados (`[ESTUDIANTE_FOCO]`, `[INVOLUCRADO_N]`). Ningún dato de carácter personal sensible abandona el servidor institucional.
+2. **Estructura Normativa en 5 Secciones:**
+   - La IA sintetiza y formatea el caso en cinco apartados obligatorios:
+     - **Contexto:** Ubicación, horario y circunstancias del hecho.
+     - **Hechos Objetivos:** Relato formal, neutro y cronológico en tercera persona (sin adjetivos calificativos ni prejuicios).
+     - **Medidas Adoptadas:** Acciones inmediatas de contención o activación protocolar.
+     - **Acuerdos y Compromisos:** Deberes formativos asumidos por el estudiante y su familia.
+     - **Plan de Seguimiento:** Cronograma de monitoreo pedagógico y psicosocial.
+3. **Informes Diferenciados por Alumno:**
+   - En incidentes que involucran a más de un estudiante, el sistema genera **un informe individual para cada uno**, garantizando que un apoderado solo lea el nombre y medidas de su propio pupilo, manteniendo en reserva la identidad de los demás involucrados.
+4. **Revisión Humana y Aprobación Oficial:**
+   - Todo borrador generado por la IA es revisable y editable por inspectores o dupla psicosocial.
+   - Solo la dirección o coordinación de convivencia escolar puede emitir la **aprobación formal**, la cual bloquea modificaciones posteriores para garantizar inmutabilidad legal.
+
+---
+
+## 15. Preguntas Frecuentes y Solución de Problemas
 
 #### 1. ¿Qué hago si olvidé mi contraseña?
 Comunícate con el Administrador del colegio encargado de SIGA Escolar para que restablezca tu contraseña temporal desde el módulo de usuarios.

@@ -52,7 +52,7 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 3** | 25 jun – 01 jul 2026 | Analítica (Recharts), Reportes PDF, Deploy Producción y UAT | 38 pts | 38 pts | ✅ Cerrado |
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
-| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 8 pts | 🟡 En Ejecución (Tareas 6.1.1 y 6.1.2 Completadas) |
+| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 11 pts | 🟡 En Ejecución (HU 6.1 Completada: Tareas 6.1.1, 6.1.2 y 6.1.3) |
 
 ---
 
@@ -516,6 +516,23 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
        * `sanitizarContextoIncidente`: Tokenización de involucrados y censura de PII dentro del relato de hechos. Rechazo con HTTP 400 ante estudiantes ajenos al caso.
        * `desanonimizarReporte`: Reincorporación exclusiva del estudiante foco preservando anonimato de la contraparte.
        * `geminiService`: Generación correcta con API Key, fallback transparente sin API Key y respuesta resiliente ante fallas de API.
+
+3. **`SE-68` TASK 6.1.3 — Endpoints de Generación y Persistencia de Informes Diferenciados (3 SP | Marcelo Acevedo):**
+   * **Descripción Técnica:** Construcción de la capa de API REST en Express para orquestar la generación asistida con IA de reportes diferenciados para incidentes de convivencia escolar, exponiendo endpoints seguros para creación, consulta por incidente, visualización de detalle, edición modular de borradores y aprobación directiva formal bajo estricto control RBAC.
+   * **Entregables de Código:**
+     * Método orquestador `generarBorradoresParaIncidente` en `siga-backend/src/services/reportesService.js` (vincula consulta de incidente/alumnos, sanitización DLP, inferencia Gemini Flash, desanonimización local, correlativo de versión e inserción en base de datos).
+     * Creación de controlador `siga-backend/src/controllers/reportesController.js` con handlers desacoplados: `generarBorradorHandler`, `listarReportesIncidenteHandler`, `obtenerReporteHandler`, `editarBorradorHandler` y `aprobarReporteHandler`.
+     * Configuración de rutas sub-recurso en `siga-backend/src/routes/incidentes.routes.js` con validación RBAC (`requireRole`).
+     * Suite de pruebas automatizadas en `siga-backend/src/__tests__/controllers/reportesController.test.js`.
+   * **Mecanismos de Seguridad y RBAC Implementados:**
+     * *Generación (`POST /api/v1/incidentes/:id/borrador-reporte`):* Habilitada para `Administrador`, `Directivo`, `Equipo de Formación` e `Inspector`. Bloqueo con `403 Forbidden` ante rol `Docente`.
+     * *Consulta (`GET /api/v1/incidentes/:id/reportes`):* Abierta a usuarios autenticados con acceso al incidente.
+     * *Edición de Borrador (`PATCH /api/v1/incidentes/:id/reportes/:reporteId`):* Exclusiva para redactores autorizados. Bloqueo estricto con `400 Bad Request` si el reporte ya ha sido aprobado y oficializado (inmutabilidad legal).
+     * *Aprobación Formal (`POST /api/v1/incidentes/:id/reportes/:reporteId/aprobar`):* Restringida exclusivamente a la línea de mando institucional (`Administrador`, `Directivo`, `Equipo de Formación`). Inspectores y Docentes reciben `403 Forbidden`.
+     * *Aislamiento Multi-tenant:* Todas las consultas validan `tenant_id` impidiendo el acceso a incidentes o reportes de otros establecimientos (404/403).
+   * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Suite Jest:* 13/13 pruebas unitarias aprobadas al 100% en `src/__tests__/controllers/reportesController.test.js` (generación multi-estudiante, errores 400 por payload incompleto o reporte cerrado, 403 por roles no autorizados y 404 por incidente inexistente).
+     * *Certificación Global de Suite (HU 6.1):* **33/33 pruebas aprobadas al 100%** integrando `reportesController.test.js` (13), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
 
 ---
 
