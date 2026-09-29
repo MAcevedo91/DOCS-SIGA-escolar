@@ -52,7 +52,7 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 3** | 25 jun – 01 jul 2026 | Analítica (Recharts), Reportes PDF, Deploy Producción y UAT | 38 pts | 38 pts | ✅ Cerrado |
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
-| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 3 pts | 🟡 En Ejecución (Tarea 6.1.1 Completada) |
+| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 8 pts | 🟡 En Ejecución (Tareas 6.1.1 y 6.1.2 Completadas) |
 
 ---
 
@@ -497,6 +497,25 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * *Prueba 1 (Supabase Schema):* Creación verificada de las 16 columnas con tipado estricto `UUID`, `INT`, `VARCHAR(20)`, `JSONB`, `BOOLEAN` y `TIMESTAMPTZ`.
      * *Prueba 2 (Triggers e Integridad):* Triggers `trg_actualizar_reportes_incidentes` y `trg_validar_estudiante_en_reporte` (INSERT/UPDATE) certificados como activos en Supabase.
      * *Prueba 3 (Suite Jest):* 12/12 pruebas unitarias aprobadas al 100% en `src/__tests__/services/reportesService.test.js` cubriendo validación de esquemas Zod, rechazo de estudiantes no involucrados (400), inserción con versionado, control de duplicados (409), edición de borradores y bloqueo de modificación tras aprobación (400).
+
+2. **`SE-67` TASK 6.1.2 — Pipeline de Sanitización DLP y Servicio Gemini Flash (`@google/genai`) (5 SP | Marcelo Acevedo):**
+   * **Descripción Técnica:** Implementación del pipeline de Data Loss Prevention (DLP) para enmascaramiento estricto de PII escolar previo al envío a la API externa de Google Gemini Flash, junto con el cliente orquestador de IA estructurada (`@google/genai` v2.24.0) y el mecanismo de desanonimización selectiva para emisión de informes normativos diferenciados y confidenciales.
+   * **Entregables de Código y Dependencias:**
+     * Incorporación del SDK oficial `@google/genai` (v2.24.0) en `siga-backend/package.json`.
+     * Creación del módulo DLP de sanitización y desanonimización selectiva: `siga-backend/src/services/dlpSanitizer.js`.
+     * Creación del cliente orquestador de IA generativa escolar: `siga-backend/src/services/geminiService.js`.
+     * Configuración de variables de entorno seguras en `siga-backend/.env.example` (`GEMINI_API_KEY`, `GEMINI_MODEL`).
+   * **Mecanismos de Seguridad y Resiliencia Implementados:**
+     * *Filtro DLP Pre-IA:* Enmascaramiento por expresiones regulares de RUTs chilenos con verificador (`[RUT_CENSURADO]`), correos (`[EMAIL_CENSURADO]`) y teléfonos chilenos (`[TELEFONO_CENSURADO]`).
+     * *Tokenización Contextual de Involucrados:* Sustitución de nombres de estudiantes y apoderados por tokens neutros (`[ESTUDIANTE_FOCO]`, `[INVOLUCRADO_N]`), ordenando los reemplazos por longitud decreciente para evitar colisiones por subcadenas.
+     * *Desanonimización Diferenciada Post-IA:* Reconstitución local segura que restaura el nombre real del estudiante foco en su informe particular, pero mantiene la reserva e identidad neutra de terceros/contrapartes (ej. "otro estudiante involucrado"), impidiendo que un apoderado acceda a datos protegidos de otros menores (Ley N° 19.628 / Circular N° 482).
+     * *Circuit Breaker & Fallback Inteligente:* Ante ausencia de API Key o degradación externa de red/cuotas, `generarPlantillaFallback` sintetiza las 5 secciones estructuradas a partir de la metadata del incidente sin que el sistema colapse ni genere HTTP 500.
+   * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Suite Jest:* 8/8 pruebas unitarias aprobadas al 100% en `src/__tests__/services/geminiDlp.test.js`:
+       * `censurarPatronesPII`: Detección y enmascaramiento exitoso de RUTs con puntos/guiones, teléfonos fijos/móviles y emails.
+       * `sanitizarContextoIncidente`: Tokenización de involucrados y censura de PII dentro del relato de hechos. Rechazo con HTTP 400 ante estudiantes ajenos al caso.
+       * `desanonimizarReporte`: Reincorporación exclusiva del estudiante foco preservando anonimato de la contraparte.
+       * `geminiService`: Generación correcta con API Key, fallback transparente sin API Key y respuesta resiliente ante fallas de API.
 
 ---
 
