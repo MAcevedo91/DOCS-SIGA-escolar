@@ -52,6 +52,7 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 3** | 25 jun – 01 jul 2026 | Analítica (Recharts), Reportes PDF, Deploy Producción y UAT | 38 pts | 38 pts | ✅ Cerrado |
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
+| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 3 pts | 🟡 En Ejecución (Tarea 6.1.1 Completada) |
 
 ---
 
@@ -475,6 +476,27 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
       * *Prueba 2 (Cobertura de Código):* 97.14% en declaraciones, 100% en ramas y 96.96% en líneas para `LoginPage.jsx`.
       * *Prueba 3 (Compilación Vite):* `npm run build` exitoso con generación de service worker PWA y chunks minificados.
       * *Prueba 4 (Linting ESLint):* Cero errores en componentes y suites de prueba.
+
+---
+
+### SPRINT 6: Asistente de Redacción Normativa con IA y Emisión Oficial PDF (En Ejecución)
+* **Objetivo:** Reducir la sobrecarga administrativa mediante generación asistida de informes y actas oficiales con **Google Gemini Flash**, sanitización DLP, reportes diferenciados por alumno, revisión *Human-in-the-Loop* y emisión PDF oficial con membrete y firmas.
+* **Estado Actual:** Tarea 6.1.1 completada y certificada (3 de 28 SP).
+
+#### Tareas Técnicas Ejecutadas:
+
+1. **`SE-66` TASK 6.1.1 — Modelo DDL `reportes_incidentes` con RLS y Versionado (3 SP | Marcelo Acevedo):**
+   * **Descripción Técnica:** Creación de la estructura relacional para persistir los reportes normativos en Supabase con soporte para versionado, borrador inmutable devuelto por la IA, modificaciones del profesional y aprobación oficial.
+   * **Entregables de Código y Base de Datos:**
+     * Archivo de migración `siga-backend/src/db/migrations/20260929_crear_reportes_incidentes.sql`.
+     * Actualización del esquema maestro consolidado en `DOCS/schema_siga_escolar.sql`.
+     * Creación de servicio `siga-backend/src/services/reportesService.js` con esquemas Zod (`seccionesReporteSchema`, `crearReporteSchema`, `editarReporteSchema`) y métodos CRUD seguros.
+     * Triggers de base de datos: `trg_actualizar_reportes_incidentes` (gestión automática de `updated_at`) y `trg_validar_estudiante_en_reporte` (garantiza que el estudiante foco pertenezca a `incidente_estudiantes`).
+     * Política de Row Level Security `tenant_isolation_reportes_incidentes` e índices de rendimiento en `(tenant_id)`, `(incidente_id)`, `(estudiante_id)` y `(tenant_id, estado)`.
+   * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
+     * *Prueba 1 (Supabase Schema):* Creación verificada de las 16 columnas con tipado estricto `UUID`, `INT`, `VARCHAR(20)`, `JSONB`, `BOOLEAN` y `TIMESTAMPTZ`.
+     * *Prueba 2 (Triggers e Integridad):* Triggers `trg_actualizar_reportes_incidentes` y `trg_validar_estudiante_en_reporte` (INSERT/UPDATE) certificados como activos en Supabase.
+     * *Prueba 3 (Suite Jest):* 12/12 pruebas unitarias aprobadas al 100% en `src/__tests__/services/reportesService.test.js` cubriendo validación de esquemas Zod, rechazo de estudiantes no involucrados (400), inserción con versionado, control de duplicados (409), edición de borradores y bloqueo de modificación tras aprobación (400).
 
 ---
 

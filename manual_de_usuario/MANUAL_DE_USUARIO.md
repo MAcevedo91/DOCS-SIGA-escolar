@@ -170,6 +170,12 @@ Los incidentes no son solo un registro estático; tienen un ciclo de vida para a
    - Presiona **"Actualizar Estado"**.
    - *Regla de integridad:* El sistema no permite retroceder estados para mantener la transparencia cronológica del proceso.
 
+### 8.1 Informes Oficiales Diferenciados y Versionado (Sprint 6)
+Para asegurar el estricto cumplimiento de la **Ley N° 19.628** de Protección de la Vida Privada y las directrices de la **Circular N° 482** de la Superintendencia de Educación:
+- **Informes Individualizados por Estudiante:** Cuando un incidente involucra a dos o más alumnos, el sistema genera y almacena informes independientes para cada estudiante. Esto garantiza que cada apoderado reciba única y exclusivamente la información correspondiente a su pupilo sin divulgar datos sensibles ni vulnerar la privacidad de las otras partes.
+- **Trazabilidad y Control de Versiones:** Los reportes cuentan con gestión de versiones estructuradas en 5 secciones normativas (Contexto, Hechos objetivos, Medidas adoptadas, Compromisos/Acuerdos y Plan de seguimiento). El borrador sugerido por IA se conserva inmutable, registrando quién realizó ediciones intermedias y quién efectuó la aprobación final.
+- **Bloqueo Estricto tras Aprobación:** Una vez que un informe adquiere el estado **"Aprobado"**, el sistema bloquea cualquier edición posterior, garantizando que el documento descargado en PDF o despachado al apoderado sea inalterable y posea plena validez probatoria.
+
 ---
 
 ## 9. Gestión de Protocolos Normativos RICE

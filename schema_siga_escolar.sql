@@ -307,6 +307,30 @@ CREATE TABLE IF NOT EXISTS configuracion_tenant (
 );
 
 -- =============================================================================
+-- 15. REPORTES DE INCIDENTES (Asistencia IA Gemini Flash, Control de Versiones)
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS reportes_incidentes (
+    id                      UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id               UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    incidente_id            UUID NOT NULL REFERENCES incidentes(id) ON DELETE CASCADE,
+    estudiante_id           UUID NOT NULL REFERENCES estudiantes(id) ON DELETE CASCADE,
+    version                 INT NOT NULL DEFAULT 1,
+    estado                  VARCHAR(20) NOT NULL DEFAULT 'Borrador' 
+                            CHECK (estado IN ('Borrador', 'Aprobado')),
+    contenido_borrador      JSONB NOT NULL,
+    contenido_editado       JSONB,
+    contenido_aprobado      JSONB,
+    creado_por              UUID NOT NULL REFERENCES usuarios(id) ON DELETE RESTRICT,
+    aprobado_por            UUID REFERENCES usuarios(id) ON DELETE RESTRICT,
+    fecha_aprobacion        TIMESTAMP WITH TIME ZONE,
+    email_apoderado_enviado BOOLEAN NOT NULL DEFAULT FALSE,
+    fecha_envio_email       TIMESTAMP WITH TIME ZONE,
+    created_at              TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_reporte_incidente_estudiante_version UNIQUE (incidente_id, estudiante_id, version)
+);
+
+-- =============================================================================
 -- ÍNDICES DE RENDIMIENTO (RNF-07: Optimización de consultas de alta frecuencia)
 -- =============================================================================
 
@@ -349,6 +373,11 @@ CREATE INDEX IF NOT EXISTS idx_auditoria_fecha            ON auditoria(tenant_id
 CREATE INDEX IF NOT EXISTS idx_auditoria_usuario          ON auditoria(usuario_id);
 CREATE INDEX IF NOT EXISTS idx_auditoria_tabla            ON auditoria(tabla_afectada);
 
+CREATE INDEX IF NOT EXISTS idx_reportes_incidentes_tenant     ON reportes_incidentes(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_reportes_incidentes_incidente  ON reportes_incidentes(incidente_id);
+CREATE INDEX IF NOT EXISTS idx_reportes_incidentes_estudiante ON reportes_incidentes(estudiante_id);
+CREATE INDEX IF NOT EXISTS idx_reportes_incidentes_estado     ON reportes_incidentes(tenant_id, estado);
+
 -- =============================================================================
 -- POLÍTICAS DE SEGURIDAD (ROW LEVEL SECURITY - RLS MULTI-TENANT)
 -- =============================================================================
@@ -367,6 +396,7 @@ ALTER TABLE protocolo_pasos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reglas_protocolo ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notificaciones ENABLE ROW LEVEL SECURITY;
 ALTER TABLE configuracion_tenant ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reportes_incidentes ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY tenant_isolation_periodos ON periodos_academicos
 
@@ -405,6 +435,9 @@ CREATE POLICY tenant_isolation_notificaciones ON notificaciones
 CREATE POLICY tenant_isolation_configuracion_tenant ON configuracion_tenant
     USING (tenant_id = current_setting('app.tenant_id', true)::uuid);
 
+CREATE POLICY tenant_isolation_reportes_incidentes ON reportes_incidentes
+    USING (tenant_id = current_setting('app.tenant_id', true)::uuid);
+
 -- =============================================================================
 
 -- TRIGGERS DE INTEGRIDAD Y REGLAS DE NEGOCIO
@@ -433,6 +466,29 @@ DROP TRIGGER IF EXISTS trg_validar_protocolo_estudiante ON protocolos_rice;
 CREATE TRIGGER trg_validar_protocolo_estudiante
 BEFORE INSERT OR UPDATE ON protocolos_rice
 FOR EACH ROW EXECUTE FUNCTION validar_estudiante_en_incidente();
+
+-- Valida que el estudiante en reportes_incidentes pertenezca al incidente_estudiantes
+CREATE OR REPLACE FUNCTION validar_estudiante_en_reporte()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM incidente_estudiantes
+        WHERE incidente_id  = NEW.incidente_id
+          AND estudiante_id = NEW.estudiante_id
+    ) THEN
+        RAISE EXCEPTION
+            'Integridad violada: el estudiante % no figura como involucrado en el incidente %',
+            NEW.estudiante_id, NEW.incidente_id;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_validar_estudiante_en_reporte ON reportes_incidentes;
+CREATE TRIGGER trg_validar_estudiante_en_reporte
+    BEFORE INSERT OR UPDATE ON reportes_incidentes
+    FOR EACH ROW
+    EXECUTE FUNCTION validar_estudiante_en_reporte();
 
 -- =============================================================================
 -- FUNCIONES RPC DE APOYO (ANALÍTICA, BÚSQUEDA Y PROTOCOLOS)
