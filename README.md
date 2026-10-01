@@ -20,7 +20,8 @@ DOCS/
 │
 ├── defensa_y_negocio/                       # Estrategia de defensa de título, mercado EdTech y modelo de negocio
 │   ├── GUIA_DEFENSA_ESTRATEGICA_Y_NEGOCIO.md # [DOCUMENTO MAESTRO] Guía de defensa: cifras de mercado, stakeholders, RICE y normativa
-│   └── GUIA_PRESENTACION_10_MINUTOS.md       # [DOCUMENTO MAESTRO] Guión de exposición de 10 min, evidencias y preguntas de la comisión
+│   ├── GUIA_PRESENTACION_10_MINUTOS.md       # [DOCUMENTO MAESTRO] Guión de exposición de 10 min, evidencias y preguntas de la comisión
+│   └── PLAN_DE_ESTUDIO_DEFENSA_E_INNOVACION.md # [DOCUMENTO MAESTRO] Plan express: Ciclo de innovación, entregables y cheat sheet de examen
 │
 ├── requerimientos/                           # Levantamiento y especificación de requerimientos
 │   ├── REQUERIMIENTOS_CONSOLIDADOS.md        # [DOCUMENTO MAESTRO] Síntesis consolidada de RF y RNF
@@ -103,6 +104,9 @@ Para facilitar la lectura y evitar la redundancia de archivos dispersos, la info
 
 8. [**GUIA_PRESENTACION_10_MINUTOS.md**](defensa_y_negocio/GUIA_PRESENTACION_10_MINUTOS.md):  
    Estructura rigurosa y cronometrada para la presentación oral de 10 minutos: distribución temporal minuto a minuto, evidencias obligatorias por sección (1 a 11) y banco de respuestas contundentes a las 10 preguntas desafiantes del docente evaluador.
+
+9. [**PLAN_DE_ESTUDIO_DEFENSA_E_INNOVACION.md**](defensa_y_negocio/PLAN_DE_ESTUDIO_DEFENSA_E_INNOVACION.md):  
+   Plan maestro de estudio intensivo de 2 horas que unifica la defensa técnica de ingeniería con la evaluación de Innovación y Emprendimiento III: desglose de las 5 fases del Ciclo de la Innovación y sus entregables oficiales, análisis PESTEL, justificación de la fase actual (Selección de Oportunidades), guión de diapositivas PPT, tabla de Sprints (MVP vs Sprint 6) y cheat sheet mnemotécnico.
 
 ---
 
