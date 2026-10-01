@@ -27,9 +27,10 @@
   2. **Daniel Flores Jaime:** Encargado de Frontend (React 18, Vite, Tailwind CSS, Zustand) y Diseño UI/UX Mobile-First.
   3. **Claudia Infante Soto:** Encargada de Calidad (QA), Pruebas UAT, Documentación Técnica y Diseño Web.
 * **Estado Actual de Avance (%):**
-  * **Fase de Formulación y Análisis:** **100% completada** y aprobada.
-  * **Desarrollo y Ejecución (Sprints 1 al 5 en Jira):** **100% completado** (63 de 63 incidencias finalizadas, 134 Story Points certificados).
-  * **Despliegue a Staging / Pruebas:** **100% verificado** con base de datos real y pruebas UAT.
+  * **Fase de Formulación y Especificación IEEE 830:** **100% completada** y aprobada.
+  * **Sprints 1 al 5 (Scrum / Jira):** **100% completados y cerrados** (171 Story Points certificados: Infraestructura, RICE, 483 alumnos, Dashboard, Reglas y Cursos).
+  * **Sprint 6 (En Ejecución — 28 sep al 08 oct 2026 | 28 SP):** **64% de avance del sprint (18 de 28 SP)**. **100% del Backend completado y certificado en terreno por Marcelo Acevedo** (DDL, DLP, orquestador Gemini Flash, PDFKit y Email con PDF adjunto; 41/41 tests aprobados). Restan 10 SP de vistas React a cargo de Daniel Flores.
+  * **Avance Global del Proyecto:** **~95% de avance consolidado**, con base de datos en Supabase, backend y frontend en Staging/Producción.
 
 ---
 
@@ -60,17 +61,22 @@
 
 ### SECCIÓN 4: CARTA GANTT Y CRONOGRAMA BASE (Minuto 2:30 - 3:15)
 * **Línea Base del Cronograma:**
-  * Estructurada en **5 semanas de ejecución técnica iterativa** (del 06 de junio al 10 de julio de 2026), precedida por la fase de formulación (mayo 2026).
+  * **Línea Base Inicial del MVP (5 semanas | 06/06 al 10/07/2026):** Construcción, pruebas y puesta en marcha del núcleo del sistema (Sprints 1, 2 y 3).
+  * **Fase Evolutiva y Sprint Actual (Julio a Octubre 2026):**
+    * *Sprint 4 (02/07 – 09/07):* Motor de reglas y scoring de riesgo preventivo. ✅
+    * *Sprint 5 (08/09 – 09/09):* Checklist RICE estricto, PIE y Cursos en cascada. ✅
+    * *Sprint 6 (28/09 – 08/10):* Asistente de redacción IA con Gemini Flash, DLP, PDFKit y Email al apoderado. 🟡 (En Ejecución).
 * **Métricas de Control de Cronograma (EVM - Earned Value Management):**
-  * **SPI (Schedule Performance Index):** $\text{SPI} = \frac{\text{EV}}{\text{PV}} = \mathbf{1.0}$ (El proyecto marcha exactamente en línea con el cronograma planificado, sin retrasos críticos).
-  * **Hitos de Control Cumplidos:**
-    * **H-01:** Kickoff y levantamiento de diagnóstico (Completado).
-    * **H-02:** Congelamiento de SRS IEEE 830 + EDT (Completado el 28/05/2026).
-    * **H-03:** Core multi-tenant, base de datos y Auth JWT (Sprint 1 - Completado).
-    * **H-04:** Registro de incidentes, importación masiva 483 alumnos y 10 protocolos RICE (Sprint 2 - Completado).
-    * **H-05:** Dashboard analítico, generación de actas PDF y UAT con el cliente (Sprints 3 y 4 - Completado).
-    * **H-06:** Analítica avanzada, IA con DLP y endurecimiento de seguridad (Sprint 5 - Completado).
-* **Evidencia a Mostrar:** Sección 6.2 del documento maestro `FORMULACIÓN DEL PROYECTO DE TÍTULO` con la tabla de hitos y la Carta Gantt asociada.
+  * **SPI (Schedule Performance Index):** $\text{SPI} = \frac{\text{EV}}{\text{PV}} = \mathbf{1.0}$ (El avance real coincide estrictamente con la planificación; el backend del Sprint 6 terminó antes de la fecha límite).
+  * **Hitos de Control Cumplidos y en Curso:**
+    * **H-01:** Kickoff y diagnóstico en terreno (Completado).
+    * **H-02:** Congelamiento de SRS IEEE 830 + EDT (Completado).
+    * **H-03:** Base de datos multi-tenant y Auth JWT (Sprint 1 - Completado).
+    * **H-04:** Registro de incidentes e importación de 483 alumnos (Sprint 2 - Completado).
+    * **H-05:** Certificación UAT y Go-Live del MVP (Sprint 3 - Completado).
+    * **H-06:** Prevención, Checklist RICE y PIE (Sprints 4 y 5 - Completado).
+    * **H-07:** Asistente IA, DLP y Emisión Oficial PDF/Email (Sprint 6 - Backend 100% completado, Frontend en integración).
+* **Evidencia a Mostrar:** Sección 6.2 de la Formulación y la tabla de Sprints de `DOCS/INFORME_EJECUCION_Y_AVANCE_PROYECTO.md`.
 
 ---
 
@@ -80,13 +86,15 @@
   * **1.0 Gestión del Proyecto:** Project Charter, Plan de Proyecto, Cronograma Gantt y Gestión de Riesgos. [TERMINADO]
   * **2.0 Análisis y Diseño:** Levantamiento con SME, SRS IEEE 830, Modelo ER, Arquitectura Multi-Tenant y Wireframes UI. [TERMINADO]
   * **3.0 Construcción y Desarrollo (Sprints Scrum):**
-    * 3.1 Módulo Core & Autenticación RBAC / JWT. [TERMINADO]
-    * 3.2 Módulo Alumnos e Importador CSV/Excel (483 estudiantes). [TERMINADO]
-    * 3.3 Módulo Registro de Incidentes & Alertas Graves. [TERMINADO]
-    * 3.4 Módulo Protocolos RICE (10 flujos normativos). [TERMINADO]
-    * 3.5 Módulo Reportería PDF & Dashboard Estadístico. [TERMINADO]
-    * 3.6 Módulo Inteligencia Artificial con Sanitización DLP. [TERMINADO]
-  * **4.0 Aseguramiento de Calidad y Testing:** Pruebas unitarias Jest, Pruebas de integración, Validación RLS y Pruebas de Aceptación UAT. [TERMINADO]
+    * 3.1 Módulo Core & Autenticación RBAC / JWT (Sprint 1). [TERMINADO]
+    * 3.2 Módulo Alumnos e Importador CSV/Excel 483 estudiantes (Sprint 2). [TERMINADO]
+    * 3.3 Módulo Registro de Incidentes & Alertas Graves (Sprint 2). [TERMINADO]
+    * 3.4 Módulo Protocolos RICE normativos y Kanban (Sprint 2). [TERMINADO]
+    * 3.5 Módulo Reportería PDF & Dashboard Estadístico (Sprint 3). [TERMINADO]
+    * 3.6 Motor de Reglas, Semáforo <48h y Scoring de Riesgo (Sprint 4). [TERMINADO]
+    * 3.7 Checklist RICE, PIE y Cursos en Cascada (Sprint 5). [TERMINADO]
+    * 3.8 Asistente IA Gemini Flash, DLP, PDFKit y Email Apoderado (Sprint 6). [BACKEND 100% TERMINADO (18 SP) / FRONTEND EN EJECUCIÓN (10 SP)]
+  * **4.0 Aseguramiento de Calidad y Testing:** Pruebas unitarias Jest (188/188 pasando en backend), Pruebas de integración, Validación RLS y Pruebas UAT (CP-01 a CP-10). [TERMINADO]
   * **5.0 Despliegue y Cierre:** Despliegue PaaS en Render/Vercel, Manual de Usuario, Capacitación y Firma de Acta UAT. [EN PROCESO / CIERRE FINAL]
 
 ---
@@ -98,21 +106,21 @@
   * **RF-06 y RF-07 (Incidentes):** Formulario móvil en cascada (3 clics) y disparo de notificaciones automáticas ante faltas graves/gravísimas.
   * **RF-08 y RF-09 (Protocolos RICE):** Activación de los 10 protocolos de la Res. Exenta 781 con semáforos de plazos fatales (<24h / <48h).
   * **RF-10 y RF-11 (Reportería):** Dashboard analítico en tiempo real y generación de actas oficiales PDF con membrete y firmas en <3 segundos.
-  * **RF-12 a RF-14 (Inteligencia & Formación):** Bandeja matutina de casos vencidos, alertas de reincidencia (ventana 45 días) y asistente IA con DLP (Ley N° 21.719).
-* **Historias de Usuario y Backlog en Jira (`DOCS/Jira.csv`):**
-  * 63 incidencias registradas en Jira con clave `SE`.
-  * 134 Story Points estimados mediante Planning Poker (secuencia Fibonacci) y ejecutados al 100%.
+  * **RF-12 a RF-14 (Inteligencia & Formación - Sprint 6):** Asistente de redacción IA con Gemini Flash, revisión modular *Human-in-the-Loop*, emisión de PDF oficial diferenciado y despacho automático por correo electrónico con PDF adjunto al apoderado titular.
+* **Historias de Usuario y Backlog en Jira (`DOCS/Jira.csv` y Sprint 6):**
+  * Sprints 1 al 5: **63 incidencias** terminadas y cerradas (171 Story Points).
+  * Sprint 6: **4 Historias (9 Tareas Técnicas / 28 SP)**: `SE-66` (DDL `reportes_incidentes`), `SE-67` (Pipeline DLP y Gemini Flash), `SE-68` (Endpoints REST), `SE-71` (Servicio PDFKit) y `SE-73` (Nodemailer y adjuntos).
 * **Matriz de Trazabilidad Integral:**  
-  Demostrar que cada Requerimiento de la Entrevista ➔ Tiene un RF en el SRS IEEE 830 ➔ Tiene una Historia de Usuario en Jira ➔ Tiene un Commit en Git ➔ Tiene un Caso de Prueba UAT.
+  Demostrar que cada Requerimiento de la Entrevista ➔ Tiene un RF en el SRS IEEE 830 ➔ Tiene una Historia en Jira ➔ Tiene un Commit en Git ➔ Tiene una Suite de Pruebas Jest (188 tests) ➔ Tiene un Caso de Prueba UAT.
 
 ---
 
 ### SECCIÓN 7: ORGANIZACIÓN DOCUMENTAL Y CONTROL DE VERSIONES (Minuto 5:30 - 6:15)
 * **Estructura Modular del Directorio `DOCS/`:**
   * `DOCS/defensa_y_negocio/`: Guía estratégica de negocio, mercado y glosario.
-  * `DOCS/manual_de_usuario/`: Manual de usuario didáctico para inspectores y docentes.
+  * `DOCS/manual_de_usuario/`: Manual de usuario didáctico para inspectores y docentes (incluye Sección 8.1 de Informes Sprint 6).
   * `DOCS/requerimientos/`: Requerimientos consolidados y entrevistas originales.
-  * `DOCS/sprints/`: Historial de los 5 sprints Scrum con historias y commits.
+  * `DOCS/sprints/`: Historial de Sprints 1 al 5 y guía técnica de `sprint6.md`.
   * `DOCS/uat_y_calidad/`: Plan de pruebas UAT, DoD y criterios de aceptación.
   * `DOCS/arquitectura_y_api/`: Contrato de API REST, versionado y diseño ER.
   * `DOCS/proyecto_de_titulo/`: Documento maestro de formulación, Project Charter y PMBOK.
@@ -124,15 +132,14 @@
 
 ### SECCIÓN 8: EVIDENCIA TÉCNICA DE AVANCE (Minuto 6:15 - 7:30)
 * **Mostrar en Vivo / Capturas Reales:**
-  1. **Código y Repositorio:** Estructura limpia en Node.js/Express y React/Vite.
-  2. **Base de Datos Supabase:** Tablas con clave `tenant_id` y políticas Row Level Security (RLS) activas.
-  3. **Pantallas Operativas:**
-     * *Login seguro* con bloqueo de cuenta tras 5 intentos fallidos.
-     * *Dashboard analítico* con métricas en tiempo real y gráficos Recharts.
-     * *Formulario de incidentes* con selector en cascada (Tipo de Abordaje ➔ Protocolo ➔ Falta).
-     * *Tablero Kanban de Protocolos RICE* con semáforos de plazos.
-     * *Exportación PDF en 3 segundos* de la ficha del alumno con membrete institucional.
-  4. **Pruebas Automatizadas:** Ejecución de suites Jest de backend pasando al 100%.
+  1. **Código y Repositorio:** Arquitectura desacoplada en Node.js/Express y React/Vite.
+  2. **Base de Datos Supabase:** Tabla `reportes_incidentes` con 16 columnas tipadas, triggers y políticas Row Level Security (RLS) activas.
+  3. **Demostración de Inteligencia Artificial (Sprint 6):**
+     * Sanitización DLP en vivo: Reemplazo automático de RUTs, teléfonos y nombres por tokens (`[ESTUDIANTE_FOCO]`, `[INVOLUCRADO_N]`).
+     * Inferencia en <3 segundos con Google Gemini Flash estructurando las 5 secciones de la Circular N° 482.
+     * Desanonimización diferenciada: El PDF solo revela el nombre del alumno foco; las contrapartes quedan en anonimato para proteger la intimidad (Ley N° 19.628).
+     * Archivo físico en disco generado: `reporte-oficial-prueba.pdf` y correo despachado con adjunto PDF al apoderado titular.
+  4. **Pruebas Automatizadas:** **188 de 188 pruebas unitarias aprobadas al 100%** en la suite global de backend (41 pruebas exclusivas del módulo de reportes Sprint 6).
 
 ---
 
@@ -173,7 +180,7 @@
 
 ### 1. «¿Cuál fue la última reunión realizada y qué requerimientos surgieron de ella?»
 > **Respuesta:**  
-> *"Nuestra última reunión formal con la contraparte técnica fue el levantamiento de la **'Consulta de Definición Operativa'** con don Roberto Miranda, Coordinador de Convivencia. De esta sesión surgieron dos requerimientos críticos: primero, la necesidad de que la **Bandeja de Entrada Matutina (RF-12)** ordenara los casos por un semáforo de urgencia legal (<24h para delitos y <48h para citaciones); y segundo, la exigencia de que el **Asistente de IA (RF-14)** redactara borradores en formato de acta oficial con párrafos numerados y espacio para firmas institucionales, ahorrándole al colegio los 20 minutos que demoraba cada acta en Word."*
+> *"Nuestra última reunión formal con la contraparte técnica fue la **'Consulta de Definición Operativa'** (septiembre 2026) con don Roberto Miranda, Coordinador de Convivencia, la cual dio origen al **Sprint 6**. De esta sesión surgieron tres requerimientos de vanguardia: (1) que el **Asistente de IA (Google Gemini Flash)** elabore informes diferenciados por alumno foco protegiendo la identidad de terceros; (2) que el reporte pase por una revisión obligatoria *Human-in-the-Loop* antes de su oficialización; y (3) que al aprobarse, se genere automáticamente el PDF formal con membrete y se despache por correo electrónico al apoderado titular con el PDF adjunto."*
 
 ### 2. «¿Qué requerimiento cambió después del levantamiento inicial?»
 > **Respuesta:**  
@@ -181,31 +188,33 @@
 
 ### 3. «¿Qué actividades presentan retraso respecto al cronograma?»
 > **Respuesta:**  
-> *"Ninguna actividad crítica presenta retraso. Nuestro **SPI (Índice de Desempeño del Cronograma) es de 1.0**. Todas las 63 incidencias comprometidas en los Sprints 1 al 5 en Jira están en estado 'Done' (134 Story Points completados). Lo que gestionamos como un desvío menor controlado fue la configuración inicial de las políticas RLS en Supabase durante el Sprint 1, pero se mitigó aplicando pair programming y se niveló dentro del mismo sprint sin afectar la fecha de entrega del release."*
+> *"Ninguna actividad crítica presenta retraso. Nuestro **SPI (Índice de Desempeño del Cronograma) es de 1.0**. Los Sprints 1 al 5 están **100% cerrados** con 171 Story Points certificados. Respecto al **Sprint 6 (actualmente en ejecución hasta el 08 de octubre)**, el backend a cargo de Marcelo Acevedo ya está **100% completado y verificado en terreno (18 de 28 SP)** con 41/41 pruebas unitarias aprobadas, y Daniel Flores se encuentra integrando las pantallas de React restantes según el cronograma acordado."*
 
 ### 4. «¿Qué entregables están terminados y cuáles faltan?»
 > **Respuesta:**  
-> *"Están **100% terminados:** el documento de Formulación y SRS IEEE 830, el esquema de base de datos multi-tenant en Supabase, los 14 endpoints del backend, el frontend interactivo con los 10 protocolos RICE, el módulo de IA con DLP, las pruebas unitarias y el Manual de Usuario. **Falta únicamente:** la jornada de capacitación presencial en el establecimiento y la firma del Acta de Recepción Final UAT comprometida para la entrega de cierre."*
+> *"Están **100% terminados y certificados:** el documento de Formulación y SRS IEEE 830, el esquema multi-tenant en Supabase, los endpoints REST del backend (Sprints 1 al 6), los 10 protocolos RICE, el pipeline de sanitización DLP, el servicio Gemini Flash, la generación PDFKit, las 188 pruebas unitarias y el Manual de Usuario. **Faltan únicamente:** las vistas UI en React del Sprint 6 (10 SP a cargo de Frontend) y la jornada de capacitación final con firma de acta UAT en el colegio."*
 
 ### 5. «¿Dónde se almacena la evidencia del proyecto?»
 > **Respuesta:**  
 > *"La evidencia está centralizada bajo control de versiones en el repositorio del proyecto:  
 > - Evidencias de reuniones y entrevistas originales en `DOCS/requerimientos/fuentes_originales/` (archivos .docx con minutas).  
-> - Historias y avance ágil en `DOCS/Jira.csv` y `DOCS/sprints/`.  
+> - Historias y avance ágil en `DOCS/Jira.csv`, `DOCS/sprints/` y la guía de `sprint6.md`.  
 > - Arquitectura y contratos en `DOCS/arquitectura_y_api/`.  
 > - Pruebas y actas en `DOCS/uat_y_calidad/`.  
 > - Código fuente respaldado en GitHub en los repositorios `siga-backend` y `siga-frontend` con historial inmutable de commits."*
 
 ### 6. «¿Qué funcionalidad está completamente terminada hoy?»
 > **Respuesta:**  
-> *"El **flujo de ciclo de vida completo de un incidente y protocolo RICE**. Hoy es posible: (1) Iniciar sesión con RBAC, (2) Importar los 483 alumnos por CSV con validación de RUT Módulo 11, (3) Registrar un incidente en patio desde el celular, (4) Disparar alertas automáticas al director, (5) Activar el protocolo RICE con checklist de la Superintendencia, y (6) Descargar el informe PDF foliado con membrete y firmas en menos de 3 segundos."*
+> *"El **flujo de ciclo de vida completo de un incidente y protocolo RICE**:  
+> Inicio de sesión seguro con RBAC ➔ Importación de los 483 alumnos por CSV con validación de RUT Módulo 11 ➔ Registro móvil del incidente en patio ➔ Disparo de alertas automáticas al director ➔ Activación del protocolo RICE con checklist normativo ➔ Generación asistida de informe con IA sanitizada por DLP ➔ Aprobación directiva e inmutabilidad legal ➔ Emisión del PDF oficial con folio único y despacho automático por correo electrónico con PDF adjunto al apoderado titular."*
 
 ### 7. «¿Qué validaciones reales han realizado hasta ahora?»
 > **Respuesta:**  
-> *"Hemos ejecutado tres niveles de validación real:  
-> 1. **Validación de Datos:** Procesamiento de la nómina real de **483 alumnos** de la Escuela El Salvador en menos de 3.5 segundos, validando RUTs y detectando duplicados con upsert.  
-> 2. **Validación de Seguridad:** Pruebas automatizadas de inyección y aislamiento RLS donde una consulta sin `tenant_id` retorna exactamente cero filas.  
-> 3. **Validación Funcional UAT:** Los 10 casos de prueba de aceptación de usuario (CP-01 a CP-10) ejecutados y contrastados con el Coordinador de Convivencia Escolar."*
+> *"Hemos ejecutado cuatro niveles de validación real en terreno:  
+> 1. **Validación de Datos:** Procesamiento de la nómina real de **483 alumnos** de la Escuela El Salvador en menos de 3.5 segundos con validación de RUT Módulo 11.  
+> 2. **Validación de Seguridad:** Pruebas automatizadas de aislamiento RLS donde una consulta sin `tenant_id` retorna exactamente cero filas.  
+> 3. **Validación de IA y Privacidad (Sprint 6):** Pruebas en vivo con Google Gemini Flash (`scripts/verificar-dlp-gemini.js`), certificando que el pipeline DLP censura el 100% de RUTs, nombres y teléfonos antes de la llamada a la API, desanonimizando localmente solo al alumno foco.  
+> 4. **Validación de Despacho:** Generación en disco de `reporte-oficial-prueba.pdf` e inspección del correo formal despachado con Nodemailer."*
 
 ### 8. «¿Cuál ha sido el principal problema encontrado desde que comenzó el proyecto?»
 > **Respuesta:**  
@@ -218,4 +227,4 @@
 ### 10. «En términos de trazabilidad, ¿Cómo pueden demostrar que lo que aparece en el informe realmente fue realizado?»
 > **Respuesta:**  
 > *"Mediante nuestra **Matriz de Trazabilidad Cruzada**:  
-> Cada requerimiento del informe (ej. **RF-06: Registro de Incidentes**) se originó en la entrevista grabada a Roberto Miranda (`DOCS/requerimientos/fuentes_originales/Entrevista...docx`), se planificó como Historia de Usuario en Jira con código **SE-21** (`DOCS/Jira.csv`), se implementó en el commit específico de backend `feat(incidentes)` en Git, se verificó mediante el test automatizado `incidentes.test.js` y se certificó en el caso de prueba **CP-03** del Plan UAT (`DOCS/uat_y_calidad/PLAN_PRUEBAS_UAT.md`). Cualquier persona puede auditar el camino completo desde la palabra del cliente hasta la línea de código en producción."*
+> Cada requerimiento del informe (ej. **RF-12: Asistente de Informes con IA**) se originó en la consulta operativa con Roberto Miranda (`DOCS/requerimientos/fuentes_originales/Consulta de Definición Operativa.docx`), se planificó como Historia en Jira con código **SE-67** y **SE-68** (`DOCS/sprints/sprint6.md`), se implementó en los commits de backend en Git (`siga-backend/src/services/geminiService.js`), se verificó mediante la suite automatizada de 41 pruebas Jest (`geminiDlp.test.js`, `reportesController.test.js`, `pdfService.test.js`, `emailServiceReporte.test.js`) y se documentó en el informe de avance y manual de usuario."*
