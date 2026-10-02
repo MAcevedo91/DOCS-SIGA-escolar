@@ -615,24 +615,34 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * *Certificación Global de Suite Backend Sprint 6 (Marcelo Acevedo):* **41/41 pruebas aprobadas al 100%** integrando `emailServiceReporte.test.js` (3), `pdfService.test.js` (2), `reportesController.test.js` (16), `reportesService.test.js` (12) y `geminiDlp.test.js` (8).
      * *Certificación Global del Monorepo Backend:* **188/188 pruebas unitarias aprobadas en 23 suites de pruebas**, con 0 regresiones.
 
-6. **TASK — Almacenamiento y Gestión de Fotos de Perfil (Avatares) en Supabase Storage (Marcelo Acevedo):**
-    * **Descripción Técnica:** Implementación de la arquitectura de almacenamiento de objetos en la nube para fotos de perfil de profesionales institucionales utilizando **Supabase Storage** (Bucket `avatars`), gestionando el ciclo de vida completo del recurso (subida en memoria con Multer, generación de URLs públicas vía CDN, purga de imágenes huérfanas y renderizado en cards de cursos del directorio de estudiantes).
+6. **TASK — Almacenamiento y Gestión de Fotos de Perfil (Avatares) en Supabase Storage (Full-Stack):**
+    * **Descripción Técnica:** Implementación end-to-end de la arquitectura de almacenamiento de objetos en la nube para fotos de perfil de usuarios institucionales utilizando **Supabase Storage** (Bucket `avatars`), gestionando el ciclo de vida completo del recurso: subida en memoria con Multer, validación de tipo y peso, generación de URLs públicas vía CDN, purga de imágenes huérfanas, integración visual en modales de creación y edición de usuarios, tarjetas de usuarios, cabecera de navegación (`DashboardLayout`) y directorios de cursos.
     * **Entregables de Código y Base de Datos:**
-      * Script DDL: `siga-backend/src/db/migrations/20260929_agregar_avatar_url_usuarios.sql` (agrega columna `avatar_url VARCHAR(500)` a la tabla `usuarios` y aprovisiona el bucket `avatars` con límite de 2 MB y políticas públicas de lectura).
-      * Actualización del esquema maestro `DOCS/schema_siga_escolar.sql`.
-      * Módulo de servicio `siga-backend/src/services/storageService.js` (orquesta subida a Supabase Storage con `cacheControl: 3600`, extracción de rutas relativas y purga automatizada de fotos anteriores).
-      * Middleware `siga-backend/src/middlewares/uploadAvatar.js` con `multer.memoryStorage()`, límite estricto de 2 MB y lista blanca MIME (`image/jpeg`, `image/png`, `image/webp`).
-      * Controladores y rutas en `usuariosController.js` y `usuarios.routes.js` exponiendo `POST /api/v1/usuarios/:id/avatar` y `DELETE /api/v1/usuarios/:id/avatar`.
-      * Adaptación de `siga-frontend/src/pages/EstudiantesPage.jsx` para mostrar la foto real del profesor jefe en las cards del curso con fallback dinámico a `<UserRound />`.
-      * Scripts de prueba en terreno: `scripts/verificar-avatar-storage.js` y `scripts/verificar-endpoints-avatar.js`.
-      * Suites de pruebas automatizadas: `storageService.test.js`, `usuariosController.avatar.test.js` y `uploadAvatar.test.js`.
+      * **Backend (`siga-backend` - Marcelo Acevedo):**
+        * Script DDL: `siga-backend/src/db/migrations/20260929_agregar_avatar_url_usuarios.sql` (agrega columna `avatar_url VARCHAR(500)` a la tabla `usuarios` y aprovisiona el bucket `avatars` con límite de 2 MB y políticas públicas de lectura).
+        * Actualización del esquema maestro `DOCS/schema_siga_escolar.sql`.
+        * Módulo de servicio `siga-backend/src/services/storageService.js` (orquesta subida a Supabase Storage con `cacheControl: 3600`, extracción de rutas relativas y purga automatizada de fotos anteriores).
+        * Middleware `siga-backend/src/middlewares/uploadAvatar.js` con `multer.memoryStorage()`, límite estricto de 2 MB y lista blanca MIME (`image/jpeg`, `image/png`, `image/webp`).
+        * Controladores y rutas en `usuariosController.js` y `usuarios.routes.js` exponiendo `POST /api/v1/usuarios/:id/avatar` y `DELETE /api/v1/usuarios/:id/avatar`.
+        * Scripts de prueba en terreno: `scripts/verificar-avatar-storage.js` y `scripts/verificar-endpoints-avatar.js`.
+        * Suites de pruebas automatizadas: `storageService.test.js`, `usuariosController.avatar.test.js` y `uploadAvatar.test.js`.
+      * **Frontend (`siga-frontend` - Daniel Flores):**
+        * Componente `src/components/usuarios/AvatarUploadInput.jsx`: selector de archivos con arrastrar/soltar o clic, previsualización circular inmediata, fallback de iniciales dinámicas por rol, límites visuales de 2 MB y formatos admitidos (JPG, PNG, WebP), y acciones de sustitución y eliminación.
+        * Integración en `src/components/usuarios/CrearUsuarioModal.jsx`: flujo en dos fases donde primero se crea el registro del usuario y luego, de seleccionarse una foto, se ejecuta la subida enlazada a su UUID.
+        * Integración en `src/components/usuarios/EditarUsuarioModal.jsx`: precarga de avatar existente, soporte para reemplazar imagen o eliminarla volviendo a las iniciales predeterminadas.
+        * Tarjetas en `src/pages/UsuariosPage.jsx`: renderizado de fotografía real con soporte de recuperación mediante evento `onError` en caso de fallos de red o CDN.
+        * Cabecera `src/components/layout/DashboardLayout.jsx`: miniatura del usuario conectado en la barra superior con badge de rol.
+        * Gestión de estado en `src/store/useAuthStore.js`: método `updateUser` para propagación reactiva e inmediata del cambio de foto en toda la sesión del usuario.
+        * Servicios en `src/services/usuariosService.js`: métodos `subirAvatarUsuario(id, file)` y `eliminarAvatarUsuario(id)`.
+        * Adaptación en `src/pages/EstudiantesPage.jsx`: renderizado de foto real del profesor jefe en las cards de curso.
     * **Mecanismos de Seguridad y Resiliencia Implementados:**
       * *Almacenamiento Efímero Seguro:* Procesamiento 100% en memoria RAM sin escribir archivos en el sistema de archivos efímero de Render.
-      * *Prevención de XSS y Malware:* Lista blanca de tipos MIME estricta que prohíbe archivos SVG o binarios ejecutables disfrazados.
+      * *Prevención de XSS y Malware:* Lista blanca de tipos MIME estricta que prohíbe archivos SVG o binarios ejecutables disfrazados, validada tanto en frontend (input nativo y verificación de extensión/peso) como en backend.
       * *Control RBAC de Propiedad:* Los usuarios solo pueden modificar o eliminar su propia fotografía (`req.user.user_id === targetId` o `:id === 'me'`); las modificaciones cruzadas quedan restringidas exclusivamente al rol `Administrador` (retornando `403 Forbidden` a roles no autorizados).
       * *Protección contra Archivos Huérfanos:* Al actualizar un avatar, el backend identifica la URL previa y purga oportunamente el objeto anterior del bucket.
+      * *Degradación Elegante:* Si una imagen falla al cargar en el cliente o no existe, el sistema conmuta sin parpadeos a un avatar con las iniciales del usuario coloreadas según su rol institucional.
     * **Resultados de Validación Real en Terreno Certificados por el Usuario:**
-      * *Prueba en Terreno en Vivo (`scripts/verificar-avatar-storage.js`):*
+      * *Prueba en Terreno en Vivo Backend (`scripts/verificar-avatar-storage.js`):*
         * Verificación exitosa del bucket `avatars` en Supabase Storage (Público, límite 2 MB).
         * Subida real de buffer PNG de prueba para usuario Inspector General (`inspector@mail.com`).
         * Generación de URL pública CDN válida en `nosfdmgbxyypllpdnrct.supabase.co`.
@@ -642,7 +652,13 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
         * Bloqueo verificado ante archivos mayores a 2 MB (`HTTP 400 Bad Request`).
         * Bloqueo verificado ante tipos MIME no permitidos (`HTTP 400 Bad Request`).
         * Bloqueo RBAC verificado ante intentos de modificación por usuarios no autorizados (`HTTP 403 Forbidden`).
-      * *Suites de Pruebas Automatizadas:* **42/42 suites pasadas y 287/287 pruebas aprobadas al 100%** en todo el monorepo backend.
+      * *Suites de Pruebas Automatizadas Backend:* **42/42 suites pasadas y 287/287 pruebas aprobadas al 100%** en todo el monorepo backend.
+      * *Pruebas de Interfaz de Usuario (Frontend QA):*
+        * Creación de usuario con foto y verificación de subida y visualización inmediata en tarjeta.
+        * Edición de usuario existente con reemplazo de fotografía y actualización instantánea.
+        * Eliminación de foto en modal de edición con retorno automático a iniciales.
+        * Reflejo reactivo en tiempo real del avatar del usuario actual en la barra superior (`DashboardLayout`).
+        * Compilación de producción con Vite (`npm run build`) exitosa sin advertencias ni errores de sintaxis.
 
 ---
 

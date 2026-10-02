@@ -236,31 +236,36 @@ Al inicio del año escolar o ante la llegada de nuevos estudiantes:
 
 ## 12. Gestión de Usuarios del Establecimiento
 
-El administrador del colegio puede crear y gestionar los accesos del personal:
+El administrador del colegio puede crear y gestionar los accesos y credenciales del personal escolar:
 
-1. Ve al módulo **"Gestión de Usuarios"**.
+1. Ve al módulo **"Gestión de Usuarios"** en el menú lateral.
 2. Haz clic en **"+ Nuevo Usuario"**.
-3. Ingresa:
-   - Nombre completo del funcionario.
-   - Correo electrónico institucional.
-   - Rol asignado (Directivo, Equipo Formación, Inspector o Docente).
-   - Contraseña inicial temporal.
-4. Presiona **"Guardar Usuario"**.
-5. Si un funcionario deja de trabajar en el establecimiento, el administrador puede desactivar su cuenta con un solo clic, impidiendo su acceso inmediato sin borrar los incidentes que haya registrado históricamente.
+3. Completa los antecedentes del funcionario:
+   - **Foto de Perfil:** (Opcional) Haz clic en **"Subir foto"** para cargar la fotografía institucional del profesional.
+   - **Nombre y Apellido:** Nombres oficiales del funcionario.
+   - **Correo Electrónico Institucional:** Email corporativo único del usuario.
+   - **Rol Asignado:** Administrador, Equipo de Formación, Directivo, Inspector o Docente.
+   - **Contraseña Inicial:** Clave temporal de acceso (mínimo 6 caracteres).
+4. Presiona **"Crear Usuario"**.
+5. Si un funcionario deja de trabajar en el establecimiento, el administrador puede desactivar su cuenta con un solo clic, impidiendo su acceso inmediato sin alterar los incidentes o asistencias que haya registrado históricamente.
 
-### Carga y Actualización de Foto de Perfil (Avatar Institucional)
+### 12.1 Carga y Actualización de Foto de Perfil (Avatar Institucional)
 
-Para que los profesionales aparezcan identificados con su fotografía en las tarjetas de cursos del Directorio de Estudiantes y en los expedientes:
-1. **Acceso al Perfil o Edición de Usuario:**  
-   - El propio funcionario o el Administrador puede ingresar a la vista de usuario.
-2. **Subida de Fotografía:**  
-   - Selecciona el botón **"Subir Foto"** o haz clic sobre el círculo de avatar.
-   - Elige una imagen en formato **JPG, PNG o WebP** (tamaño máximo: **2 MB**).
-3. **Almacenamiento Seguro en la Nube:**  
-   - El sistema almacena la fotografía en **Supabase Storage** bajo estándares de alta disponibilidad y CDN rápida.
-   - Si se actualiza la foto, la versión anterior se elimina automáticamente para no ocupar espacio innecesario.
-4. **Visualización en el Directorio:**  
-   - La fotografía aparecerá de inmediato en la tarjeta del curso donde el profesional figure como Profesor Jefe, facilitando el reconocimiento visual para todo el equipo educativo. Si el profesional aún no tiene foto, el sistema mostrará un icono neutro de respaldo.
+Para que los profesionales aparezcan visualmente identificados en el directorio de usuarios, en la barra superior de sesión y en las tarjetas de cursos del Directorio de Estudiantes:
+
+1. **Al Crear un Usuario:**  
+   - En el formulario de **"Nuevo Usuario"**, el componente circular superior te permite hacer clic en **"Subir foto"** o pulsar directamente sobre el círculo de previsualización.
+   - Selecciona un archivo en formato **JPEG, PNG o WebP** con un tamaño máximo de **2 MB**.
+   - Podrás ver de inmediato la vista previa circular. Al presionar **"Crear Usuario"**, la fotografía se subirá automáticamente a **Supabase Storage**.
+2. **Al Editar un Usuario Existente:**  
+   - En la tarjeta del funcionario en **"Gestión de Usuarios"**, pulsa el botón **"Editar"** (icono de lápiz).
+   - Verás la fotografía actual del usuario (o sus iniciales si aún no tenía una).
+   - Puedes presionar **"Reemplazar foto"** para cargar una nueva imagen, o bien pulsar **"Quitar foto"** para eliminarla y volver al avatar por defecto con iniciales.
+   - Al hacer clic en **"Guardar Cambios"**, la nueva foto se asociará al usuario y la versión anterior se purgará automáticamente de la nube.
+3. **Puntos de Visualización en SIGA Escolar:**  
+   - **Directorio de Usuarios:** Cada tarjeta profesional muestra la fotografía en alta calidad con borde institucional.
+   - **Barra de Navegación Superior (Header):** El usuario conectado verá su propia fotografía en miniatura junto a su nombre y rol.
+   - **Directorio de Estudiantes (Cursos):** La foto del Profesor/a Jefe se visualiza en la tarjeta de cada curso asignado. Si no cuenta con foto cargada, se mostrarán las iniciales con el color distintivo de su rol.
 
 ---
 
