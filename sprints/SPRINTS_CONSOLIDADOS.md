@@ -25,13 +25,13 @@
 | **Inc. UI** | HU 5.6 — Rediseño de Login Screen, Vector de Estudiantes, Favicon y Responsive | 09 sep – 10 sep 2026 | 8 pts | 8 pts | ✅ Completado |
 | **SUBTOTAL MVP** | **Alcance Base del Proyecto SIGA Escolar** | **Junio – Septiembre 2026** | **179 pts** | **179 pts** | **100% Certificado** |
 
-### 1.2 Sprints Planificados de Evolución (Fase Post-MVP — Inteligencia Artificial Aplicada)
+### 1.2 Sprints de Evolución y Consolidación (Fase Post-MVP)
 
-| Sprint | Foco Principal | Estimación Temporal | SP Estimados | Estado |
-| :--- | :--- | :---: | :---: | :---: |
-| **Sprint 6** | Asistente de Redacción Normativa con IA (Google Gemini Flash), Modal de Revisión y Reporte Oficial PDF | 7 días corridos | 28 pts | 🟡 En Planificación / Por Iniciar |
-| **Sprint 7** | Agente de Inteligencia Predictiva y Soluciones Preventivas de Convivencia (Google Gemini Flash) | 10 días corridos | 32 pts | ⚪ Propuesto y Diseñado |
-| **TOTAL SISTEMA**| **Consolidado Global (MVP + Plataforma de Inteligencia Escolar)** | **2026** | **239 pts** | **60 pts en Evolución** |
+| Sprint | Foco Principal | Estimación Temporal | SP Comprometidos | SP Completados | Estado |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Sprint 6** | Asistente IA Gemini Flash, Human-in-the-Loop, Reportes PDF, Despacho Email y Avatares | 28 sep – 08 oct 2026 | 28 pts | 28 pts | ✅ Completado |
+| **Sprint 7** | Rediseño UI Figma (7 Pantallas: Claudia Infante), Mapa de Calor Analítico (Cursos vs Mes), Auditoría DoD y UAT Integral | 06 oct – 20 oct 2026 | 51 pts | 18 pts | 🟡 En Ejecución |
+| **TOTAL SISTEMA**| **Consolidado Global (MVP + Fase Evolutiva y Calidad)** | **2026** | **258 pts** | **225 pts** | **En Cierre / UAT** |
 
 ---
 
@@ -208,49 +208,36 @@
 
 ---
 
-### SPRINT 7 — Agente de Inteligencia Predictiva y Soluciones Preventivas de Convivencia
-* **Período Estimado:** 10 días corridos | **Story Points Estimados:** 32 pts | **Estado:** ⚪ Propuesto y Diseñado (Post-MVP)
-* **Objetivo:** Transformar el modelo de convivencia escolar desde una gestión reactiva hacia un **enfoque proactivo, predictivo y restaurativo**. Implementar un agente inteligente basado en **Google Gemini Flash** que combine analítica de series temporales de la base de datos relacional con razonamiento cualitativo para identificar patrones emergentes de conflicto, pronosticar riesgos de escalada y formular automáticamente planes de intervención formativos personalizados para la Dupla Psicosocial y los Profesores Jefes.
+### SPRINT 7 — Rediseño UI/UX en Figma (7 Pantallas), Mapa de Calor Analítico por Cursos, Auditoría DoD y UAT Integral
+* **Período:** 06 al 20 de octubre 2026 | **Story Points:** 51 pts (18 SP implementados en fase técnica inicial) | **Estado:** 🟡 En Ejecución
+* **Objetivo:** Rediseñar en Figma las **7 pantallas críticas** del flujo operativo y normativo a cargo de **Claudia Infante** (Acciones Pendientes, Directorio de Estudiantes, Tablero RICE, Ficha del Alumno, Registro de Nuevo Incidente, Detalle de Protocolo RICE y Nuevo Protocolo RICE); implementar la herramienta analítica predictiva de **Mapa de Calor por Cursos (Curso vs Mes del Año)** con drill-down interactivo y RBAC; auditar la calidad técnica global bajo estándares de *Definition of Done (DoD)* y liderar la batería de pruebas de aceptación del usuario (*UAT*) con la Escuela El Salvador.
 
-#### Tecnologías Involucradas:
-* **Backend:** `@google/genai` (Google Gemini Flash con System Instructions psicosociales), PostgreSQL 15 (vistas materializadas, funciones de agregación temporal y scoring multivariante), Node.js 22, Express 5.
-* **Frontend:** React 18, Recharts (mapa de calor de conflicto por curso/horario, curvas de tendencia predictiva), Tailwind CSS 3.
-* **Inteligencia Artificial y Ética:** Explicabilidad de decisiones (XAI - Explainable AI), políticas de Criterio No Punitivo, protocolos de confidencialidad estricta para salud mental y convivencia.
+#### Tecnologías y Herramientas:
+* **Diseño UI/UX:** Figma (Prototipado en alta fidelidad Desktop & Mobile-First, Design System SIGA Escolar, componentes atómicos, variantes y auto-layout).
+* **Backend:** Node.js 22, Express 5, Supabase PostgreSQL (agregaciones mensuales, ordenamiento jerárquico escolar chileno, control de acceso RBAC por rol).
+* **Frontend:** React 18, Vite 5, Tailwind CSS 3, Lucide React (`MapaCalorCursos.jsx`, `DetalleCeldaModal.jsx`, navegación por pestañas en `AnalyticsDashboard.jsx`).
+* **Aseguramiento de Calidad:** Matriz de auditoría DoD, 42 suites de pruebas unitarias/integración en Jest (100% pasando), Vite production build y Protocolo UAT guiado.
 
 #### Desglose de Historias de Usuario:
-1. **HU 7.1 — Motor de Diagnóstico Predictivo y Correlación Multivariable (12 SP):**
-   * *Descripción:* Como directivo o coordinador de convivencia, quiero consultar un análisis predictivo de patrones de conflicto que correlacione cursos, horarios, antecedentes de mediación y recurrencia temporal para anticipar situaciones de riesgo antes de que escalen a violencia grave.
-   * *Tareas Técnicas:*
-     - Función SQL en Supabase `obtener_matriz_conductual_estudiante(estudiante_id, ventana_dias)` para consolidar tipos de falta, intervalos entre eventos y gravedad.
-     - Correlación algorítmica con factores de inclusión escolar (condición PIE) y tipos de abordaje previos (contención vs mediación).
-     - Síntesis analítica con Google Gemini Flash estructurada en: Probabilidad de reincidencia, Factores detonantes identificados y Nivel de vulnerabilidad.
-     - Endpoint analítico `GET /api/v1/analitica/prediccion/estudiante/:id`.
-   * *Criterios de Aceptación:*
-     - La inferencia no genera juicios subjetivos ni etiquetado peyorativo de estudiantes.
-     - Toda predicción explicita los factores objetivos y fechas de los antecedentes que la sustentan (XAI).
-2. **HU 7.2 — Generador Inteligente de Planes de Acción Preventivos y Restaurativos (12 SP):**
-   * *Descripción:* Como miembro de la Dupla Psicosocial (Trabajador/a Social o Psicólogo/a), quiero que el agente de IA proponga estrategias formativas y acuerdos restaurativos concretos adaptados a la realidad del estudiante para intervenir a tiempo con las familias y docentes.
-   * *Tareas Técnicas:*
-     - Generación mediante Gemini Flash de planes de intervención estructurados:
-       a) Acciones sugeridas para el Profesor Jefe en aula (adecuaciones metodológicas, manejo conductual).
-       b) Estrategias de mediación restaurativa con pares y familias.
-       c) Recomendación de derivación oportuna a redes de apoyo externas (CESFAM, COSAM, Habilidades para la Vida).
-     - Componente frontend `PlanAccionPreventivoCard.jsx` en ficha del estudiante con opciones para adoptar, personalizar o descartar cada medida sugerida.
-     - Persistencia de planes adoptados en tabla `planes_intervencion_preventiva`.
-   * *Criterios de Aceptación:*
-     - Prohibición estricta de sugerir sanciones punitivas o expulsiones en el *system prompt*.
-     - Las recomendaciones distinguen adecuadamente a estudiantes del Programa de Integración Escolar (PIE) para respetar sus adecuaciones curriculares.
-3. **HU 7.3 — Dashboard de Monitoreo Preventivo y Evaluación de Efectividad (8 SP):**
-   * *Descripción:* Como directivo escolar, quiero visualizar en un panel centralizado la efectividad de las medidas preventivas implementadas para certificar si las intervenciones tempranas disminuyen efectivamente los incidentes graves en el tiempo.
-   * *Tareas Técnicas:*
-     - Vista interactiva `DashboardPreventivoPage.jsx` con Recharts.
-     - Indicador de "Tasa de Mitigación": porcentaje de estudiantes con plan activo que no registraron reincidencia en 60 días.
-     - Mapa de calor de vulnerabilidad por curso y jornada para focalizar talleres preventivos grupales.
-   * *Criterios de Aceptación:*
-     - Métricas en tiempo real actualizadas dinámicamente según el cierre de protocolos y planes.
-     - Acceso restringido exclusivamente a roles `Administrador`, `Directivo` y `Equipo de Formación`.
+1. **HU 7.1 — Rediseño UI/UX en Figma de 7 Pantallas Críticas del Sistema (33 SP | Claudia Infante):**
+   * *TASK 7.1.1 (4 SP):* Pantalla 1 — Bandeja de Acciones Pendientes con semáforos de plazos fatales (Vencidas 🔴, Urgentes < 48 hrs 🟡, En Plazo 🟢), filtros por curso y acciones de 1-clic.
+   * *TASK 7.1.2 (5 SP):* Pantalla 2 — Directorio de Estudiantes con navegación por ciclos/cursos (Pre-Kínder a 8° Básico), fotos de perfil reales, badges PIE, riesgos conductuales y exportación masiva.
+   * *TASK 7.1.3 (5 SP):* Pantalla 3 — Tablero Procesal de Protocolos RICE estructurado en las 4 fases normativas de la Superintendencia con conteo de días hábiles.
+   * *TASK 7.1.4 (5 SP):* Pantalla 4 — Ficha y Perfil Completo del Estudiante con timeline histórico, semáforo de riesgo, tarjetas de apoderado y tabs de incidentes/entrevistas.
+   * *TASK 7.1.5 (5 SP):* Pantalla 5 — Registro de Nuevo Incidente con selector multi-estudiante (víctima, agresor, testigo), selector de gravedad (Leve, Grave, Gravísima) y relato fáctico guiado.
+   * *TASK 7.1.6 (5 SP):* Pantalla 6 — Detalle y Seguimiento de Protocolo RICE con stepper procesal normativo, checklist de la Superintendencia y bitácora confidencial.
+   * *TASK 7.1.7 (4 SP):* Pantalla 7 — Apertura de Nuevo Protocolo RICE con selector de alumno foco, alerta de escalada preventiva y catálogo de los 10 protocolos normativos.
+2. **HU 7.2 — Mapa de Calor por Cursos (Evolución del Clima Escolar) (8 SP | Daniel Flores & Marcelo Acevedo):**
+   * Monitoreo preventivo del clima de aula por nivel y mes con drill-down interactivo y RBAC.
+3. **HU 7.3 — Auditoría Integral de Calidad Técnica DoD (5 SP | Claudia Infante):**
+   * *TASK 7.3.1 (3 SP):* Chequeo de higiene de consola DevTools, responsive móvil (360px), contraste accesible WCAG y persistencia de sesión con F5.
+   * *TASK 7.3.2 (2 SP):* Verificación de políticas RLS, endpoints protegidos y aislamiento estricto multi-tenant.
+4. **HU 7.4 — Plan y Ejecución de Pruebas UAT en Terreno con Cliente (5 SP | Claudia Infante):**
+   * *TASK 7.4.1 (2 SP):* Preparación de libreto de pruebas y usuarios de simulación directivos y de convivencia.
+   * *TASK 7.4.2 (3 SP):* Conducción de la jornada UAT con el equipo directivo de la Escuela El Salvador y formalización del Acta de Conformidad Final.
 
 ---
+
 
 ## 3. IMPACTO EN EL PROYECTO DE TÍTULO: DE MVP A PLATAFORMA DE INTELIGENCIA EDUCATIVA
 

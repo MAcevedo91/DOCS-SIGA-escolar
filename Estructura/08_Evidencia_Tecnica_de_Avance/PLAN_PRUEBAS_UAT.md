@@ -222,6 +222,19 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 - **Resultado Esperado:** La fotografía se almacena en memoria y se transfiere a Supabase Storage sin persistencia en disco efímero; el directorio muestra la imagen del profesional con alta nitidez y recorte circular.
 - **Severidad en caso de falla:** **Menor**.
 
+### CP-14: Inteligencia Preventiva con Mapa de Calor por Cursos y Drill-Down Pedagógico
+- **Objetivo:** Validar la visualización matricial de convivencia escolar (Cursos vs Meses), semáforos de riesgo y el despliegue de diagnósticos pedagógicos anónimos (Ley N° 19.628).
+- **Precondición:** Incidentes registrados en el año escolar; usuario con rol Directivo, Inspector General o Encargado de Convivencia autenticado.
+- **Pasos:**
+  1. Ingresar al módulo de **Analítica** y seleccionar la pestaña **Mapa de Calor**.
+  2. Observar la matriz de cursos (Pre-Kínder a 8° Básico) en las filas y los meses escolares (Marzo a Diciembre) en las columnas.
+  3. Probar el filtro de ciclo escolar (*Educación Parvularia*, *1° Ciclo*, *2° Ciclo*) y verificar que la matriz se recalcule instantáneamente.
+  4. Identificar celdas con coloración verde (0-1 casos), amarillo (2-4 casos o 1 grave) y rojo (≥ 5 casos o situaciones críticas).
+  5. Hacer clic sobre una celda crítica o de alerta (ej. *6° Básico B en Octubre*).
+  6. Comprobar que se despliega el modal de **Diagnóstico Pedagógico** con: desglose de gravedad, porcentaje de tipologías frecuentes, recomendación formativa y nota legal de resguardo de privacidad sin listar nombres de estudiantes.
+- **Resultado Esperado:** La matriz se carga de forma reactiva y accesible; el drill-down presenta un diagnóstico situacional agregado y pedagógico sin estigmatizar individualmente a ningún alumno.
+- **Severidad en caso de falla:** **Mayor**.
+
 ---
 
 ## 4. Clasificación de Severidad y Criterios de Aprobación
@@ -237,7 +250,7 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 ### 4.2 Criterio Formal de Aprobación
 El UAT se dictaminará formalmente como **APROBADO** si se cumplen simultáneamente las siguientes condiciones:
 1. El **100% de los casos de prueba clasificados como Bloqueantes** (CP-01, CP-02, CP-04, CP-05, CP-07, CP-11) resultan aprobados exitosamente.
-2. Al menos **12 de los 13 casos de prueba totales** resultan aprobados.
+2. Al menos **13 de los 14 casos de prueba totales** resultan aprobados.
 3. No existe riesgo de filtración de datos sensibles ni inconsistencias en la base de datos de producción.
 
 ---

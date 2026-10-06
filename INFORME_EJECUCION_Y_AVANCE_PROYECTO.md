@@ -52,7 +52,8 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 3** | 25 jun – 01 jul 2026 | Analítica (Recharts), Reportes PDF, Deploy Producción y UAT | 38 pts | 38 pts | ✅ Cerrado |
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
-| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit y Email | 28 pts | 18 pts | 🟡 En Ejecución (100% Backend Marcelo Acevedo Completado: 6.1.1, 6.1.2, 6.1.3, 6.3.1, 6.4.1) |
+| **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit, Email y Avatares | 28 pts | 28 pts | ✅ Cerrado |
+| **Sprint 7** | 06 oct – 20 oct 2026 | Rediseño Figma (7 Pantallas: Claudia Infante), Mapa de Calor Analítico (Cursos vs Mes), DoD y UAT | 51 pts | 15 pts | 🟡 En Ejecución (Figma 7 Pantallas + Mapa de Calor Full-Stack) |
 
 ---
 
@@ -659,6 +660,59 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
         * Eliminación de foto en modal de edición con retorno automático a iniciales.
         * Reflejo reactivo en tiempo real del avatar del usuario actual en la barra superior (`DashboardLayout`).
         * Compilación de producción con Vite (`npm run build`) exitosa sin advertencias ni errores de sintaxis.
+
+---
+
+### SPRINT 7: Rediseño UI/UX en Figma (7 Pantallas), Mapa de Calor Analítico, Auditoría DoD y UAT Integral (`SE-Sprint-7`)
+* **Objetivo del Sprint:** Fortalecer la experiencia de usuario de la Escuela El Salvador mediante especificaciones de diseño en Figma lideradas por **Claudia Infante** para **7 pantallas críticas** (Acciones Pendientes, Directorio Estudiantes, Ficha de Estudiante, Nuevo Incidente, Tablero RICE, Detalle de Protocolo RICE y Nuevo Protocolo RICE), implementar la herramienta de inteligencia preventiva de **Mapa de Calor por Cursos (Opción A)** en Analítica, auditar la calidad técnica integral con un checklist riguroso de *Definition of Done (DoD)* y coordinar las pruebas finales de aceptación con el cliente (*UAT*).
+* **Capacidad del Sprint:** 51 Story Points (15 SP completados en la primera fase técnica: Backend/Frontend del Mapa de Calor y Documentación).
+* **Distribución de Roles:**
+  * **Claudia Infante Soto (Lead UI/UX & QA DoD):** Diseño en Figma de las 7 vistas críticas (33 SP), auditoría de DoD del monorepo (5 SP) y coordinación del protocolo UAT con el cliente (5 SP). Total: **43 SP**.
+  * **Marcelo Acevedo Silva (Backend & Data Lead):** Endpoints analíticos agregados, optimización de consultas, RBAC y control de privacidad (Ley N° 19.628). Total: **4 SP**.
+  * **Daniel Flores Jaime (Frontend Developer):** Componente interactivo `MapaCalorCursos.jsx`, modal de diagnóstico pedagógico `DetalleCeldaModal.jsx` y actualización de `AnalyticsDashboard.jsx`. Total: **4 SP**.
+
+#### Tareas y Entregables del Sprint 7:
+
+1. **`S7-01` al `S7-07` — Especificaciones de Rediseño en Figma de 7 Pantallas Críticas (Claudia Infante | 33 SP):**
+   * Documento oficial entregado: [`DOCS/sprint7/ESPECIFICACIONES_FIGMA_S7_CLAUDIA_INFANTE.md`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/sprint7/ESPECIFICACIONES_FIGMA_S7_CLAUDIA_INFANTE.md).
+   * **Bandeja de Acciones Pendientes (4 SP):** Prototipo con semáforos de plazos fatales (Vencidos 🔴, Urgentes < 48 hrs 🟡, En Plazo 🟢), filtros por curso y acción directa de 1-clic.
+   * **Directorio de Estudiantes (5 SP):** Selector visual por ciclo y curso (Pre-Kínder a 8° Básico), fotos reales de perfil, badges PIE, indicadores de riesgo y exportación masiva.
+   * **Ficha y Detalles del Estudiante (5 SP):** Expediente integral con datos del apoderado, timeline de incidentes, protocolos activos y acuerdos formativos.
+   * **Registro de Nuevo Incidente (5 SP):** Formulario multiescolar N:M con asignación de roles (Víctima/Agresor/Testigo), advertencia interactiva de incidentes graves y redacción fáctica.
+   * **Tablero General de Protocolos RICE (5 SP):** Pipeline procesal en 4 fases normativas de la Superintendencia de Educación con conteo de días hábiles.
+   * **Apertura de Nuevo Protocolo RICE (4 SP):** Selector normativo de los 10 protocolos de la Superintendencia con banner predictivo de escalada y medidas de resguardo inmediatas obligatorias.
+   * **Detalle y Seguimiento de Protocolo RICE (5 SP):** Tramitación del expediente formal con stepper interactivo, checklist normativo, observaciones inmutables y descarga en PDF.
+
+2. **`S7-05` — Endpoint Seguro de Mapa de Calor por Cursos en Backend (Marcelo Acevedo | 4 SP | ✅ Completado):**
+   * Endpoint `GET /api/v1/analytics/mapa-calor-cursos`:
+     * Agregación mensual de incidentes (Marzo a Diciembre) agrupados por curso con cálculo de semáforo ético:
+       * 🟢 Verde: 0 a 1 leves.
+       * 🟡 Amarillo: 2 a 4 leves o 1 grave.
+       * 🔴 Rojo: $\ge 5$ casos o gravísimas.
+     * Ordenamiento jerárquico según el sistema escolar chileno (`ORDEN_NIVELES_CHILE`).
+     * Control de acceso RBAC estricto: Directivos, Inspectoría y Convivencia visualizan la matriz completa; Docentes visualizan únicamente su jefatura de curso asignada. Roles no autorizados reciben `403 Forbidden`.
+   * Endpoint `GET /api/v1/analytics/mapa-calor-cursos/detalle`:
+     * Drill-down pedagógico por curso, mes y año con desglose de severidad, tipologías frecuentes, estados de resolución y recomendación formativa para el equipo directivo.
+     * Protección ética: datos 100% agregados sin exponer nombres de menores (conforme a la Ley N° 19.628).
+   * **Resultados de Validación Backend:** **20/20 pruebas aprobadas al 100%** en `analyticsController.test.js` y **42/42 suites (294 pruebas)** aprobadas en todo el monorepo sin regresiones.
+
+3. **`S7-06` — Implementación de Interfaz de Mapa de Calor y Modal Drill-Down (Daniel Flores | 4 SP | ✅ Completado):**
+   * Creación del componente `siga-frontend/src/components/analytics/MapaCalorCursos.jsx`:
+     * Matriz de Cursos vs Meses con celdas coloreadas interactivas y tooltips explicativos.
+     * Selectores de Año (2026/2025) y Ciclo Escolar (*Todos*, *Parvularia*, *1° Ciclo*, *2° Ciclo*).
+     * Resumen global superior con contadores de cursos en verde, amarillo y rojo.
+   * Creación del componente `siga-frontend/src/components/analytics/DetalleCeldaModal.jsx`:
+     * Modal interactivo accesible (Escape key, backdrop, aria-modal) que despliega el diagnóstico pedagógico del curso sin estigmatizar estudiantes individuales.
+   * Integración en `siga-frontend/src/pages/AnalyticsDashboard.jsx` con navegación por pestañas (*Mapa de Calor* y *Tendencias Globales*).
+   * **Resultados de Validación Frontend:** Compilación limpia con Vite (`npm run build`) en 8.94 segundos con 0 errores de sintaxis.
+
+4. **`S7-07` — Protocolo de Auditoría Integral DoD (Claudia Infante | 4 SP | 🟢 En Preparación):**
+   * Documento oficial entregado: [`DOCS/sprint7/CHECKLIST_DOD_AUDITORIA_INTEGRAL.md`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/sprint7/CHECKLIST_DOD_AUDITORIA_INTEGRAL.md).
+   * Matriz de chequeo exhaustivo para verificar higiene de consola, tiempos de respuesta (< 3 seg), aislamiento multi-tenant y consistencia visual en los módulos de los Sprints 1 al 7.
+
+5. **`S7-08` — Plan de Pruebas de Aceptación UAT en Terreno (Claudia Infante | 3 SP | 🟢 En Preparación):**
+   * Documento oficial entregado: [`DOCS/sprint7/PROTOCOLO_PRUEBAS_UAT_ESCUELA_EL_SALVADOR.md`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/sprint7/PROTOCOLO_PRUEBAS_UAT_ESCUELA_EL_SALVADOR.md).
+   * 6 casos de prueba E2E guiados paso a paso con el equipo directivo de la Escuela El Salvador más acta de conformidad final.
 
 ---
 

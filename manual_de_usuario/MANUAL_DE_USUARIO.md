@@ -342,6 +342,37 @@ De manera complementaria a la descarga física, el sistema agiliza la comunicaci
 
 ---
 
+## 14. Analítica Escolar y Mapa de Calor por Cursos (Evolución del Clima de Aula)
+
+El módulo de **Analítica y Clima Escolar** proporciona a la Dirección, Inspectoría General y al Equipo de Convivencia una vista panorámica preventiva sobre el comportamiento y la convivencia en las aulas a lo largo del año académico.
+
+### 14.1 Acceso al Mapa de Calor por Cursos
+1. En el menú lateral izquierdo, haz clic en **Analítica**.
+2. Por defecto se abrirá la pestaña **Mapa de Calor** (con icono de flama). También puedes alternar a la pestaña **Tendencias Globales** para consultar gráficos acumulados de gravedad y resoluciones.
+
+### 14.2 Interpretación de la Matriz de Clima Escolar
+La matriz cruza los **Cursos de la Escuela** (desde Pre-Kínder hasta 8° Básico) en las filas, contra los **Meses Lectivos** (Marzo a Diciembre) en las columnas:
+
+* 🟢 **Celda Verde (Clima Favorable):** 0 o 1 incidente leve en el mes. Indica que el aula se encuentra estable y sin conflictos recurrentes.
+* 🟡 **Celda Amarilla (Alerta Preventiva):** Entre 2 y 4 incidentes leves, o 1 incidente de gravedad Grave. Indica una señal de alerta temprana para coordinar actividades con el Profesor Jefe.
+* 🔴 **Celda Roja (Intervención Urgente):** 5 o más incidentes en el mes, 2 o más incidentes graves o al menos 1 incidente gravísimo. Indica que el curso requiere intervención prioritaria de la Dupla Psicosocial y activación de protocolos normativos.
+
+### 14.3 Filtros por Año y por Ciclo
+En la esquina superior derecha del mapa de calor puedes:
+* **Cambiar el Año Académico:** Consultar el año actual (ej. 2026) o años históricos (ej. 2025) para balances de gestión escolar.
+* **Filtrar por Ciclo Escolar:** Filtrar rápidamente por *Todos los Niveles*, *Educación Parvularia*, *Primer Ciclo Básico (1° a 4°)* o *Segundo Ciclo Básico (5° a 8°)*.
+
+### 14.4 Drill-Down: Diagnóstico Pedagógico del Curso (Al hacer Clic)
+Al hacer clic sobre cualquier celda de la tabla (por ejemplo, *6° Básico B en Octubre*):
+1. Se abrirá una ventana emergente con el **Diagnóstico Pedagógico y Situacional**.
+2. **Contenido del Diagnóstico:**
+   * **Total de Casos y Severidad:** Conteo exacto de incidentes Leves, Graves y Gravísimas.
+   * **Tipologías Frecuentes:** Gráfico de barras que ilustra los motivos principales de los conflictos (ej. *Rencillas en recreos*, *Faltas de respeto*, *Disrupción de aula*).
+   * **Orientación de Convivencia Escolar:** Recomendación pedagógica sugerida para el equipo directivo y el Profesor Jefe.
+3. **Protección de la Privacidad (Ley N° 19.628):** Este diagnóstico es **completamente anónimo** y agregado a nivel de grupo curso, resguardando la identidad de los estudiantes y evitando estigmatizaciones individuales.
+
+---
+
 ## 15. Preguntas Frecuentes y Solución de Problemas
 
 #### 1. ¿Qué hago si olvidé mi contraseña?
