@@ -373,7 +373,57 @@ Al hacer clic sobre cualquier celda de la tabla (por ejemplo, *6° Básico B en 
 
 ---
 
-## 15. Preguntas Frecuentes y Solución de Problemas
+## 15. Cierre de Año Lectivo y Promoción de Cursos
+
+El módulo de **Cierre de Año Lectivo y Promoción** permite a los usuarios con rol **Administrador** y **Directivo** culminar ordenadamente el período escolar vigente, proyectar la oferta educativa del año venidero y promover o egresar a los estudiantes de manera masiva o individual con total trazabilidad histórica.
+
+### 15.1 Acceso al Asistente
+1. En el menú lateral izquierdo, haz clic en **Cierre de Año**.
+2. El sistema detectará automáticamente el **Período Académico Activo** (ej. 2026), el total de estudiantes matriculados y el año escolar sugerido para apertura (ej. 2027).
+
+### 15.2 Paso 1: Configuración del Período Académico
+* **Nuevo Año Escolar:** Define el año lectivo entrante (por defecto el año siguiente).
+* **Fechas Oficiales del Año:** Configura la *Fecha de Inicio* (ej. 01 de marzo) y *Fecha de Término* (ej. 31 de diciembre) del período escolar.
+* **Oferta Educativa Institucional:** Selecciona si el establecimiento imparte **Solo Enseñanza Básica** (Pre-Kínder a 8° Básico) o si incluye **Enseñanza Media** (hasta 4° Medio).
+  > **Nota de Negocio:** Al marcar *Solo Enseñanza Básica*, todos los alumnos de 8° Básico son clasificados automáticamente con destino a **Egresado**.
+
+### 15.3 Paso 2: Configuración de Cursos y Profesores Jefes
+* El sistema proyecta la nómina de cursos para el nuevo año replicando los niveles y letras existentes.
+* Puedes modificar la letra, nivel o agregar nuevos cursos según la matrícula proyectada.
+* **Asignación de Jefaturas:** En el selector de profesor jefe, el sistema muestra exclusivamente a los docentes habilitados con su fotografía de perfil para facilitar una asignación rápida y sin errores.
+
+### 15.4 Paso 3: Nómina de Alumnos y Promoción
+* **Pestañas por Curso:** Filtra por curso de origen (*Pre-Kínder A*, *1° Básico A*, etc.) o visualiza la nómina completa (*Todos los Cursos*).
+* **Promoción Automática:** Por defecto, cada alumno regular es sugerido como **Promovido** a su nivel superior (ej. de 1° Básico A a 2° Básico A).
+* **Egreso Automático:** Los alumnos que culminan el último nivel (8° Básico en Básica o 4° Medio en Media) son sugeridos automáticamente como **🎓 Egresado**.
+* **Acciones Masivas Rápidas:**
+  * Botón **"Marcar curso como Egresados"**: Útil para marcar a toda una sección de 8° Básico como egresada con un solo clic.
+  * Botón **"Restaurar todos a Promovidos"**: Vuelve a promover a todos los alumnos del curso.
+* **Ajustes Individuales por Alumno:**
+  * En la columna *Estado*, puedes cambiar la condición a **Repitente** (el destino se ajustará automáticamente a su mismo nivel), **Egresado** o **Retirado**.
+  * Al alternar de *Repitente* a *Promovido*, el sistema restaura instantáneamente el curso superior sugerido.
+
+### 15.5 Paso 4: Resumen y Confirmación Transaccional
+* Revisa las métricas globales del proceso: Total de Alumnos, Promovidos, Repitentes, Egresados y Retirados.
+* Haz clic en **Confirmar Cierre de Año Escolar**. Se desplegará un modal de seguridad para confirmar la acción definitiva.
+* Al confirmar, una función transaccional atómica en la base de datos:
+  1. Cierra el período anterior (`activo = false`).
+  2. Crea y activa el nuevo período escolar (`activo = true`).
+  3. Crea los cursos del nuevo año y asigna sus profesores jefes.
+  4. Asigna el nuevo curso a los alumnos promovidos/repitentes y desvincula el curso activo de los egresados/retirados (`curso_id = null`, `estado_matricula = 'Egresado'`).
+  5. Guarda en la tabla `matriculas` el registro histórico oficial de cada estudiante.
+
+### 15.6 Consulta de Nóminas y Navegación por Año Lectivo
+* En la pantalla **Estudiantes** (`/estudiantes`):
+  * **Selector de Año Lectivo:** En la cabecera puedes alternar el selector `Año lectivo: [ 2027 (Vigente) ▼ ]` para revisar tanto el nuevo año como años anteriores.
+  * **Navegación Limpia por Curso:** Al ingresar a una tarjeta de curso, el selector se reemplaza por el badge informativo `Año lectivo 2027` para mantener el foco en la nómina de ese curso.
+  * **Distintivos de Estado:** En la columna curso, los alumnos que finalizaron su ciclo se identifican claramente con los badges **🎓 Egresado** o **📁 Retirado**.
+* En el **Perfil del Estudiante** (`/estudiantes/:id`):
+  * Puedes consultar el historial completo de trayectoria académica año por año con los cursos y estados finales registrados.
+
+---
+
+## 16. Preguntas Frecuentes y Solución de Problemas
 
 #### 1. ¿Qué hago si olvidé mi contraseña?
 Comunícate con el Administrador del colegio encargado de SIGA Escolar para que restablezca tu contraseña temporal desde el módulo de usuarios.

@@ -714,6 +714,35 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
    * Documento oficial entregado: [`DOCS/sprint7/PROTOCOLO_PRUEBAS_UAT_ESCUELA_EL_SALVADOR.md`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/sprint7/PROTOCOLO_PRUEBAS_UAT_ESCUELA_EL_SALVADOR.md).
    * 6 casos de prueba E2E guiados paso a paso con el equipo directivo de la Escuela El Salvador más acta de conformidad final.
 
+6. **`S7-09` — Módulo Transaccional de Cierre de Año Lectivo y Promoción de Cursos (Marcelo Acevedo & Daniel Flores | 8 SP | ✅ Completado y Certificado):**
+   * **Definición Funcional:** Implementación integral basada en las definiciones oficiales del cliente (*Consulta de Definición Funcional: Cierre de Año Lectivo y Promoción de Cursos — SIGA Escolar*), resolviendo las 5 preguntas estructurales planteadas por la Dirección:
+     * *Pregunta 1 (Opción A):* Promoción automática de cursos al nivel inmediatamente superior por defecto (Pre-Kínder a 8° Básico / 4° Medio) con capacidad de ajuste individual (repitencia, egreso o retiro).
+     * *Pregunta 2 (Opción B):* Gestión diferenciada para alumnos de 8° Básico (o último nivel institucional), asignándoles automáticamente la condición de **Egresado** con desvinculación de curso activo y resguardo de antecedentes.
+     * *Pregunta 3 (Opción A):* Historial y trazabilidad académica permanente mediante la nueva tabla `matriculas` (preservando el curso, año y estado final de cada período lectivo).
+     * *Pregunta 4 (Opción A):* Proceso transaccional en bloque vía función RPC en PostgreSQL/Supabase (`ejecutar_cierre_anio_y_promocion`), ejecutando el cierre del período anterior, apertura del nuevo año, creación de cursos y migración de alumnos en una única transacción atómica ACID con rollback ante fallos.
+     * *Pregunta 5 (Opción B):* Replicación sugerida de profesores jefes del año anterior con asignación visual en asistente, filtrando exclusivamente a docentes con rol `Docente` e incorporando avatares fotográficos.
+   * **Entregables de Código y Base de Datos:**
+     * **Migración y Base de Datos:** `DOCS/arquitectura_y_api/migracion_cierre_anio_y_promocion.sql` (tabla `matriculas`, índices multi-tenant, RLS y función RPC resiliente `ejecutar_cierre_anio_y_promocion` con resolución dinámica sin bloqueos de constraint).
+     * **Backend (`siga-backend`):**
+       * Rutas y controlador REST en `/api/v1/cierre-anio` (`GET /estado-actual`, `GET /propuesta`, `POST /ejecutar`).
+       * Servicio `cierreAnioService.js` con esquemas de validación Zod (`cierreAnioPayloadSchema`) y lógica de proyección curricular flexible (Enseñanza Básica y Media completa).
+       * Actualización de `cursosService.js` para enriquecer `listarCursos` con la resolución del profesor jefe y filtros por año lectivo.
+       * Actualización de `estudiantesService.js` para incorporar `estado_matricula` en las consultas de nómina general.
+       * Suite de pruebas automatizadas: `cierreAnioController.test.js` (43 suites y 303 pruebas pasando al 100%).
+     * **Frontend (`siga-frontend`):**
+       * Asistente interactivo en 4 pasos: [`CierreAnioPage.jsx`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/siga-frontend/src/pages/CierreAnioPage.jsx) (Paso 1: Configuración de Años y Fechas; Paso 2: Creación de Cursos y Jefaturas con avatares; Paso 3: Nómina de Promoción con botones masivos e individuales de Egreso/Promoción y sincronización bidireccional; Paso 4: Resumen y Confirmación con Modal Modal de Seguridad).
+       * Módulo de Directorio [`EstudiantesPage.jsx`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/siga-frontend/src/pages/EstudiantesPage.jsx) adaptado con selector de año dinámico en cabecera principal, badge contextual dentro del curso y distintivos visuales `🎓 Egresado` y `📁 Retirado`.
+       * Expediente individual [`EstudiantePerfilPage.jsx`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/siga-frontend/src/pages/EstudiantePerfilPage.jsx) con badges y tabla de Trayectoria Académica histórica.
+       * Suite de pruebas automatizadas en Vitest: `CierreAnioPage.test.jsx` (29 suites y 147 pruebas pasando al 100%). Build de producción con Vite exitoso.
+   * **Resultados de Validación y Certificación por el Usuario:**
+     * Aprobación de CP-01 (Detección de período lectivo y cálculo automático de nuevo año).
+     * Aprobación de CP-02 (Proyección de cursos y filtro exclusivo de docentes con avatar fotográfico).
+     * Aprobación de CP-03 (Trazabilidad y persistencia de matrículas históricas en base de datos).
+     * Aprobación de CP-04 (Sincronización bidireccional y restauración de curso superior sugerido).
+     * Aprobación de CP-05 (Ejecución transaccional exitosa de la función RPC en Supabase).
+     * Validación de egreso dinámico para 8° Básico y soporte de Enseñanza Media.
+     * Validación de navegación contextual de años lectivos y visualización con badges de egresados/retirados en el listado de estudiantes.
+
 ---
 
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS

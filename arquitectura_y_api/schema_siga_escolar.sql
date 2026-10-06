@@ -81,13 +81,14 @@ CREATE TABLE IF NOT EXISTS periodos_academicos (
 -- 4. CURSOS (Estructura de Cursos por Nivel, Letra y Período Académico)
 -- =============================================================================
 CREATE TABLE IF NOT EXISTS cursos (
-    id             UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    tenant_id      UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
-    nombre         VARCHAR(50) NOT NULL,
-    nivel          VARCHAR(50) NOT NULL,
-    letra          VARCHAR(5),
-    periodo_id     UUID REFERENCES periodos_academicos(id) ON DELETE RESTRICT,
-    anio_academico INT,
+    id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id        UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    nombre           VARCHAR(50) NOT NULL,
+    nivel            VARCHAR(50) NOT NULL,
+    letra            VARCHAR(5),
+    periodo_id       UUID REFERENCES periodos_academicos(id) ON DELETE RESTRICT,
+    anio_academico   INT,
+    profesor_jefe_id UUID REFERENCES usuarios(id) ON DELETE SET NULL,
     CONSTRAINT unique_curso_periodo UNIQUE (tenant_id, nombre, periodo_id)
 );
 
@@ -105,8 +106,26 @@ CREATE TABLE IF NOT EXISTS estudiantes (
     es_pie           BOOLEAN NOT NULL DEFAULT FALSE,
     direccion        VARCHAR(255),
     activo           BOOLEAN NOT NULL DEFAULT TRUE,
+    estado_matricula VARCHAR(20) NOT NULL DEFAULT 'Regular' CHECK (estado_matricula IN ('Regular', 'Egresado', 'Retirado', 'Suspendido')),
     search_vector    TSVECTOR,
     CONSTRAINT unique_rut_per_tenant UNIQUE (tenant_id, rut)
+);
+
+-- =============================================================================
+-- 4.1 MATRÍCULAS (Historial Académico y Trayectoria Escolar por Año Lectivo)
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS matriculas (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id       UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    estudiante_id   UUID NOT NULL REFERENCES estudiantes(id) ON DELETE CASCADE,
+    curso_id        UUID REFERENCES cursos(id) ON DELETE SET NULL,
+    periodo_id      UUID NOT NULL REFERENCES periodos_academicos(id) ON DELETE CASCADE,
+    anio            INT NOT NULL,
+    estado_final    VARCHAR(20) NOT NULL DEFAULT 'En Curso' 
+                    CHECK (estado_final IN ('En Curso', 'Promovido', 'Repitente', 'Egresado', 'Retirado')),
+    fecha_matricula DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_matricula_estudiante_periodo UNIQUE (tenant_id, estudiante_id, periodo_id)
 );
 
 -- =============================================================================
