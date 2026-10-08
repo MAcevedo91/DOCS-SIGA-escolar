@@ -491,5 +491,12 @@ Al revisar un incidente conductual específico en la pantalla de detalle (`/inci
 
 ---
 
+### 18. Navegación Unificada y Acceso Rápido Permanente
+En cualquier sección del sistema —incluso al consultar la ficha de un estudiante, registrar un nuevo incidente o revisar un protocolo RICE paso a paso— dispondrás de:
+* **Menú Lateral Persistente (Sidebar):** Permite cambiar de módulo (Dashboard, Estudiantes, Incidentes, Protocolos, Cierre de Año, etc.) en un solo clic sin necesidad de volver atrás en el navegador. En dispositivos móviles se despliega mediante el botón de menú hamburguesa.
+* **Barra Superior Siempre Visible (Navbar):** Permite buscar alumnos rápidamente por nombre o RUT desde cualquier pantalla, cambiar entre modo claro y oscuro, consultar el Copiloto RICE y revisar las notificaciones en tiempo real.
+
+---
+
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  
 *Cualquier nueva función incorporada a la plataforma se documentará automáticamente en este archivo.*

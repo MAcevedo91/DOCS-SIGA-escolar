@@ -817,6 +817,21 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ---
 
+### Sprint 7 / Mejora de Usabilidad: Navegación Global y Persistencia de Layout (Navbar & Sidebar)
+* **Objetivo:** Garantizar la presencia persistente del Navbar superior (con buscador en tiempo real de alumnos, notificaciones, copilot RICE y perfil) y del Sidebar lateral colapsable/responsive en la totalidad de las pantallas operativas del sistema.
+* **Componentes intervenidos:**
+  * `EstudiantePerfilPage.jsx`: Integración de `DashboardLayout` tanto en estado de carga y error como en el visor de ficha escolar.
+  * `IncidenteDetallePage.jsx`: Integración de `DashboardLayout` envolviendo cabecera, estados, detalle de involucrados y modales de reportes/RICE.
+  * `NuevoIncidentePage.jsx`: Integración de `DashboardLayout` en formulario de registro con selectores en cascada.
+  * `NuevoProtocoloPage.jsx`: Integración de `DashboardLayout` en creación de protocolos RICE con alertas de escalada.
+  * `ProtocoloDetallePage.jsx`: Integración de `DashboardLayout` en el seguimiento de pasos normativos y avance de estados.
+  * `useTheme.js`: Incorporación de fallback seguro en modo claro/oscuro para aislar y blindar pruebas unitarias y entornos sin `ThemeProvider`.
+* **Resultados de Validación:**
+  * 31 suites de pruebas unitarias y de integración pasando al 100% (150 de 150 tests exitosos).
+  * Build de producción Vite completado limpiamente con 0 errores.
+
+---
+
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
 
 ### Arquitectura de Software
