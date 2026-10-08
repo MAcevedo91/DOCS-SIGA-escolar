@@ -19,12 +19,13 @@
 7. [Cómo Registrar un Incidente de Convivencia](#7-cómo-registrar-un-incidente-de-convivencia)
 8. [Seguimiento y Cierre de Incidentes](#8-seguimiento-y-cierre-de-incidentes)
 9. [Gestión de Protocolos Normativos RICE](#9-gestión-de-protocolos-normativos-rice)
-10. [Módulo de Asistencia Escolar](#10-módulo-de-asistencia-escolar)
-11. [Importación Masiva de Alumnos (Uso Administrativo)](#11-importación-masiva-de-alumnos-uso-administrativo)
-12. [Gestión de Usuarios del Establecimiento](#12-gestión-de-usuarios-del-establecimiento)
-13. [Configuración de Plazos y Reglas Escolares](#13-configuración-de-plazos-y-reglas-escolares)
-14. [Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales](#14-asistente-de-redacción-normativa-con-ia-gemini-flash-y-reportes-oficiales)
-15. [Preguntas Frecuentes y Solución de Problemas](#15-preguntas-frecuentes-y-solución-de-problemas)
+10. [Importación Masiva de Alumnos (Uso Administrativo)](#10-importación-masiva-de-alumnos-uso-administrativo)
+11. [Gestión de Usuarios del Establecimiento](#11-gestión-de-usuarios-del-establecimiento)
+12. [Configuración de Plazos y Reglas Escolares](#12-configuración-de-plazos-y-reglas-escolares)
+13. [Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales](#13-asistente-de-redacción-normativa-con-ia-gemini-flash-y-reportes-oficiales)
+14. [Analítica Escolar y Mapa de Calor por Cursos (Evolución del Clima de Aula)](#14-analítica-escolar-y-mapa-de-calor-por-cursos-evolución-del-clima-de-aula)
+15. [Cierre de Año Lectivo y Promoción de Cursos](#15-cierre-de-año-lectivo-y-promoción-de-cursos)
+16. [Preguntas Frecuentes y Solución de Problemas](#16-preguntas-frecuentes-y-solución-de-problemas)
 
 ---
 
@@ -49,7 +50,7 @@ Para proteger la privacidad de los menores y resguardar la información sensible
 | **Directivo** | Visualiza estadísticas globales del colegio, consulta fichas de alumnos, monitorea protocolos activos y descarga informes oficiales. |
 | **Equipo de Formación / Convivencia** | Administra protocolos RICE, da seguimiento a medidas pedagógicas, registra incidentes y coordina derivaciones psicosociales o externas. |
 | **Inspector** | Registra incidentes ocurridos durante la jornada, busca antecedentes de alumnos y revisa alertas conductuales activas. |
-| **Docente** | Consulta la nómina de sus cursos, revisa antecedentes de apoyo pedagógico y registra observaciones de aula o asistencia. |
+| **Docente** | Consulta la nómina de sus cursos, revisa antecedentes de apoyo pedagógico (PIE), contactos de emergencia e historial conductual, y registra incidentes de aula directamente. |
 | **Administrador** | Gestiona las cuentas de los funcionarios, realiza la carga masiva de nóminas de estudiantes y configura los parámetros generales del colegio. |
 
 ---
@@ -96,8 +97,13 @@ El sistema calcula automáticamente cuántos días faltan para que venza cada et
 
 Para consultar los antecedentes de un alumno:
 
-1. En el menú lateral izquierdo, haz clic en **"Directorio Estudiantes"**.
-2. **Cómo buscar un estudiante:**
+1. **Búsqueda Instantánea desde cualquier pantalla (Barra Superior / Navbar):**
+   - En la cabecera superior, escribe en el buscador el nombre, apellido o RUT del alumno.
+   - Con solo **2 caracteres**, se desplegará una ventana emergente en vivo con los alumnos coincidentes, su RUT, curso e indicador de apoyo PIE.
+   - **Clic directo:** Al pulsar sobre el alumno, irás de inmediato a su ficha personal.
+   - **Presionar Enter:** Te llevará al Directorio con todos los resultados filtrados.
+2. **Búsqueda dentro del Directorio de Estudiantes:**
+   - En el menú lateral izquierdo, haz clic en **"Estudiantes"**.
    - Escribe en la barra de búsqueda el apellido, nombre o RUT del estudiante.
    - *Nota práctica:* No te preocupes por los acentos ni mayúsculas (si escribes `perez`, el sistema encontrará a `Pérez` sin problemas).
    - Si prefieres, puedes filtrar directamente por curso (ejemplo: `7° Básico A`).
@@ -207,17 +213,7 @@ Cada paso completado queda registrado con fecha, hora y el nombre del profesiona
 
 ---
 
-## 10. Módulo de Asistencia Escolar
-
-1. En el menú lateral, selecciona **"Asistencia"**.
-2. Selecciona el curso y la fecha de la jornada.
-3. El sistema desplegará la lista del curso:
-   - Puedes marcar rápidamente a los presentes y registrar atrasos o inasistencias justificadas.
-4. El sistema alertará sobre alumnos que acumulan inasistencias reiteradas para prevenir deserción escolar o vulneración del derecho a la educación.
-
----
-
-## 11. Importación Masiva de Alumnos (Uso Administrativo)
+## 10. Importación Masiva de Alumnos (Uso Administrativo)
 
 Al inicio del año escolar o ante la llegada de nuevos estudiantes:
 
@@ -234,7 +230,7 @@ Al inicio del año escolar o ante la llegada de nuevos estudiantes:
 
 ---
 
-## 12. Gestión de Usuarios del Establecimiento
+## 11. Gestión de Usuarios del Establecimiento
 
 El administrador del colegio puede crear y gestionar los accesos y credenciales del personal escolar:
 
@@ -247,9 +243,9 @@ El administrador del colegio puede crear y gestionar los accesos y credenciales 
    - **Rol Asignado:** Administrador, Equipo de Formación, Directivo, Inspector o Docente.
    - **Contraseña Inicial:** Clave temporal de acceso (mínimo 6 caracteres).
 4. Presiona **"Crear Usuario"**.
-5. Si un funcionario deja de trabajar en el establecimiento, el administrador puede desactivar su cuenta con un solo clic, impidiendo su acceso inmediato sin alterar los incidentes o asistencias que haya registrado históricamente.
+5. Si un funcionario deja de trabajar en el establecimiento, el administrador puede desactivar su cuenta con un solo clic, impidiendo su acceso inmediato sin alterar los incidentes o antecedentes que haya registrado históricamente.
 
-### 12.1 Carga y Actualización de Foto de Perfil (Avatar Institucional)
+### 11.1 Carga y Actualización de Foto de Perfil (Avatar Institucional)
 
 Para que los profesionales aparezcan visualmente identificados en el directorio de usuarios, en la barra superior de sesión y en las tarjetas de cursos del Directorio de Estudiantes:
 
@@ -269,7 +265,7 @@ Para que los profesionales aparezcan visualmente identificados en el directorio 
 
 ---
 
-## 13. Configuración de Plazos y Reglas Escolares
+## 12. Configuración de Plazos y Reglas Escolares
 
 El equipo directivo y de convivencia puede ajustar los parámetros del colegio:
 
@@ -281,7 +277,7 @@ El equipo directivo y de convivencia puede ajustar los parámetros del colegio:
 
 ---
 
-## 14. Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales
+## 13. Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales
 
 Para optimizar el tiempo administrativo de inspectores, dupla psicosocial y directivos, SIGA Escolar incorpora un **Asistente de Redacción Normativa basado en Inteligencia Artificial (Google Gemini Flash)** que transforma relatos informales en actas estructuradas de acuerdo con la **Circular N° 482 de la Superintendencia de Educación**.
 
@@ -437,6 +433,61 @@ Para mantener la validez legal del expediente, los incidentes no pueden ser borr
 
 #### 4. ¿Puedo usar el sistema desde mi teléfono celular?
 Sí. El sistema cuenta con diseño adaptable (*responsive*). Si abres la plataforma en tu teléfono, el menú se adaptará automáticamente para que puedas registrar incidentes de patio cómodamente mientras te desplazas por el establecimiento.
+
+---
+
+## 17. Módulo Copiloto RAG Normativo RICE
+
+### 17.1 Propósito y Fundamento Legal
+El **Copiloto Normativo RICE** es un sistema inteligente de Generación Aumentada por Recuperación (RAG) que permite contrastar cualquier consulta o situación de convivencia escolar directamente con el **Reglamento Interno y de Convivencia Escolar (RICE)** oficial y vigente de la **Escuela Coeducacional N° 1 El Salvador**, en estricta conformidad con la **Circular N° 482 de la Superintendencia de Educación**.
+
+Su objetivo primordial es:
+1. **Garantizar el Debido Proceso:** Recordar los plazos de citación a apoderados, el derecho del estudiante a ser escuchado y la gradualidad de medidas formativas antes de cualquier sanción.
+2. **Asegurar la Legalidad en Casos Críticos:** Alertar de forma inmediata sobre la obligación legal de denunciar hechos constitutivos de delito ante el Ministerio Público, Carabineros o PDI dentro de un plazo fatal de **24 horas** (Art. 175 letra e del Código Procesal Penal).
+3. **Cero Alucinaciones Normativas:** Toda orientación entregada está estrictamente anclada (*grounded*) a los artículos y páginas del reglamento institucional oficial, señalando con transparencia cuándo un hecho no cuenta con tipificación expresa.
+
+---
+
+### 17.2 Carga y Activación del RICE Oficial (Exclusivo Administrador)
+Para asegurar que el sistema opere con la versión oficial aprobada por el Consejo Escolar, únicamente el usuario con rol **Administrador** puede cargar y actualizar el documento:
+
+1. Ingresa a la sección **Configuración** (`/configuracion`).
+2. En la cabecera superior, pulsa el botón **«Administrar RICE Oficial»**.
+3. Se abrirá el modal de gestión con el estado del reglamento actualmente activo:
+   * Nombre del archivo, año lectivo de vigencia y total de fragmentos indexados.
+4. Para actualizar la versión:
+   * Define el **Año de Vigencia Escolar** (ej. 2026).
+   * Adjunta el archivo del reglamento en formato **PDF oficial (.pdf)** o **Markdown estructurado (.md)** (máximo 25 MB).
+   * Pulsa el botón **«Confirmar y Activar RICE»**.
+5. El sistema procesará el documento en memoria, eliminará ruido tipográfico, generará los fragmentos semánticos por artículo e indexará sus vectores en Supabase (`pgvector`). Las versiones anteriores pasarán automáticamente a estado histórico obsoleto.
+
+---
+
+### 17.3 Consulta Normativa Global (Copiloto RICE)
+Cualquier funcionario autenticado (**Directivo, Encargado de Convivencia, Inspector o Docente**) puede consultar el reglamento en lenguaje natural desde cualquier pantalla del sistema:
+
+1. En la barra superior de navegación, haz clic en el botón **«Copiloto RICE»** (icono de destellos).
+2. Se desplegará el asistente interactivo con sugerencias rápidas de consulta:
+   * *«¿Cuál es el protocolo y plazo ante agresión física o ciberacoso reiterado?»*
+   * *«¿Qué medidas formativas deben aplicarse antes de una suspensión?»*
+   * *«¿Cómo proceder ante sospecha de porte de armas o sustancias ilícitas?»*
+   * *«¿Cuáles son los plazos para citar al apoderado y otorgar derecho a descargos?»*
+3. Escribe tu consulta específica o selecciona una sugerencia y pulsa **«Consultar»**.
+4. El asistente responderá con:
+   * **Marco Normativo:** Artículos, Capítulos y páginas exactas del RICE de la escuela.
+   * **Procedimiento y Debido Proceso:** Pasos obligatorios y plazos requeridos.
+   * **Fuentes y Artículos Citados:** Acordeón desplegable en la parte inferior con los extractos textuales recuperados desde el documento para verificación inmediata.
+   * **Botón Copiar:** Permite copiar la recomendación completa al portapapeles con un clic para incorporarla en minutas o citaciones.
+
+---
+
+### 17.4 Consulta Asistida desde el Registro de un Incidente
+Al revisar un incidente conductual específico en la pantalla de detalle (`/incidentes/:id`):
+
+1. En la botonera superior encontrarás el botón **«Consultar RICE»** junto al generador de informes.
+2. Al pulsar este botón, el Copiloto se abrirá precargando automáticamente el relato y circunstancias del hecho registrado.
+3. **Seguridad y Privacidad (DLP):** Antes de procesar la consulta, el motor de sanitización elimina automáticamente cualquier dato personal de los menores (RUTs, nombres reales, teléfonos o correos), garantizando estricta confidencialidad según la Ley N° 19.628 de Protección de Datos Personales.
+4. El asistente indicará con precisión qué protocolo de maltrato o convivencia corresponde activar y qué medidas de apoyo aplicar.
 
 ---
 

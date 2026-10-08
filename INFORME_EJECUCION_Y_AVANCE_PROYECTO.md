@@ -743,14 +743,86 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      * Validación de egreso dinámico para 8° Básico y soporte de Enseñanza Media.
      * Validación de navegación contextual de años lectivos y visualización con badges de egresados/retirados en el listado de estudiantes.
 
+7. **`S7-10` — Desacople del Módulo de Asistencia Escolar y Empoderamiento del Rol Docente en Aula (Marcelo Acevedo & Daniel Flores | 5 SP | ✅ Completado y Certificado):**
+   * **Justificación de Negocio y Cliente:** La Escuela Coeducacional N° 1 El Salvador determinó que el registro de asistencia diaria se realiza en sistemas ministeriales externos (SIGE) y el colegio no dispone de integración directa ni requerimiento operativo para duplicar dicho registro en SIGA Escolar. Consecuentemente, se procedió al desmantelamiento limpio y seguro del módulo de Asistencia.
+   * **Definición y Empoderamiento del Rol Docente:**
+     * Se clarificó la función central del docente en la plataforma combinando dos pilares clave:
+       1. **Acompañamiento Pedagógico y Jefatura:** Consulta de nómina de cursos, identificación de estudiantes con apoyo PIE, teléfonos de contacto de apoderados e historial formativo.
+       2. **Registro Directo de Incidentes de Aula (`/incidentes/nuevo`):** Habilitación plena del rol Docente en frontend y backend para reportar de inmediato situaciones de convivencia ocurridas durante la clase a Inspectoría y Equipo de Convivencia.
+       3. **Ruta por Defecto al Iniciar Sesión:** Al autenticarse un docente, el sistema lo redirige fluidamente a `/estudiantes` (en lugar de la extinta `/asistencia`).
+   * **Cambios Técnicos Implementados:**
+     * **Frontend (`siga-frontend`):**
+       * `DashboardLayout.jsx`: Eliminación del ítem de navegación "Asistencia" y su icono `ClipboardCheck`.
+       * `useAuthStore.js`: Actualización de la ruta de redirección por defecto de `Docente` a `/estudiantes`.
+       * `AppRouter.jsx`: Eliminación de la ruta `/asistencia` y adición de `Docente` en `RoleRoute` de `/incidentes/nuevo`.
+       * `IncidentesPage.jsx` y `DashboardPage.jsx`: Incorporación de `Docente` en los permisos `canCreate` y `canCreateIncidente` de Acciones Rápidas.
+       * Eliminación de vistas y componentes obsoletos: `AsistenciaPage.jsx`, `components/asistencia/` y suites de prueba asociadas.
+     * **Backend (`siga-backend`):**
+       * `server.js`: Desacople de cola Bull `alertaAusentismoQueue`, worker de procesamiento `procesarAlertaAusentismo`, cron job diario de las 09:00 AM y cierre en graceful shutdown.
+       * `routes/v1/index.js` y `routes/index.js`: Eliminación de montura de rutas `/asistencia`.
+       * `incidentes.routes.js`: Inclusión de `Docente` en el middleware `requireRole` para `POST /` (creación de incidentes).
+       * Eliminación de archivos huérfanos: rutas, controladores, servicios, caché Redis, colas y jobs de alerta de ausentismo.
+       * Nueva suite de pruebas automatizadas: `src/__tests__/middlewares/requireRole.test.js` certificando la autorización del rol Docente.
+   * **Resultados de Validación y Calidad Técnica:**
+     * **Backend:** 43/43 suites de pruebas aprobadas al 100% (285 pruebas pasadas) con Jest.
+     * **Frontend:** 27/27 suites de pruebas aprobadas al 100% (137 pruebas pasadas) con Vitest. Compilación de producción con Vite (`npm run build`) exitosa en 7.47s con 0 errores.
+     * **Documentación:** Actualización íntegra del `MANUAL_DE_USUARIO.md` eliminando la sección de asistencia y reordenando el índice temático.
+
+8. **`S7-11` — Rediseño UI de Acciones Pendientes: Pizarra Interactiva de Post-its (Claudia Infante & Daniel Flores | 4 SP | ✅ Completado y Certificado):**
+   * **Objetivo de Diseño:** Transformar la bandeja plana de acciones pendientes en una pizarra visual e intuitiva de notas adhesivas físicas (Post-it notes), facilitando la detección inmediata de plazos por el equipo directivo y de convivencia.
+   * **Componentes y Estilos Implementados:**
+     * **Pizarra Modular (`postit-board`):** Disposición en cuadrícula responsiva con leyenda superior de estados (🔴 Vencido, 🟡 Por vencer, 🟢 Completado / En plazo).
+     * **Anatomía del Post-it (`postit-note`):**
+       * Formato cuadrado (aspect-ratio 1:1) con degradados realistas según severidad (`#ffb3b3` a `#f79a9a` vencido, `#ffe27a` a `#f5cf4a` por vencer, `#b9eac3` a `#9ad9a8` en plazo).
+       * Cinta adhesiva superior semitransparente con leve inclinación (`::before`).
+       * Sombra realista con esquina levantada (`::after`).
+       * Rotación orgánica alternada por posición (`--r`, `--t`) que se endereza suavemente al posar el cursor (`hover: rotate(0deg) translateY(-4px)`).
+     * **Accesibilidad y Pruebas:** Compatibilidad garantizada para lectores de pantalla (`aria-labelledby`, `sr-only`), modo oscuro y `prefers-reduced-motion`.
+     * **Resultados de Validación:** 10/10 pruebas pasando en `DashboardAccionesPendientes.test.jsx`. 27/27 suites (137 pruebas) aprobadas en Vitest y build exitoso con Vite.
+
+9. **`S7-12` — Buscador Predictivo de Alumnos en Navbar Tipo Spotlight (Daniel Flores & Marcelo Acevedo | 4 SP | ✅ Completado y Certificado):**
+   * **Objetivo Funcional:** Dotar a la barra de navegación superior (Header) de una experiencia de búsqueda instantánea para localizar estudiantes desde cualquier pantalla del sistema sin necesidad de navegar previamente al Directorio.
+   * **Características Implementadas:**
+     * **Componente `NavbarStudentSearch.jsx`:**
+       * Entrada con debounce de 250ms que consulta dinámicamente al backend a partir de 2 caracteres (`getEstudiantes({ search })`).
+       * Menú desplegable flotante (dropdown typeahead) con resultados en vivo mostrando: nombre completo, RUT formateado, curso actual, insignias de estado (PIE, Egresado, Retirado) y flecha interactiva de navegación directa.
+       * Redirección directa al expediente del estudiante (`/estudiantes/:id`) con 1 solo clic.
+       * Botón de envío (`Enter`) o enlace inferior para explorar los resultados filtrados en el directorio general (`/estudiantes?search=...`).
+       * Adaptabilidad móvil completa con botón de lupa expandible sobre el header para inspectores y docentes en patio.
+       * Limpieza rápida con tecla Escape o clic fuera (`click-outside`).
+     * **Sincronización en `EstudiantesPage.jsx`:** Lectura reactiva de `useSearchParams` para pre-cargar y activar filtros automáticos cuando se accede con un query de búsqueda.
+     * **Resultados de Calidad y Validación:** 5/5 pruebas unitarias aprobadas en `NavbarStudentSearch.test.jsx`. 31/31 suites (150 pruebas) pasando en Vitest y build de producción con Vite exitoso en 7.83s.
+
+10. **`S7-13` — Módulo Copiloto RAG Normativo RICE (Retrieval-Augmented Generation con pgvector y Gemini Embedding/Pro) (Marcelo Acevedo & Daniel Flores | 8 SP | ✅ Completado y Certificado en Terreno):**
+    * **Objetivo de Negocio e Innovación:** Entregar a los directivos, inspectores y docentes un asesor de IA contextualizado al Reglamento Interno y de Convivencia Escolar (RICE) específico de la escuela, garantizando el cumplimiento del debido proceso (Circular N° 482 de la Superintendencia) y la tipificación precisa de medidas formativas o plazos legales (24 horas ante delitos).
+    * **Arquitectura y Componentes Desarrollados:**
+      * **Base de Datos Vectorial (Supabase PostgreSQL):**
+        * Extensión `pgvector` activada.
+        * Tablas maestras `rice_documentos` (versión, metadatos, estado activo) y `rice_chunks` (`seccion TEXT`, `articulo TEXT`, `contenido TEXT`, vector embedding de dimensión 768).
+        * Índice de vecinos más cercanos `HNSW` (`vector_cosine_ops`) con `m=16` y `ef_construction=64`.
+        * Función RPC `buscar_contexto_rice` con filtrado estricto por `tenant_id` y umbral de similitud de coseno.
+        * Políticas de Row Level Security (RLS) que aíslan completamente el reglamento de cada establecimiento.
+      * **Backend (`siga-backend`):**
+        * Middleware de subida con validación estricta de Magic Bytes PDF (`%PDF-`) o Markdown (`uploadRiceMiddleware.js`).
+        * Servicio de normalización y chunking semántico (`riceConverterService.js`) con jerarquización de encabezados (`# TÍTULO`, `## CAPÍTULO`, `### ARTÍCULO`).
+        * Pipeline de ingesta (`riceIngestaService.js`) con embeddings vectoriales de 768 dimensiones vía Gemini `text-embedding-004`.
+        * Servicio de consulta RAG (`riceRagService.js`) con desidentificación y enmascaramiento DLP escolar (`dlpSanitizer.js`), prompt de anclaje normativo con debido proceso y citas directas.
+        * Controlador (`riceController.js`) y endpoints protegidos por RBAC (`POST /api/v1/rice/upload`, `GET /api/v1/rice/documento-activo`, `POST /api/v1/rice/consultar`).
+      * **Frontend (`siga-frontend`):**
+        * Modal de gestión y carga de RICE (`GestionRiceModal.jsx`) exclusivo para Administradores desde Configuración.
+        * Asistente interactivo tipo Copiloto (`AsistenteNormativoModal.jsx`) accesible desde el Header global y desde la ficha de detalle de cualquier incidente (`IncidenteDetallePage.jsx`), con sugerencias rápidas, historial conversacional y visor colapsable de fragmentos normativos citados.
+      * **Resultados de Validación y Pruebas:**
+        * Cobertura de pruebas completa: 16 pruebas unitarias y de integración pasando en backend (`riceRag.test.js` y `riceController.test.js`) y 8 pruebas en frontend (`riceService.test.js`, `AsistenteNormativoModal.test.jsx`, `GestionRiceModal.test.jsx`).
+        * **Validación en Terreno con Datos Reales:** Carga y activación exitosa del RICE oficial de la **Escuela Coeducacional N° 1 El Salvador** (documento extenso con 150+ páginas). Consulta sobre protocolos de agresión y ciberacoso respondida con precisión citando el Capítulo VII (pág. 137), Cuarta Parte (pág. 149), principios de Circular N° 482 y plazo perentorio de 24 horas ante delitos.
+
 ---
 
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
 
 ### Arquitectura de Software
 * **Capa de Presentación (Frontend):** React 18, Vite 5, Tailwind CSS 3, Zustand 4, Axios, Recharts 2, Lucide Icons. Desplegado en Vercel con CDN global y HTTPS.
-* **Capa de Aplicación (Backend):** Node.js 22, Express 5, Zod 4 (validación de contratos), pdfkit (generación documental), Helmet (seguridad HTTP), CORS. Desplegado en Render PaaS con HTTPS.
-* **Capa de Persistencia (Base de Datos):** PostgreSQL 15 en Supabase con 15 tablas operativas, Row Level Security (RLS) multi-tenant, índices B-Tree compuestos, funciones RPC en PL/pgSQL y extensiones (`uuid-ossp`, `unaccent`, `pg_trgm`). Script oficial exportado en [`DOCS/schema_siga_escolar.sql`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/schema_siga_escolar.sql).
+* **Capa de Aplicación (Backend):** Node.js 22, Express 5, Zod 4 (validación de contratos), pdfkit (generación documental), Helmet (seguridad HTTP), CORS, Google GenAI SDK (embeddings 768-dim y razonamiento normativo). Desplegado en Render PaaS con HTTPS.
+* **Capa de Persistencia (Base de Datos):** PostgreSQL 15 en Supabase con 17 tablas operativas (incluyendo `rice_documentos` y `rice_chunks`), Row Level Security (RLS) multi-tenant, índices B-Tree y HNSW vectoriales, funciones RPC en PL/pgSQL y extensiones (`uuid-ossp`, `unaccent`, `pg_trgm`, `vector`). Script oficial exportado en [`DOCS/schema_siga_escolar.sql`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/schema_siga_escolar.sql).
 
 ### Matriz de Cumplimiento de Requerimientos
 

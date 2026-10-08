@@ -235,6 +235,24 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 - **Resultado Esperado:** La matriz se carga de forma reactiva y accesible; el drill-down presenta un diagnóstico situacional agregado y pedagógico sin estigmatizar individualmente a ningún alumno.
 - **Severidad en caso de falla:** **Mayor**.
 
+### CP-15: Carga Oficial y Asistente Normativo Copiloto RICE (RAG con pgvector y DLP Escolar)
+- **Objetivo:** Validar la carga del documento RICE oficial en formato PDF/Markdown por el Administrador, su procesamiento vectorial (embeddings) y la consulta interactiva anclada a la normativa escolar con citas de artículos, resguardo de datos (DLP) y advertencia de plazos legales (24 horas ante delitos).
+- **Precondición:** Usuario Administrador autenticado para la gestión documental; usuario Docente, Directivo o Inspector para la consulta.
+- **Pasos:**
+  1. Iniciar sesión como Administrador y navegar a **Configuración** (`/configuracion`).
+  2. Localizar la sección "Reglamento Interno y de Convivencia Escolar (RICE)" y hacer clic en **"Administrar RICE Oficial"**.
+  3. Cargar el archivo oficial en PDF o Markdown (máx. 25 MB). Indicar el año de vigencia (ej. 2026) y confirmar la carga.
+  4. Verificar el mensaje de éxito y que el estado del documento cambie a **"Activo"** con el total de fragmentos vectoriales procesados.
+  5. Desde cualquier pantalla o mediante el botón **"Copiloto RICE"** en la barra superior (o desde el detalle de un incidente con **"Consultar RICE"**), abrir el Asistente Normativo.
+  6. Realizar una consulta situacional o de plazos (ej. *"¿Cuál es el protocolo y plazo ante agresión física o ciberacoso reiterado?"*).
+  7. Comprobar que:
+     - El texto de la consulta enmascare preventivamente datos sensibles de estudiantes (DLP escolar).
+     - La respuesta oriente según los capítulos y artículos exactos del RICE del establecimiento.
+     - Se cite el debido proceso (Circular N° 482) y la obligación de denuncia en 24 horas ante hechos constitutivos de delito (Art. 175 letra e del CPP).
+     - Se despliegue el acordeón interactivo de fragmentos normativos recuperados con su porcentaje de similitud y sección correspondiente.
+- **Resultado Esperado:** Ingesta y vectorización inmediata sin errores; las respuestas del asistente están 100% fundadas en el reglamento del colegio sin alucinaciones, citando las fuentes y protegiendo la identidad de los involucrados.
+- **Severidad en caso de falla:** **Mayor**.
+
 ---
 
 ## 4. Clasificación de Severidad y Criterios de Aprobación
@@ -250,7 +268,7 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 ### 4.2 Criterio Formal de Aprobación
 El UAT se dictaminará formalmente como **APROBADO** si se cumplen simultáneamente las siguientes condiciones:
 1. El **100% de los casos de prueba clasificados como Bloqueantes** (CP-01, CP-02, CP-04, CP-05, CP-07, CP-11) resultan aprobados exitosamente.
-2. Al menos **13 de los 14 casos de prueba totales** resultan aprobados.
+2. Al menos **14 de los 15 casos de prueba totales** resultan aprobados.
 3. No existe riesgo de filtración de datos sensibles ni inconsistencias en la base de datos de producción.
 
 ---
