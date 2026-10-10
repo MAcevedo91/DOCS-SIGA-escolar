@@ -862,6 +862,23 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ---
 
+### Sprint 7 / Mejora de Usabilidad: Onboarding y Estado Inicial Atractivo en Directorio de Estudiantes y Cursos
+* **Objetivo:** Orientar al equipo escolar y directivo cuando la plataforma se encuentra recién desplegada o con la base de datos limpia, explicando que los cursos se crean de forma autónoma al cargar la nómina de alumnos.
+* **Componentes intervenidos:**
+  * `EstudiantesPage.jsx`:
+    * Rediseño visual del estado vacío (`cursosDisponibles.length === 0`) con tarjeta amplia en degradado suave (`bg-gradient-to-b from-blue-50/60 via-white to-gray-50/80`), bordes punteados estilizados y modo oscuro integrado.
+    * Ícono ilustrativo animado (`GraduationCap` con rebote suave).
+    * Titular claro y pedagógico: *"Aún no hay cursos ni estudiantes registrados"*.
+    * Mensaje explicativo: *"Los cursos y sus niveles se reconocen automáticamente al cargar la nómina de estudiantes. No necesitas crearlos manualmente uno a uno."*
+    * Badge informativo de compatibilidad: *"Compatible con archivos Excel (.xlsx) y CSV con el formato oficial"*.
+    * Llamado a la acción (CTA) directo para administradores y equipo de formación: Botón destacado **«Cargar Nómina de Estudiantes (Excel)»** que abre de inmediato el modal de importación con barra de progreso.
+* **Resultados de Validación:**
+  * Nueva prueba unitaria agregada en `EstudiantesCursosPage.test.jsx` certificando la visualización del empty state y su CTA.
+  * 5/5 pruebas unitarias pasando al 100% en `EstudiantesCursosPage.test.jsx`.
+  * Build de producción Vite completado con éxito (0 errores).
+
+---
+
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
 
 ### Arquitectura de Software
