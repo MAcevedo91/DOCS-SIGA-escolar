@@ -832,6 +832,36 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ---
 
+### Sprint 7 / Mejora Analítica: Jerarquía Colapsable por Nivel y Filtro Inteligente en Mapa de Calor
+* **Objetivo:** Eliminar la sobrecarga visual de la matriz analítica cuando la base de datos está limpia o cuando los cursos no tienen incidentes, introduciendo una arquitectura jerárquica de dos niveles (Nivel General consolidado -> Secciones específicas desglosadas).
+* **Componentes intervenidos:**
+  * `analyticsController.js` (Backend): Estructura consolidada `niveles_agrupados` que calcula las sumatorias mensuales y semáforos generales de cada nivel escolar según la jerarquía del Ministerio de Educación de Chile.
+  * `MapaCalorCursos.jsx` (Frontend):
+    * Fila padre colapsable por nivel (ej. "8° Básico") con botón interactivo de flecha y contador de secciones.
+    * Filas hijas anidadas con sangría (`↳ Sección A`, `↳ Sección B`) que se despliegan únicamente al expandir el nivel.
+    * Filtro inteligente activo por defecto: **«Solo con incidentes»**, ocultando filas vacías en 0.
+    * Botones rápidos de control masivo: **«Expandir todos»** y **«Colapsar todos»**.
+    * Estado visual limpio (*Empty State*) con mensaje de felicitación pedagógica cuando no hay incidentes en ningún curso.
+* **Resultados de Validación:**
+  * 20 pruebas de integración de backend pasando al 100% en Jest (`analyticsController.test.js`).
+  * 150 pruebas unitarias de frontend pasando al 100% en Vitest.
+  * Compilación de producción Vite impecable con 0 errores.
+
+---
+
+### Sprint 7 / Mejora de Usabilidad: Estado Vacío y Mensaje de Convivencia Estable en Protocolos RICE
+* **Objetivo:** Prevenir la sensación de interfaz en blanco o fallo técnico cuando la base de datos se encuentra limpia o cuando no existen casos normativos abiertos.
+* **Componentes intervenidos:**
+  * `ProtocolosPage.jsx`: Integración de `EmptyState` profesional y receptivo con ícono `ShieldCheck` verde esmeralda.
+    * Mensaje pedagógico claro: *"No hay protocolos activos: No se registran casos normativos abiertos en este período. La convivencia escolar se encuentra al día y en orden."*
+    * Diferenciación de filtros: Si hay filtros aplicados, indica *"No se encontraron protocolos con los filtros aplicados"* con botón rápido para **«Limpiar Filtros»**.
+    * Acceso directo para perfiles autorizados con botón **«Activar Protocolo RICE»**.
+* **Resultados de Validación:**
+  * 150 de 150 pruebas pasando al 100% en Vitest (`npx vitest run --pool=threads`).
+  * Build de producción Vite completado con éxito (0 errores).
+
+---
+
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
 
 ### Arquitectura de Software
