@@ -93,21 +93,38 @@ El sistema calcula automáticamente cuántos días faltan para que venza cada et
 
 ---
 
-## 5. Directorio de Estudiantes y Expediente Conductual
+## 5. Directorio de Cursos, Estudiantes y Expediente Conductual
 
-Para consultar los antecedentes de un alumno:
+El sistema cuenta con un flujo de navegación escolar jerárquico e intuitivo diseñado según la estructura pedagógica del colegio:  
+**Inicio ➔ Cursos ➔ Estudiantes ➔ Perfil del Estudiante**
 
-1. **Búsqueda Instantánea desde cualquier pantalla (Barra Superior / Navbar):**
-   - En la cabecera superior, escribe en el buscador el nombre, apellido o RUT del alumno.
-   - Con solo **2 caracteres**, se desplegará una ventana emergente en vivo con los alumnos coincidentes, su RUT, curso e indicador de apoyo PIE.
-   - **Clic directo:** Al pulsar sobre el alumno, irás de inmediato a su ficha personal.
-   - **Presionar Enter:** Te llevará al Directorio con todos los resultados filtrados.
-2. **Búsqueda dentro del Directorio de Estudiantes:**
-   - En el menú lateral izquierdo, haz clic en **"Estudiantes"**.
-   - Escribe en la barra de búsqueda el apellido, nombre o RUT del estudiante.
-   - *Nota práctica:* No te preocupes por los acentos ni mayúsculas (si escribes `perez`, el sistema encontrará a `Pérez` sin problemas).
-   - Si prefieres, puedes filtrar directamente por curso (ejemplo: `7° Básico A`).
-3. **Ver la ficha personal:**
+### A. Navegación Jerárquica Paso a Paso
+1. **Paso 1: Inicio (Panel Principal)**  
+   Desde el panel de bienvenida o cualquier pantalla, haz clic en el ítem **"Cursos"** en el menú lateral izquierdo (icono de birrete 🎓).
+2. **Paso 2: Directorio de Cursos**  
+   Accederás al catálogo visual de todos los cursos del año escolar (1° Básico a 8° Básico). Cada tarjeta muestra:
+   - Nombre del curso y total de estudiantes matriculados.
+   - Profesor Jefe asignado (o botón para asignarlo/cambiarlo con verificación de clave).
+   - Indicadores de incidentes del año diferenciados por gravedad (Leve, Grave, Gravísima).
+   - Para ingresar a la nómina, haz clic en cualquier tarjeta o en el enlace **"Ver estudiantes ↗"**.
+3. **Paso 3: Nómina de Estudiantes del Curso**  
+   Al seleccionar un curso, el sistema despliega el Hero Banner del curso con su Profesor Jefe, matrícula activa y alumnos con apoyo PIE. En la parte superior verás las migas de pan interactivas:  
+   `Inicio > Cursos > Estudiantes`  
+   - Puedes alternar entre vista de **Lista** y vista de **Tarjetas**.
+   - Puedes exportar la nómina a **Excel** o **PDF**.
+   - Para volver al directorio general en cualquier momento, pulsa sobre **"Cursos"** en las migas de pan o en el botón **"← Volver a cursos"**.
+4. **Paso 4: Ficha y Perfil del Estudiante**  
+   Al hacer clic en **"Ver Perfil"** o **"Ver Ficha del Estudiante"**, se abre el expediente completo del alumno con la ruta completa en las migas de pan:  
+   `Inicio > Cursos > Estudiantes > Perfil {Nombre del Alumno}`  
+   - Si pulsas en **"Estudiantes"** en las migas de pan o en **"← Volver a Estudiantes"**, volverás exactamente a la nómina del curso al que pertenece el estudiante.
+   - Si pulsas en **"Cursos"**, regresarás al directorio general de todos los cursos.
+
+### B. Búsqueda Rápida desde la Barra Superior (Navbar)
+- En la cabecera superior de cualquier pantalla, escribe el nombre, apellido o RUT del alumno en el buscador global.
+- Con solo **2 caracteres** se desplegará una ventana emergente en vivo con los resultados coincidentes y acceso directo a la ficha del estudiante.
+
+### C. Expediente Personal del Estudiante
+Al ingresar a la ficha del estudiante verás:
    - Haz clic sobre la fila o nombre del estudiante.
    - Se abrirá el **Expediente del Estudiante**, donde verás:
      - Foto o avatar identificatorio.

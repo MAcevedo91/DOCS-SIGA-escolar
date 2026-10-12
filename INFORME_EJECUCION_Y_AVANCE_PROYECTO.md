@@ -879,6 +879,63 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ---
 
+### Sprint 7 / Mejora de Usabilidad: Hero Banner del Curso, Filtros Rápidos (PIE/Riesgo) y Vista Dual (Lista vs Tarjetas)
+* **Objetivo:** Proporcionar una experiencia de navegación moderna, fluida e intuitiva al consultar un curso específico, alineada con las necesidades de jefatura y duplas psicosociales.
+* **Componentes intervenidos:**
+  * `EstudiantesPage.jsx`:
+    * **Hero Banner del Curso:** Tarjeta institucional con avatar del Profesor(a) Jefe, nombre, email de contacto oficial y badges métricos destacados:
+      * **Matriculados Activos:** Métrica en azul institucional con ícono `Users`.
+      * **Estudiantes con apoyo PIE:** Métrica en púrpura pedagógico con ícono `Puzzle`.
+    * **Barra de Herramientas Integrada:** Buscador en tiempo real por RUT, nombre o apoderado, alternador de vista interactivo (**Lista / Tarjetas**) y botones directos de exportación a **Excel** y **PDF**.
+    * **Chips de Filtrado Rápido:** Píldoras interactivas con un solo clic para filtrar por `Solo PIE` (con conteo en vivo), `Riesgo Alto` y `Riesgo Medio`.
+    * **Vista Alternable en Tarjetas (Grid Cards):** Cada alumno se representa con tarjeta interactiva mostrando iniciales en degradado, badge PIE, semáforo de riesgo, curso, apoderado titular y botón directo **«Ver Ficha del Estudiante»**.
+    * **Vista en Lista Enriquecida:** Tabla optimizada con columna distintiva de apoyo PIE y diseño adaptado a modo oscuro.
+* **Resultados de Validación:**
+  * Nueva prueba unitaria agregada en `EstudiantesCursosPage.test.jsx` validando el Hero Banner, las métricas de matriculados/PIE y el cambio dinámico a vista tarjetas.
+  * 6 de 6 pruebas unitarias pasando al 100% en `EstudiantesCursosPage.test.jsx`.
+  * Build de producción Vite completado con éxito (`0` errores, tiempo de compilación ~7s).
+
+---
+
+### Sprint 7 / Seguridad y Gestión: Asignación de Profesor Jefe con Confirmación de Contraseña
+* **Objetivo:** Permitir la asignación o reasignación ágil de la jefatura de un curso desde el propio directorio, exigiendo confirmación con la contraseña institucional del usuario autenticado para certificar la autorización del cambio.
+* **Componentes intervenidos:**
+  * **Backend:**
+    * `cursosService.js`: Método `asignarProfesorJefe()` con verificación estricta de credenciales usando `bcrypt.compare` contra el hash almacenado en Supabase, validación de pertenencia al tenant y control de estado activo del docente.
+    * `cursosController.js`: Handler `asignarProfesorJefeHandler` con respuestas normalizadas de éxito y error.
+    * `cursos.routes.js`: Ruta `PATCH /api/v1/cursos/:id/profesor-jefe` protegida con RBAC (`Administrador`, `Equipo de Formación`).
+  * **Frontend:**
+    * `AsignarProfesorModal.jsx`: Modal interactivo que lista a los docentes activos del establecimiento, cuenta con opción de desasignación y exige el ingreso de la contraseña de inicio de sesión con toggle para ver/ocultar clave.
+    * `EstudiantesPage.jsx`: Botón dinámico `[+ Asignar Profesor / Cambiar Profesor]` en el Hero Banner que actualiza el estado en vivo sin recargar la página.
+    * `cursosService.js`: Integración de función cliente `asignarProfesorJefe()`.
+* **Resultados de Validación:**
+  * 3 nuevas pruebas unitarias en `cursosCascada.test.js` cubriendo: rechazo por contraseña vacía (400), rechazo por contraseña errónea (401) y asignación exitosa (200).
+  * 12 de 12 pruebas de backend pasando al 100% en Jest (`cursosCascada.test.js`).
+  * 6 de 6 pruebas de frontend pasando al 100% en Vitest (`EstudiantesCursosPage.test.jsx`).
+  * Compilación de producción Vite ejecutada exitosamente con 0 errores.
+
+### Sprint 7 / UX & Arquitectura de Navegación: Flujo Pedagógico Jerárquico (Inicio -> Cursos -> Estudiantes -> Perfil)
+* **Objetivo:** Implementar la jerarquía de navegación escolar intuitiva solicitada: `Inicio -> Cursos -> Estudiantes -> Perfil {nombre estudiante}`, garantizando coherencia cognitiva, migas de pan interactivas y retención de contexto del curso seleccionado.
+* **Componentes intervenidos:**
+  * **Frontend:**
+    * `Breadcrumbs.jsx`: Soporte para handlers interactivos `item.onClick`, enlaces `item.href` y estilizado adaptable en modo oscuro.
+    * `DashboardLayout.jsx`: Ajuste de la barra lateral con la sección **Cursos** (icono `GraduationCap`), vinculada a la gestión de cursos y nóminas de alumnos.
+    * `EstudiantesPage.jsx`:
+      * Estado y sincronización bidireccional con el parámetro URL `?curso=:id`.
+      * Migas de pan dinámicas: `Inicio > Cursos` en el directorio general, y al seleccionar un curso: `Inicio > Cursos > Estudiantes`, permitiendo volver al directorio con un solo clic.
+      * Traspaso de contexto de curso hacia la ficha del estudiante mediante `navigate(/estudiantes/:id?curso=:cursoId)`.
+      * Herencia cromática en Hero Banner: el contenedor principal del curso (docente, alumnos matriculados y apoyos PIE) adopta automáticamente la paleta visual, barra de acento, bordes y tonalidades temáticas (`PALETA_CURSOS`) de la tarjeta correspondiente en el catálogo.
+    * `EstudiantePerfilPage.jsx`:
+      * Inclusión de `Breadcrumbs` con la secuencia completa: `Inicio` > `Cursos` > `Estudiantes` > `Perfil {nombre} {apellido}`.
+      * Navegación contextual en botón de retorno (`← Volver a Estudiantes`), redirigiendo al listado del curso de procedencia del alumno.
+    * `AppRouter.jsx`: Enrutamiento resiliente con redirección automática de `/cursos` hacia `/estudiantes`.
+* **Resultados de Validación:**
+  * 9 de 9 pruebas unitarias en `EstudiantesCursosPage.test.jsx` pasando al 100%, validando el flujo de migas de pan, apertura directa por parámetro de URL y la tonalidad coherente del Hero Banner.
+  * 9 de 9 pruebas unitarias en `EstudiantePerfilPage.test.jsx` pasando al 100%, certificando la secuencia completa de breadcrumbs y retorno contextual.
+  * Suite completa de pruebas de frontend (155 pruebas en 31 suites) y build de producción Vite certificados con 0 errores.
+
+---
+
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
 
 ### Arquitectura de Software
