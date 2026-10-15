@@ -25,9 +25,11 @@
 13. [Asistente de Redacción Normativa con IA (Gemini Flash) y Reportes Oficiales](#13-asistente-de-redacción-normativa-con-ia-gemini-flash-y-reportes-oficiales)
 14. [Analítica Escolar y Mapa de Calor por Cursos (Evolución del Clima de Aula)](#14-analítica-escolar-y-mapa-de-calor-por-cursos-evolución-del-clima-de-aula)
 15. [Cierre de Año Lectivo y Promoción de Cursos](#15-cierre-de-año-lectivo-y-promoción-de-cursos)
-16. [Preguntas Frecuentes y Solución de Problemas](#16-preguntas-frecuentes-y-solución-de-problemas)
+16. [Módulo de Mediación Escolar y Acuerdos Formativos (Enfoque Restaurativo)](#16-módulo-de-mediación-escolar-y-acuerdos-formativos-enfoque-restaurativo)
+17. [Preguntas Frecuentes y Solución de Problemas](#17-preguntas-frecuentes-y-solución-de-problemas)
 
 ---
+
 
 ## 1. Introducción y Bienvenida
 
@@ -436,7 +438,73 @@ El módulo de **Cierre de Año Lectivo y Promoción** permite a los usuarios con
 
 ---
 
-## 16. Preguntas Frecuentes y Solución de Problemas
+## 16. Módulo de Mediación Escolar y Acuerdos Formativos (Enfoque Restaurativo)
+
+### ¿Qué es la Mediación Escolar y por qué es fundamental?
+El **Módulo de Mediación Escolar** de SIGA Escolar es un espacio formal y formativo diseñado para promover la resolución pacífica, dialogada y constructiva de los conflictos entre estudiantes, evitando escaladas punitivas y favoreciendo la reparación del vínculo en coherencia con la **Circular N° 482 de la Superintendencia de Educación** y el Reglamento Interno (RICE).
+
+---
+
+### ¿Quiénes pueden utilizar este módulo?
+* **Equipo de Formación y Convivencia Escolar:** Apertura de expedientes de mediación, designación de mediadores, citación a sesiones, redacción de compromisos y seguimiento.
+* **Inspectores y Directivos:** Visualización de expedientes, derivaciones preventivas y monitoreo del cumplimiento de acuerdos.
+* **Docentes:** Consulta de estados formativos de los alumnos de su jefatura.
+
+---
+
+### Paso a Paso: Cómo Iniciar una Mediación Escolar
+
+1. **Ingresar al Módulo de Mediaciones:**
+   * En el menú lateral izquierdo, haz clic en **Mediación Escolar**.
+   * Presiona el botón **+ Nueva Mediación**.
+
+2. **Completar los Datos del Encuentro:**
+   * **Origen de la Mediación:** Selecciona si es una iniciativa preventiva de convivencia, una solicitud espontánea de los estudiantes, una petición de apoderados o derivada de un incidente previo.
+   * **Motivo u Objetivo:** Describe con lenguaje pedagógico y neutro la situación o desacuerdo a abordar (mínimo 10 caracteres).
+   * **Fecha y Hora Programada:** Define cuándo tendrá lugar la sesión de diálogo.
+   * **Lugar de la Sesión:** Por defecto se asigna la *Oficina de Convivencia Escolar* (o sala habilitada para resguardo y privacidad).
+   * **Mediador/a a Cargo:** Se asigna automáticamente el funcionario que registra la sesión o el especialista seleccionado.
+
+3. **Vincular a los Estudiantes Participantes (Regla de Oro):**
+   * El sistema **exige incorporar al menos dos (2) estudiantes distintos**.
+   * Para cada alumno, selecciona su rol en el diálogo: `Parte 1`, `Parte 2`, `Afectado`, `Mediador Par` u `Observador`.
+   * *El sistema bloqueará intentos de guardar mediaciones con un solo alumno o con el mismo alumno duplicado.*
+
+4. **Guardar y Generación de Folio Único:**
+   * Al presionar **Crear Mediación**, el sistema genera automáticamente un **Folio Oficial Correlativo** e irrepetible con formato `MED-YYYY-XXXX` (por ejemplo: `MED-2026-0007`), garantizando trazabilidad legal inalterable.
+
+---
+
+### Aviso Previo y Formal a Apoderados
+
+La normativa educacional exige que los apoderados sean oportunamente informados cuando un estudiante participa en procesos formativos de diálogo:
+
+1. Dentro del expediente de la mediación creada, haz clic en el botón **Notificar a Apoderados**.
+2. Selecciona el medio de aviso:
+   * **Correo Electrónico (Automático):** Despacha un correo formal institucional al apoderado titular con el folio, fecha, hora, lugar, objetivo y garantías de confidencialidad del alumno.
+   * **Comunicación Escrita o Llamada Telefónica:** Si el contacto se realiza por libreta o llamada, el sistema registra la constancia.
+3. Puedes agregar un mensaje personalizado complementario.
+4. Presiona **Enviar Aviso**:
+   * El sistema actualiza en tiempo real la marca temporal (`fecha_aviso_apoderado`) de cada alumno.
+   * El estado del aviso cambia visualmente a **Notificado** con fecha y hora exacta, quedando respaldado en la bitácora de auditoría ante eventuales fiscalizaciones de la Superintendencia.
+
+---
+
+### Ciclo de Estados de una Mediación Escolar
+
+| Estado | Significado Formativo |
+| :--- | :--- |
+| **Borrador** | Expediente en preparación previo a fijar fecha definitiva. |
+| **Programada** | Fecha y lugar definidos, a la espera de la sesión formativa con apoderados notificados. |
+| **En Sesión** | Diálogo restaurativo en desarrollo en presencia del mediador/a. |
+| **Acordada** | Las partes llegaron a acuerdos y compromisos mutuos de reparación y respeto. |
+| **Sin Acuerdo** | Tras el diálogo no hubo consenso; se programan sesiones adicionales o medidas de apoyo. |
+| **Derivada a Inspectoría** | Incumplimiento reiterado o situación grave que requiere aplicación del protocolo sancionatorio RICE. |
+
+---
+
+## 17. Preguntas Frecuentes y Solución de Problemas
+
 
 #### 1. ¿Qué hago si olvidé mi contraseña?
 Comunícate con el Administrador del colegio encargado de SIGA Escolar para que restablezca tu contraseña temporal desde el módulo de usuarios.

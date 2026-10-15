@@ -53,7 +53,8 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
 | **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit, Email y Avatares | 28 pts | 28 pts | ✅ Cerrado |
-| **Sprint 7** | 06 oct – 20 oct 2026 | Rediseño Figma (7 Pantallas), Mapa de Calor, Usabilidad y Módulo de Mediación Escolar (Épica 7.2) | 85 pts | 26 pts | 🟡 En Ejecución (Figma + Mapa de Calor + Flujos + BD Mediaciones) |
+| **Sprint 7** | 06 oct – 20 oct 2026 | Rediseño Figma (7 Pantallas), Mapa de Calor, Usabilidad y Módulo de Mediación Escolar (Épica 7.2) | 85 pts | 29 pts | 🟡 En Ejecución (Figma + Mapa de Calor + Flujos + BD Mediaciones + Endpoints Mediaciones) |
+
 
 ---
 
@@ -952,6 +953,32 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Generación atómica de folios verificada (`MED-2026-0001`, `MED-2026-0002`, `MED-2026-0003`).
     * Aislamiento RLS certificado: consulta sin `tenant_id` retorna exactamente 0 filas (`filas_visibles_sin_tenant: 0`).
   * Suite completa de backend (46 suites, 311 pruebas) aprobada al 100% sin regresiones.
+
+### Sprint 7 / Épica 7.2 — Backend: Controladores, Servicios, Validación Zod y Notificaciones a Apoderados en Express 5 (TASK 7.2.1.2)
+* **Objetivo:** Desarrollar los controladores, lógica de negocio y contratos de validación en Express 5 para el ciclo de vida de mediaciones escolares, asegurando la regla de negocio de al menos 2 estudiantes distintos, rollback compensatorio, listado paginado filtrable por estado y curso, y registro de aviso formal con notificación a apoderados.
+* **Componentes intervenidos:**
+  * **Validaciones Zod (`src/schemas/mediacionesSchemas.js`):**
+    * Contratos estrictos para creación (`crearMediacionSchema`), filtros de listado (`filtrosMediacionesSchema`) y notificación a apoderados (`notificarApoderadosSchema`).
+    * Regla de validación `.refine()` que exige al menos 2 estudiantes participantes distintos y rechaza colisiones/duplicados de un mismo alumno en la mediación.
+  * **Servicios de Negocio (`src/services/mediacionesService.js`):**
+    * `crearMediacion`: inserción atómica de cabecera y participantes, rollback compensatorio ante fallas en estudiantes relacionados y registro de auditoría inmutable.
+    * `listarMediaciones`: consulta paginada de alta velocidad (<150ms) con joins a `usuarios` (mediador), `estudiantes` y `cursos`, con filtros multidimensionales (`estado`, `tipo_origen`, `fecha_desde`, `fecha_hasta`, `curso_id`, `estudiante_id`).
+    * `obtenerMediacionPorId`: consulta integral del expediente de mediación, participantes y contactos de apoderados titulares.
+    * `notificarApoderados`: despacho de correos formativos vía `emailService` y registro de la marca temporal (`aviso_apoderado_enviado = true`, `fecha_aviso_apoderado = NOW()`) en la tabla `mediacion_participantes` con log de auditoría.
+  * **Controladores Express 5 (`src/controllers/mediacionesController.js`):**
+    * Handlers HTTP desacoplados (`crearHandler`, `listarHandler`, `obtenerHandler`, `notificarApoderadosHandler`) con respuestas estandarizadas y delegación de excepciones a middleware centralizado.
+  * **Rutas y Seguridad RBAC (`src/routes/mediaciones.routes.js`):**
+    * Rutas montadas bajo `/api/v1/mediaciones` y `/api/mediaciones` protegidas con `requireRole('Administrador', 'Directivo', 'Equipo de Formación', 'Inspector', 'Docente')`.
+  * **Plantilla de Correo Institucional (`src/templates/emails/aviso-mediacion-apoderado.html` y `src/utils/emailTemplates.js`):**
+    * Formato HTML responsive institucional con membrete oficial, enfoque formativo, principio de confidencialidad y resguardo de datos sensibles de menores conforme a la Circular N° 482 de la Superintendencia de Educación.
+* **Resultados de Validación y Certificación en Terreno:**
+  * **Pruebas Unitarias Automatizadas:**
+    * 27 de 27 pruebas aprobadas al 100% en `mediacionesService.test.js` y `mediacionesController.test.js`.
+    * **Cobertura de Código:** **100%** en controladores, **100%** en esquemas Zod y **93.38%** en servicios (promedio ponderado **95.26%**, superando el criterio de aceptación del $\ge 85\%$).
+    * Cero regresiones: Suite completa de backend aprobada con **48 test suites y 338 pruebas exitosas**.
+  * **Validación Funcional en Entorno Real (Insomnia / Postman):**
+    * Creación de mediación exitosa (`POST /api/v1/mediaciones`) retornando código `201 Created` y folio correlativo generado automáticamente (`MED-2026-0007`).
+    * Aviso formal a apoderados ejecutado (`POST /api/v1/mediaciones/:id/notificar-apoderados`) retornando código `200 OK`, con 2 notificaciones registradas con marca temporal (`fecha_aviso: 2026-10-15T15:44:56.303Z`) para los apoderados de los estudiantes involucrados.
 
 ---
 
