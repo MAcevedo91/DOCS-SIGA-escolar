@@ -1,0 +1,93 @@
+﻿Issue ID,Parent ID,Tipo de Incidencia,Resumen,Persona asignada,Story Points,Descripción
+1,,Epic,ÉPICA 10: Gestor de Citaciones de Colaboración Pedagógica-Formativa y Alianza Familia-Escuela,marcelo.acevedo08@inacapmail.cl,,"Modernización integral del proceso de citación a apoderados en la Escuela El Salvador bajo el enfoque de colaboración pedagógica-formativa. Permite convocar digitalmente con confirmación móvil en 1 clic para familias, estructurar acuerdos mutuos vinculantes en la sesión presencial (compromisos del colegio y de la familia), firmar actas oficiales en PDF con distribución automática y medir la adherencia parental por curso."
+2,1,Historia,HU 10.1 – Convocatoria Digital a Citación Formativa con Confirmación Móvil del Apoderado,marcelo.acevedo08@inacapmail.cl,11,"Como Profesor Jefe o Encargado de Convivencia Escolar,
+quiero programar una Citación de Colaboración Pedagógica-Formativa seleccionando motivos formativos predefinidos y enviar una colilla digital al apoderado,
+para desterrar la angustia o percepción de castigo, asegurando que el apoderado confirme su asistencia o solicite reprogramación con un clic desde su teléfono.
+
+Criterios de Aceptación:
+1. Catálogo de motivos formativos (Refuerzo académico, Hábitos y asistencia, Felicitación/Reconocimiento, Acuerdos de convivencia).
+2. Envío automático de colilla formal por correo y enlace móvil seguro con token temporal.
+3. Confirmación, justificación o solicitud de reprogramación en 1 clic sin login.
+4. Alerta en tiempo real en la bandeja docente al responder el apoderado."
+3,1,Tarea,TASK 10.1.1 — [BACKEND] Modelo de Datos citaciones_formativas y Tokens Seguros en Supabase,marcelo.acevedo08@inacapmail.cl,3,"Crear tabla citaciones_formativas en Supabase con RLS multi-tenant, folio correlativo CIT-2026-XXXX y tokens temporales seguros de 72 hrs.
+
+Criterios de Aceptación:
+- Script DDL crea tabla con estados controlados por enum.
+- Tokens criptográficos UUID únicos para acceso público de apoderados.
+- Índices B-Tree en tenant_id, estado y token_confirmacion."
+4,1,Tarea,TASK 10.1.2 — [BACKEND] Endpoints de Programación y Confirmación Móvil sin Login,marcelo.acevedo08@inacapmail.cl,3,"Implementar controladores y servicios en Express 5 con esquemas Zod (citacionesValidations.js).
+
+Criterios de Aceptación:
+- POST /api/citaciones valida disponibilidad horaria del docente.
+- GET /api/citaciones/public/token/:token retorna datos básicos sin exponer información confidencial.
+- POST /api/citaciones/public/responder procesa confirmación o reprogramación.
+- Tests unitarios en Jest cubren validación de contratos y tokens expirados."
+5,1,Tarea,TASK 10.1.3 — [DISEÑO] Prototipado en Figma de Convocatoria y Landing Móvil Apoderado,claudiainfantesoto@outlook.com,2,"Diseñar modal de programación docente y landing page responsive para celulares de apoderados (360px a 414px).
+
+Criterios de Aceptación:
+- Estilo cálido y colaborativo institucional.
+- Botones táctiles accesibles >= 48x48px (Confirmar, Reprogramar, Justificar).
+- Contraste verificado WCAG AA."
+6,1,Tarea,TASK 10.1.4 — [FRONTEND] Formulario React de Citación y Vista Web Móvil para Familias,daniel061721@gmail.com,3,"Construir NuevaCitacionModal.jsx y ConfirmacionCitacionPublicPage.jsx en React 18.
+
+Criterios de Aceptación:
+- Carga ligera móvil en <500ms.
+- Confirmación interactiva en 1 clic con opción de agregar evento a Google Calendar / iCal.
+- Tests unitarios en Vitest pasando al 100%."
+7,1,Historia,HU 10.2 – Acta Oficial de Entrevista y Asistente de Acuerdos Mutuos Familia-Escuela,marcelo.acevedo08@inacapmail.cl,12,"Como Profesor Jefe o Directivo,
+quiero registrar durante la entrevista presencial los acuerdos mutuos asumidos (compromisos formativos del colegio y compromisos de la familia) y generar un Acta Oficial firmada digitalmente,
+para sellar una alianza de corresponsabilidad con respaldo legal ante la Superintendencia de Educación.
+
+Criterios de Aceptación:
+1. Registro comparativo en dos columnas de acuerdos (Escuela vs Familia).
+2. Fecha de seguimiento obligatoria.
+3. Generación de Acta Oficial PDF con firmas y folio único.
+4. Envío automático e inmediato de la copia del acta al apoderado titular."
+8,1,Tarea,TASK 10.2.1 — [BACKEND] Modelo citacion_acuerdos_mutuos y Motor PDFKit de Acta Oficial,marcelo.acevedo08@inacapmail.cl,4,"Crear tabla de acuerdos mutuos en Supabase y motor PDFKit de acta oficial de entrevista pedagógica.
+
+Criterios de Aceptación:
+- Membrete oficial de la Escuela El Salvador con Folio CIT-2026-XXXX.
+- Tabla comparativa de compromisos asumidos por el colegio y por el apoderado.
+- Cuadrantes para firmas digitales y código de seguridad SHA-256."
+9,1,Tarea,TASK 10.2.2 — [BACKEND] Dispatcher Automático de Copias de Citación por Correo,marcelo.acevedo08@inacapmail.cl,3,"Implementar emailServiceCitacion.js para despacho y copia automática del acta de acuerdos firmada.
+
+Criterios de Aceptación:
+- Envío formal de correo al Apoderado Titular con PDF adjunto al cerrar la entrevista.
+- Copia informativa al Profesor Jefe del curso.
+- Registro inmutable de trazabilidad en auditoria_logs."
+10,1,Tarea,TASK 10.2.3 — [DISEÑO] Prototipado en Figma del Acta de Entrevista y Lienzo de Firmas,claudiainfantesoto@outlook.com,2,"Diseñar interfaz de entrevista presencial con layout en dos columnas de acuerdos y modal de firma digital.
+
+Criterios de Aceptación:
+- Layout ergonómico para redactar acuerdos mientras se dialoga con el apoderado.
+- Componente canvas touch para firmas manuscritas."
+11,1,Tarea,TASK 10.2.4 — [FRONTEND] Componente de Entrevista Presencial y Firmas en React,daniel061721@gmail.com,3,"Construir EntrevistaCitacionModal.jsx y LienzoFirmaCitacion.jsx en React 18.
+
+Criterios de Aceptación:
+- Selector de compromisos sugeridos y campos editables de acuerdos mutuos.
+- Captura de firmas en canvas a 60fps con exportación a PNG base64.
+- Descarga directa del acta PDF tras la firma."
+12,1,Historia,HU 10.3 – Monitoreo de Asistencia a Citaciones y Alianza Familiar en Perfil del Alumno,marcelo.acevedo08@inacapmail.cl,11,"Como Director e Inspector General,
+quiero visualizar un tablero central de cumplimiento de citaciones por curso y consultar el historial en la ficha del alumno,
+para identificar cursos con baja participación de familias y detectar a tiempo casos de desatención parental que requieran derivación a redes de apoyo (OPD / Tribunales de Familia).
+
+Criterios de Aceptación:
+1. Tablero con KPIs: Citaciones Realizadas, Tasa de Asistencia %, Reprogramaciones, Inasistencias.
+2. Filtros por curso y docente.
+3. Pestaña de Alianza Familiar y Citaciones en EstudiantePerfilPage.jsx."
+13,1,Tarea,TASK 10.3.1 — [BACKEND] Endpoints de Analítica de Adherencia Parental y Consulta de Historial,marcelo.acevedo08@inacapmail.cl,3,"Crear endpoints de métricas de participación familiar y consulta histórica por estudiante en Express.
+
+Criterios de Aceptación:
+- GET /api/citaciones/metricas calcula tasa de asistencia y distribución de motivos.
+- GET /api/citaciones/estudiante/:estudianteId retorna historial cronológico con actas descargables.
+- Optimización de consultas SQL en PostgreSQL con RLS multi-tenant."
+14,1,Tarea,TASK 10.3.2 — [DISEÑO] Prototipado en Figma del Tablero de Citaciones y Pestaña de Ficha,claudiainfantesoto@outlook.com,2,"Diseñar vista principal de citaciones (modo lista y calendario) y pestaña Alianza Familiar en el expediente del alumno.
+
+Criterios de Aceptación:
+- Badges cromáticos claros por estado de confirmación.
+- Coherencia estética total con el Design System SIGA Escolar."
+15,1,Tarea,TASK 10.3.3 — [FRONTEND] Tablero de Control de Citaciones y Pestaña en Expediente,daniel061721@gmail.com,4,"Construir CitacionesPage.jsx y TabCitacionesEstudiante.jsx en React 18.
+
+Criterios de Aceptación:
+- Bandeja interactiva con filtros reactivos por estado y fecha.
+- Integración de pestaña en EstudiantePerfilPage.jsx con descarga de actas oficiales.
+- Tests unitarios en Vitest aprobados."

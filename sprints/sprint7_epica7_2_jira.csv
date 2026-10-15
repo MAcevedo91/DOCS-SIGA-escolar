@@ -1,0 +1,130 @@
+﻿Issue ID,Parent ID,Tipo de Incidencia,Resumen,Persona asignada,Story Points,Descripción
+1,,Epic,"ÉPICA 7.2: Asistente de Mediación Escolar, Acuerdos Formativos y Notificación Automática",marcelo.acevedo08@inacapmail.cl,,"Esta épica consolida la transformación del abordaje disciplinario en formativo-restaurativo para la Escuela Coeducacional N° 1 El Salvador. Permite abrir expedientes de mediación escolar, notificar formalmente a los apoderados antes de la sesión, estructurar compromisos con plazos claros, firmar actas válidas digitalmente y distribuir de forma automatizada las copias oficiales al Apoderado titular y al Profesor Jefe de cada alumno involucrado, garantizando trazabilidad y respaldo legal ante la Superintendencia de Educación."
+2,1,Historia,HU 7.2.1 – Apertura de Expediente de Mediación Escolar y Comunicación Previa a la Familia,marcelo.acevedo08@inacapmail.cl,9,"Como Encargado de Convivencia Escolar o Inspector General de la Escuela El Salvador,
+quiero registrar una solicitud de mediación seleccionando a los estudiantes involucrados (derivada de un incidente disciplinario o iniciada preventivamente) y emitir un aviso previo formal a sus apoderados,
+para garantizar el debido proceso, informar a las familias antes del encuentro presencial y promover su colaboración en la resolución pacífica.
+
+Criterios de Aceptación:
+1. Permite vincular la mediación a un incidente_id existente o crear una mediación preventiva independiente.
+2. Permite seleccionar 2 o más estudiantes participantes (asociando su rol: involucrado, afectado, mediador par) y asignar el mediador adulto responsable.
+3. Genera un aviso previo formal editable al apoderado notificando fecha, hora, motivo formativo y resguardo del bienestar del alumno.
+4. Registra en base de datos la fecha de notificación y el canal de comunicación utilizado."
+3,1,Tarea,"TASK 7.2.1.1 — [BACKEND] Modelo de Datos Relacional, Índices y RLS en Supabase",marcelo.acevedo08@inacapmail.cl,3,"Diseñar y desplegar en Supabase (PostgreSQL 15) las tablas mediaciones y mediacion_participantes con Row Level Security (RLS) multi-tenant.
+
+Criterios de Aceptación:
+- Script DDL crea tablas mediaciones y mediacion_participantes con PKs UUID y claves foráneas en cascada.
+- Folio único correlativo MED-2026-XXXX generado automáticamente sin colisiones.
+- RLS habilitado: consultas sin tenant_id retornan 0 filas.
+- Índices B-Tree creados en mediaciones(tenant_id, estado), mediaciones(folio) y mediacion_participantes(estudiante_id)."
+4,1,Tarea,"TASK 7.2.1.2 — [BACKEND] Controladores, Servicios y Validación Zod en Express 5",marcelo.acevedo08@inacapmail.cl,3,"Implementar mediacionesController.js, mediacionesService.js y esquemas de validación Zod en Express 5.
+
+Criterios de Aceptación:
+- POST /api/mediaciones valida que existan al menos 2 estudiantes participantes distintos.
+- GET /api/mediaciones retorna listado paginado filtrable por estado y curso en <150ms.
+- POST /api/mediaciones/:id/notificar-apoderados registra la marca temporal del aviso previo.
+- Cobertura de pruebas unitarias Jest >= 85%."
+5,1,Tarea,TASK 7.2.1.3 — [DISEÑO] Prototipado en Figma de Apertura de Mediación y Aviso Previo,claudiainfantesoto@outlook.com,2,"Diseñar en Figma para Desktop (1440px) y Mobile (360px) la pantalla y modal de Nueva Mediación Escolar.
+
+Criterios de Aceptación:
+- Componentes en Auto-Layout con Design System SIGA Escolar.
+- Modal con buscador de estudiantes, selector de roles y tarjeta de aviso previo a familias.
+- Ratio de contraste verificado >= 4.5:1 (WCAG AA)."
+6,1,Tarea,TASK 7.2.1.4 — [FRONTEND] Formulario y Selector de Participantes en React,daniel061721@gmail.com,3,"Construir en React 18 MediacionNuevaPage.jsx y componentes de selección de estudiantes y aviso a apoderados.
+
+Criterios de Aceptación:
+- Buscador reactivo de estudiantes con debounce (300ms) por nombre y RUT.
+- Precarga automática de involucrados si proviene de un incidente (?incidenteId=...).
+- Switch interactivo de aviso previo con vista previa de la comunicación.
+- Pruebas unitarias en Vitest pasando al 100%."
+7,1,Historia,HU 7.2.2 – Asistente Guiado de Acuerdos Restaurativos y Compromisos Formativos,marcelo.acevedo08@inacapmail.cl,8,"Como Mediador de Convivencia Escolar,
+quiero disponer de un asistente guiado con un catálogo de compromisos formativos estructurados por dimensión (reparación relacional, disculpa comunitaria, cuidado de espacios comunes, actitud en aula),
+para acordar soluciones pedagógicas concretas, con plazos definidos y fecha de revisión obligatoria, evitando acuerdos ambiguos.
+
+Criterios de Aceptación:
+1. Catálogo preconfigurado de compromisos formativos según el RICE de la Escuela El Salvador.
+2. Asignación individualizada o mutua de compromisos por estudiante con descripción y fecha límite.
+3. Campo obligatorio para fijar la Fecha de la Sesión de Seguimiento / Verificación."
+8,1,Tarea,TASK 7.2.2.1 — [BACKEND] Modelo mediacion_compromisos y Endpoints de Gestión en Express,marcelo.acevedo08@inacapmail.cl,3,"Crear tabla mediacion_compromisos en Supabase y endpoints de upsert transaccional en Express 5.
+
+Criterios de Aceptación:
+- Tabla mediacion_compromisos con tipos de compromiso regulados por enum.
+- PUT /api/mediaciones/:id/compromisos guarda acuerdos atómicamente (transacción rollback ante fallas).
+- Validación Zod: fecha_limite no puede ser anterior a la fecha de la mediación.
+- Pruebas unitarias de validación y persistencia aprobadas."
+9,1,Tarea,TASK 7.2.2.2 — [DISEÑO] Prototipo del Asistente Guiado de Compromisos en Figma,claudiainfantesoto@outlook.com,2,"Diseñar el asistente tipo wizard para la sesión presencial de mediación.
+
+Criterios de Aceptación:
+- Flujo de 4 pasos interactivos en Figma.
+- Panel de sugerencias de compromisos formativos categorizados según RICE.
+- Especificación de tarjetas de acuerdos individualizadas por estudiante."
+10,1,Tarea,TASK 7.2.2.3 — [FRONTEND] Componente Asistente de Acuerdos en React,daniel061721@gmail.com,3,"Construir AsistenteAcuerdosFormativos.jsx con React 18, Tailwind y Zustand.
+
+Criterios de Aceptación:
+- Banco clickeable de acuerdos predefinidos y cuadro de texto para acuerdos personalizados.
+- Datepicker con bloqueo de fechas pasadas para fecha límite y fecha de seguimiento.
+- Botón de guardar deshabilitado si no hay acuerdos asignados.
+- Tests Vitest para agregar, editar y eliminar compromisos de la lista."
+11,1,Historia,HU 7.2.3 – Generación de Acta Oficial PDF con Firma y Notificación Automática a Apoderado y Profesor Jefe,marcelo.acevedo08@inacapmail.cl,10,"Como Equipo Directivo y de Convivencia Escolar de la Escuela El Salvador,
+quiero que el sistema genere el Acta Oficial de Mediación en PDF con membrete institucional, permita la firma en pantalla o subida del acta física, y despache inmediatamente una copia automática al Apoderado y al Profesor Jefe de cada alumno involucrado,
+para respaldar documentalmente la gestión ante la Superintendencia de Educación y articular el acompañamiento pedagógico directo en la sala de clases.
+
+Criterios de Aceptación:
+1. Genera un PDF membretado con Folio único, participantes, acuerdos redactados, fechas de cumplimiento y cláusula legal de mediación escolar.
+2. Permite capturar firmas digitales en pantalla (canvas) o subir el documento escaneado/fotografiado a Supabase Storage.
+3. Envío y copia automática por correo al Apoderado registrado con el PDF adjunto.
+4. Envío y copia automática por correo y alerta en el sistema al Profesor Jefe del curso de cada estudiante participante.
+5. Registro de auditoría con destinatarios, fecha/hora exacta y hash SHA-256 del documento emitido."
+12,1,Tarea,TASK 7.2.3.1 — [BACKEND] Motor PDFKit de Acta Oficial de Mediación Escolar,marcelo.acevedo08@inacapmail.cl,3,"Desarrollar el servicio pdfMediacionService.js en Express con PDFKit.
+
+Criterios de Aceptación:
+- Membrete oficial de la Escuela Coeducacional N° 1 El Salvador (RBD 9876-5).
+- Tabla con datos de los alumnos, mediador, compromisos y fechas límite.
+- Cláusula legal conforme al RICE y Superintendencia de Educación.
+- Cuadrantes para firmas digitales y pie de página con hash SHA-256 inmutable."
+13,1,Tarea,TASK 7.2.3.2 — [BACKEND] Servicio Dispatcher Transaccional de Correos (Apoderado + Profesor Jefe),marcelo.acevedo08@inacapmail.cl,3,"Implementar emailServiceMediacion.js para despacho y copia automática del acta oficial.
+
+Criterios de Aceptación:
+- Obtiene automáticamente el correo del Apoderado Titular y del Profesor Jefe de cada alumno involucrado (cursos.profesor_jefe_id).
+- Envía correo con plantilla formal y el PDF del acta adjunto a ambos destinatarios.
+- Si el profesor jefe es el mismo para ambos alumnos, no duplica el correo.
+- Inserta registro en auditoria_logs con destinatarios, timestamp y hash SHA-256."
+14,1,Tarea,TASK 7.2.3.3 — [DISEÑO] Prototipado de Lienzo de Firmas y Visor de Acta en Figma,claudiainfantesoto@outlook.com,1,"Diseñar modal de captura de firma digital manuscrita, visor previo de acta PDF y confirmación de envío.
+
+Criterios de Aceptación:
+- Interfaz táctil intuitiva para tablets y computadores.
+- Modal de confirmación que lista claramente a los apoderados y profesores jefes que recibirán copia.
+- Estados de éxito y error visualmente certificados."
+15,1,Tarea,TASK 7.2.3.4 — [FRONTEND] Lienzo de Firma Digital y Carga de Acta Física en React,daniel061721@gmail.com,3,"Construir LienzoFirmaModal.jsx y VisorActaModal.jsx en React 18.
+
+Criterios de Aceptación:
+- Canvas touch/mouse con trazo fluido, botón limpiar y exportación a PNG base64.
+- Opción alternativa para subir acta física firmada en papel a Supabase Storage bucket actas-mediacion.
+- Botón de despacho que invoca el backend y muestra feedback de envío exitoso."
+16,1,Historia,"HU 7.2.4 – Tablero de Control de Mediaciones, Semáforo de Cumplimiento y Cierre",daniel061721@gmail.com,7,"Como Encargado de Convivencia Escolar y Director,
+quiero visualizar un tablero central con todas las mediaciones activas, alertas de vencimiento de compromisos y registrar la sesión de cierre,
+para verificar si los acuerdos se cumplieron en la práctica, certificar el cierre exitoso del caso o derivar a Inspectoría General si hubo reincidencia.
+
+Criterios de Aceptación:
+1. Tablero con semáforo de compromisos: En Plazo (Verde), Próximo a Vencer < 48 hrs (Amarillo), Vencido sin evaluar (Rojo).
+2. Pestaña de [ Mediaciones ] integrada en la Ficha del Estudiante (EstudiantePerfilPage.jsx).
+3. Formulario de Cierre de Mediación: calificación final de compromisos (Cumplido, Parcial, Incumplido) y emisión del certificado de cierre."
+17,1,Tarea,"TASK 7.2.4.1 — [BACKEND] Endpoints de Evaluación de Compromisos, Cierre y Auditoría",marcelo.acevedo08@inacapmail.cl,3,"Implementar lógica de evaluación de compromisos y cierre en mediacionesController.js y mediacionesService.js.
+
+Criterios de Aceptación:
+- PATCH /api/mediaciones/:id/evaluar-compromisos actualiza estados a cumplido, parcial o incumplido.
+- PATCH /api/mediaciones/:id/cerrar sella el expediente inmutablemente.
+- Si el caso es derivado a inspectoría, permite opcionalmente enlazar apertura de protocolo RICE.
+- GET /api/mediaciones/estudiante/:estudianteId retorna historial conductual del alumno."
+18,1,Tarea,TASK 7.2.4.2 — [DISEÑO] Prototipado de Tablero y Ficha de Mediaciones en Figma,claudiainfantesoto@outlook.com,1,"Diseñar la bandeja de seguimiento de mediaciones y la pestaña dentro del expediente del estudiante.
+
+Criterios de Aceptación:
+- KPIs de gestión: mediaciones activas, % cumplimiento y casos vencidos.
+- Semáforo cromático institucional para compromisos.
+- Integración visual limpia en la vista de expediente del alumno."
+19,1,Tarea,"TASK 7.2.4.3 — [FRONTEND] Tablero de Control, Modal de Cierre y Pestaña en Ficha de Estudiante",daniel061721@gmail.com,3,"Construir MediacionesPage.jsx, ModalEvaluarCierre.jsx y pestaña Mediaciones en EstudiantePerfilPage.jsx.
+
+Criterios de Aceptación:
+- Tablero con semáforo dinámico de alerta (<48 hrs en amarillo, vencido en rojo).
+- Pestaña [ Mediaciones ] en el perfil del alumno con historial de actas descargables.
+- Modal interactivo de evaluación con botones de radio y reflexión final de cierre.
+- Tests unitarios en Vitest aprobados al 100%."

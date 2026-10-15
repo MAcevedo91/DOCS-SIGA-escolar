@@ -1,0 +1,110 @@
+﻿Issue ID,Parent ID,Tipo de Incidencia,Resumen,Persona asignada,Story Points,Descripción
+1,,Epic,ÉPICA 8: Sociograma Dinámico de Convivencia y Perfil Integral para Especialistas Externos,marcelo.acevedo08@inacapmail.cl,,"Esta épica aborda dos innovaciones de alto impacto solicitadas por la Escuela El Salvador: (1) El sociograma interactivo por cursos que mapea dinámicas socioemocionales de forma 100% pasiva y automática desde la bitácora escolar (sin encuestas ni sobrecarga docente), y (2) La exportación estandarizada del Perfil Escolar para neurólogos, psicólogos y psiquiatras externos con sanitización de datos de menores según Ley N° 19.628."
+2,1,Historia,HU 8.1.1 – Visualización de Redes Socioemocionales y Conflictos Grupales por Curso,marcelo.acevedo08@inacapmail.cl,9,"Como Encargado de Convivencia Escolar o Psicólogo de la Escuela El Salvador,
+quiero visualizar un sociograma interactivo en forma de red/grafo para cada curso escolar basado en el historial de incidentes y mediaciones,
+para detectar patrones de tensión recurrente, alianzas conflictivas o grupos polarizados sin aplicar encuestas manuales a los profesores.
+
+Criterios de Aceptación:
+1. Grafo interactivo donde los nodos representan a los estudiantes y las aristas eventos compartidos ponderados por gravedad.
+2. Filtros temporales por rango de fechas (mes, semestre, año).
+3. Panel lateral con desglose pedagógico anónimo al hacer clic en un estudiante o arista.
+4. Cálculo pasivo 100% en tiempo de consulta desde tablas de incidentes y mediaciones."
+3,1,Tarea,TASK 8.1.1.1 — [BACKEND] Algoritmo de Co-ocurrencias y Matriz de Adyacencia Ponderada,marcelo.acevedo08@inacapmail.cl,4,"Implementar sociogramaService.js en Express 5 para calcular la matriz de adyacencia de co-ocurrencias en incidentes y mediaciones.
+
+Criterios de Aceptación:
+- GET /api/sociograma/curso/:cursoId responde en <200ms con payload { nodes, links, metricas }.
+- Ponderación de pesos por gravedad de falta (Leve: 1, Grave: 3, Gravísimo: 5, Mediación: -2).
+- Pruebas unitarias en Jest cubren la matriz matemática de adyacencia."
+4,1,Tarea,TASK 8.1.1.2 — [DISEÑO] Prototipado en Figma del Sociograma Dinámico,claudiainfantesoto@outlook.com,2,"Diseñar en Figma para Desktop (1440px) y Laptop (1024px) la pantalla del sociograma dinámico.
+
+Criterios de Aceptación:
+- Nodos con avatares de estudiantes diferenciados por semáforo cromático institucional y badge PIE.
+- Aristas con grosor proporcional a la tensión o frecuencia de eventos compartidos.
+- Cumplimiento estricto de accesibilidad WCAG AA en contrastes."
+5,1,Tarea,TASK 8.1.1.3 — [FRONTEND] Visualizador Interactivo de Grafo en React,daniel061721@gmail.com,3,"Construir SociogramaGrafoView.jsx en React 18 con renderizado fluido por fuerzas (force-graph / canvas).
+
+Criterios de Aceptación:
+- Simulación fluida a 60fps con soporte de drag de nodos, zoom y paneo.
+- Drawer lateral reactivo que muestra el historial de interacciones al hacer clic en un estudiante.
+- Pruebas unitarias en Vitest pasando al 100%."
+6,1,Historia,HU 8.1.2 – Indicadores de Aislamiento Socioemocional y Alertas de Clima de Aula,marcelo.acevedo08@inacapmail.cl,7,"Como Profesor Jefe y Dupla Psicosocial,
+quiero recibir alertas pedagógicas de estudiantes con cero interacciones positivas o involucrados en múltiples conflictos aislados,
+para intervenir preventivamente antes de que derive en deserción escolar o acoso escolar silencioso.
+
+Criterios de Aceptación:
+1. Identifica nodos periféricos (alumnos en riesgo de aislamiento).
+2. Tarjetas KPI superiores: Cohesión Grupal %, Alumnos en Observación, Focos de Tensión.
+3. Sugerencias pedagógicas basadas en la Guía de Clima de Aula Mineduc."
+7,1,Tarea,TASK 8.1.2.1 — [BACKEND] Cálculo de Centralidad de Grado y Cohesión Grupal,marcelo.acevedo08@inacapmail.cl,3,"Implementar algoritmos de análisis de redes (centralidad de grado, coeficiente de agrupamiento y densidad) en sociogramaService.js.
+
+Criterios de Aceptación:
+- Retorna indicadores normalizados de 0 a 100 para cohesión de aula.
+- No expone datos sensibles ni etiquetas estigmatizantes.
+- Tests unitarios verifican cálculo matemático sobre grafos sintéticos."
+8,1,Tarea,TASK 8.1.2.2 — [DISEÑO] Dashboard de Alertas y Tarjetas KPI de Clima en Figma,claudiainfantesoto@outlook.com,1,"Diseñar tarjetas KPI superiores y modales de sugerencias pedagógicas preventivas en Figma.
+
+Criterios de Aceptación:
+- Semáforo cromático no punitivo.
+- Textos formativos orientados al apoyo y refuerzo positivo."
+9,1,Tarea,TASK 8.1.2.3 — [FRONTEND] Panel de Métricas de Convivencia y Alertas Preventivas,daniel061721@gmail.com,3,"Desarrollar cabecera analítica de KPIs y sugerencias pedagógicas en SociogramaCursoPage.jsx.
+
+Criterios de Aceptación:
+- Tarjetas interactivas con tooltips explicativos.
+- Botón de exportación rápida en imagen/PDF para reuniones de ciclo.
+- Tests Vitest aprobados."
+10,1,Historia,HU 8.2.1 – Generación de Ficha Escolar Confidencial para Especialistas Médicos y Psicológicos,marcelo.acevedo08@inacapmail.cl,10,"Como Dupla Psicosocial y Convivencia Escolar de la Escuela El Salvador,
+quiero generar con un clic un informe escolar confidencial, objetivo y oficial del estudiante para neurólogos, psicólogos o psiquiatras externos,
+para responder a las solicitudes médicas de diagnóstico (TDAH, TEA, desregulación) ahorrando horas de redacción manual y garantizando la protección de datos de terceros.
+
+Criterios de Aceptación:
+1. Documento PDF oficial de 2 páginas con membrete institucional estructurado para lectura médica.
+2. Antecedentes consolidados de atención, hábitos, asistencia y mediaciones formativas.
+3. Anonimización estricta de nombres y datos de otros estudiantes (Ley N° 19.628).
+4. Firma y timbre con huella digital SHA-256 inmutable."
+11,1,Tarea,TASK 8.2.1.1 — [BACKEND] Extractor y Sanitizador de Expediente para Salud,marcelo.acevedo08@inacapmail.cl,3,"Crear reporteEspecialistaService.js con motor de regex que anonimiza nombres de terceros en relatos escolares.
+
+Criterios de Aceptación:
+- Sanitiza y anonimiza nombres de compañeros de curso reemplazándolos por iniciales genéricas.
+- Restricción estricta de autorización para roles directivos y psicosociales.
+- Auditoría de generación registrada en auditoria_logs."
+12,1,Tarea,TASK 8.2.1.2 — [BACKEND] Motor PDFKit de Ficha Médica/Psicológica Oficial,marcelo.acevedo08@inacapmail.cl,3,"Desarrollar plantilla institucional de 2 páginas en PDFKit con membrete de la Escuela El Salvador.
+
+Criterios de Aceptación:
+- Compila en <1 segundo como Buffer en memoria.
+- Secciones: Identificación, Hábitos y Atención en Aula, Convivencia y Mediaciones, Conclusiones.
+- Código hash SHA-256 impreso en pie de página para certificar autenticidad."
+13,1,Tarea,TASK 8.2.1.3 — [DISEÑO] Prototipado en Figma del Modal de Emisión Médica,claudiainfantesoto@outlook.com,1,"Diseñar modal de emisión de ficha médica con selector de especialidad y previsualización.
+
+Criterios de Aceptación:
+- Selector de especialista receptor (Neurólogo, Psicólogo, Psiquiatra, Fonoaudiólogo).
+- Advertencia legal visible sobre secreto profesional y confidencialidad."
+14,1,Tarea,TASK 8.2.1.4 — [FRONTEND] Modal de Emisión y Descarga en Perfil del Alumno,daniel061721@gmail.com,3,"Construir ModalInformeEspecialista.jsx e integrarlo en la barra de acciones de EstudiantePerfilPage.jsx.
+
+Criterios de Aceptación:
+- Descarga directa del archivo PDF membretado mediante blob.
+- Botón protegido visible únicamente para roles autorizados.
+- Pruebas en Vitest pasando al 100%."
+15,1,Historia,HU 8.2.2 – Bitácora de Informes Emitidos a Especialistas y Respaldo Institucional,marcelo.acevedo08@inacapmail.cl,8,"Como Director y Encargado de Convivencia,
+quiero contar con un registro inmutable de todos los informes médicos emitidos en el año con fecha, profesional de destino y profesional emisor,
+para respaldar las derivaciones ante el PIE y la Superintendencia de Educación.
+
+Criterios de Aceptación:
+1. Registro histórico en la ficha del estudiante.
+2. Re-descarga de copias idénticas emitidas en el pasado.
+3. Alerta de actualización si han pasado más de 6 meses desde el último informe."
+16,1,Tarea,TASK 8.2.2.1 — [BACKEND] Tabla estudiante_informes_medicos y Endpoints de Historial,marcelo.acevedo08@inacapmail.cl,3,"Crear tabla estudiante_informes_medicos en Supabase con RLS estricto y endpoints de consulta en Express.
+
+Criterios de Aceptación:
+- Almacena hash SHA-256, especialista de destino, notas y usuario emisor.
+- GET /api/estudiantes/:id/informes-medicos lista el historial con paginación.
+- RLS garantiza acceso multi-tenant exclusivo."
+17,1,Tarea,TASK 8.2.2.2 — [DISEÑO] Componente de Historial de Derivaciones en Figma,claudiainfantesoto@outlook.com,2,"Diseñar la subsección dentro del expediente del estudiante para consultar informes emitidos.
+
+Criterios de Aceptación:
+- Cronología con badges por tipo de especialista.
+- Estados vacíos ilustrados."
+18,1,Tarea,TASK 8.2.2.3 — [FRONTEND] Lista de Informes Emitidos en Expediente del Alumno,daniel061721@gmail.com,3,"Implementar HistorialInformesMedicosCard.jsx en EstudiantePerfilPage.jsx.
+
+Criterios de Aceptación:
+- Muestra fecha en español, especialista y botón de descarga de copia idéntica.
+- Tests Vitest aprobados."

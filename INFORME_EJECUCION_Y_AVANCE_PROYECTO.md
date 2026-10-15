@@ -53,7 +53,7 @@ Basado en la exportación oficial del tablero Jira del proyecto (`DOCS/Jira.csv`
 | **Sprint 4** | 02 jul – 09 jul 2026 | Motor de Reglas, Semáforo de Urgencia y Scoring de Riesgo | 21 pts | 21 pts | ✅ Cerrado |
 | **Sprint 5** | 08 sep – 09 sep 2026 | Checklist RICE estricto, Alertas Escalada, Configuración, PIE y Cursos en Cascada | 36 pts | 36 pts | ✅ Cerrado |
 | **Sprint 6** | 28 sep – 08 oct 2026 | Asistente de Informes IA (Gemini Flash), Human-in-the-Loop, PDFKit, Email y Avatares | 28 pts | 28 pts | ✅ Cerrado |
-| **Sprint 7** | 06 oct – 20 oct 2026 | Rediseño Figma (7 Pantallas: Claudia Infante), Mapa de Calor Analítico (Cursos vs Mes), DoD y UAT | 51 pts | 15 pts | 🟡 En Ejecución (Figma 7 Pantallas + Mapa de Calor Full-Stack) |
+| **Sprint 7** | 06 oct – 20 oct 2026 | Rediseño Figma (7 Pantallas), Mapa de Calor, Usabilidad y Módulo de Mediación Escolar (Épica 7.2) | 85 pts | 26 pts | 🟡 En Ejecución (Figma + Mapa de Calor + Flujos + BD Mediaciones) |
 
 ---
 
@@ -934,6 +934,25 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * 9 de 9 pruebas unitarias en `EstudiantePerfilPage.test.jsx` pasando al 100%, certificando la secuencia completa de breadcrumbs y retorno contextual.
   * Suite completa de pruebas de frontend (155 pruebas en 31 suites) y build de producción Vite certificados con 0 errores.
 
+### Sprint 7 / Épica 7.2 — Infraestructura y Base de Datos: Tablas de Mediación Escolar y Acuerdos Formativos (TASK 7.2.1.1)
+* **Objetivo:** Diseñar y desplegar en Supabase (PostgreSQL 15) la infraestructura relacional de datos para el módulo de mediaciones escolares y acuerdos formativos con enfoque restaurativo, incorporando aislamiento multi-tenant RLS, correlativo automático de folio inmutable y claves foráneas en cascada.
+* **Componentes intervenidos:**
+  * **Base de Datos (Supabase / PostgreSQL 15):**
+    * `20261015_crear_tablas_mediaciones.sql`:
+      * Tabla `mediaciones` con PK UUID, folio único generado por trigger (`MED-YYYY-XXXX`), relaciones con `tenants`, `incidentes`, `usuarios` (mediador) y estados de ciclo de vida (`borrador`, `programada`, `en_sesion`, `acordada`, `sin_acuerdo`, `derivada_inspectoria`).
+      * Tabla `mediacion_participantes` con restricción de unicidad `unique_estudiante_en_mediacion`, rol de participante (`parte_1`, `parte_2`, `afectado`, `mediador_par`, `observador`) y seguimiento de aviso previo al apoderado.
+      * Secuencia atómica `seq_mediaciones_folio` y trigger `trg_generar_folio_mediacion` (prevención de colisiones concurrentes).
+      * Políticas RLS multi-tenant robustas con protección de casteo de UUIDs mediante `NULLIF(current_setting('app.tenant_id', true), '')::uuid` y `FORCE ROW LEVEL SECURITY`.
+      * Índices B-Tree optimizados en `(tenant_id, estado)`, `(folio)`, `(estudiante_id)`, `(mediacion_id)` e `(incidente_id)`.
+  * **Backend Testing:**
+    * `mediacionesMigration.test.js`: Suite de 6 pruebas unitarias verificando definición de tablas, claves foráneas, generación de folios, RLS e índices.
+* **Resultados de Validación:**
+  * 6 de 6 pruebas unitarias aprobadas al 100% en Jest (`mediacionesMigration.test.js`).
+  * Certificación en Supabase SQL Editor:
+    * Generación atómica de folios verificada (`MED-2026-0001`, `MED-2026-0002`, `MED-2026-0003`).
+    * Aislamiento RLS certificado: consulta sin `tenant_id` retorna exactamente 0 filas (`filas_visibles_sin_tenant: 0`).
+  * Suite completa de backend (46 suites, 311 pruebas) aprobada al 100% sin regresiones.
+
 ---
 
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
@@ -941,7 +960,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 ### Arquitectura de Software
 * **Capa de Presentación (Frontend):** React 18, Vite 5, Tailwind CSS 3, Zustand 4, Axios, Recharts 2, Lucide Icons. Desplegado en Vercel con CDN global y HTTPS.
 * **Capa de Aplicación (Backend):** Node.js 22, Express 5, Zod 4 (validación de contratos), pdfkit (generación documental), Helmet (seguridad HTTP), CORS, Google GenAI SDK (embeddings 768-dim y razonamiento normativo). Desplegado en Render PaaS con HTTPS.
-* **Capa de Persistencia (Base de Datos):** PostgreSQL 15 en Supabase con 17 tablas operativas (incluyendo `rice_documentos` y `rice_chunks`), Row Level Security (RLS) multi-tenant, índices B-Tree y HNSW vectoriales, funciones RPC en PL/pgSQL y extensiones (`uuid-ossp`, `unaccent`, `pg_trgm`, `vector`). Script oficial exportado en [`DOCS/schema_siga_escolar.sql`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/schema_siga_escolar.sql).
+* **Capa de Persistencia (Base de Datos):** PostgreSQL 15 en Supabase con 19 tablas operativas (incluyendo `rice_documentos`, `rice_chunks`, `mediaciones` y `mediacion_participantes`), Row Level Security (RLS) multi-tenant con FORCE RLS, índices B-Tree y HNSW vectoriales, funciones RPC en PL/pgSQL y extensiones (`uuid-ossp`, `unaccent`, `pg_trgm`, `vector`). Script oficial exportado en [`DOCS/arquitectura_y_api/schema_siga_escolar.sql`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/arquitectura_y_api/schema_siga_escolar.sql).
 
 ### Matriz de Cumplimiento de Requerimientos
 
