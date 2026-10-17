@@ -156,26 +156,32 @@ Cuando necesites citar a un apoderado o sostener una reunión de equipo:
 
 ## 7. Cómo Registrar un Incidente de Convivencia
 
-Cualquier situación relevante ocurrida en recreo, entrada, salida o aula debe ser registrada a la brevedad:
+Cualquier situación relevante ocurrida en recreo, entrada, salida o aula debe ser registrada a la brevedad mediante la nueva interfaz moderna en 2 columnas:
 
 1. En el menú lateral, haz clic en **"Registro Incidentes"** y luego pulsa el botón **"+ Nuevo Incidente"**.
-2. **Paso 1: Datos Generales**
-   - **Fecha del Suceso:** Selecciona la fecha en que ocurrió (por defecto viene la fecha de hoy).
-   - **Tipo de Abordaje:** Selecciona cómo se intervino la situación (ej. *Entrevista individual, Mediación escolar, Citación apoderado, Registro de patio, Derivación psicosocial*).
-   - **Gravedad:**
-     - ⚪ **Leve:** Faltas menores que se resuelven con diálogo pedagógico o amonestación verbal.
-     - 🟠 **Grave:** Faltas que alteran reiteradamente la convivencia o implican agresiones verbales/físicas moderadas.
-     - 🔴 **Gravísima:** Agresiones físicas severas, porte de objetos peligrosos, acoso escolar grave o vulneración de derechos.
-3. **Paso 2: Selección de Estudiantes Involucrados**
-   - Puedes usar dos modalidades muy sencillas:
-     - **Navegación en Cascada (Recomendado):** Selecciona el Nivel (ej: `7° Básico`) $\rightarrow$ la Letra (ej: `A`) $\rightarrow$ marca a los alumnos correspondientes de la lista.
-     - **Búsqueda Rápida:** Escribe directamente el nombre o apellido del alumno para agregarlo.
-   - Para cada alumno seleccionado, indica su rol en la situación (*Víctima, Involucrado / Agresor, Testigo*).
-4. **Paso 3: Relato de los Hechos**
-   - Describe con claridad y objetividad lo sucedido (mínimo 20 caracteres). Evita juicios personales y concéntrate en los hechos observables.
-5. **Paso 4: Medidas Pedagógicas Adoptadas**
-   - Detalla qué acciones formativas o reparatorias inmediatas se tomaron con los estudiantes.
-6. Haz clic en **"Registrar Incidente"**.
+2. **Estructura en Pantalla Dividida (2 Columnas):**
+   - **Columna Izquierda (Tarjetas Temáticas con Gradientes):**
+     - **1. Datos del Incidente (Azul/Índigo):**
+       - **Tipo de Abordaje:** Selecciona directamente mediante cápsulas interactivas cómo se intervino la situación (ej. *Entrevista individual, Mediación escolar, Citación apoderado, Registro de patio, Derivación psicosocial*).
+       - **Fecha del Suceso:** Selecciona la fecha del hecho.
+       - **Gravedad Reglamentaria:**
+         - ⚪ **Leve:** Faltas menores que se resuelven con diálogo pedagógico o amonestación verbal.
+         - 🟠 **Grave:** Faltas que alteran reiteradamente la convivencia o implican agresiones verbales/físicas moderadas.
+         - 🔴 **Gravísima:** Agresiones físicas severas, porte de objetos peligrosos, acoso escolar grave o vulneración de derechos.
+     - **2. Estudiantes Involucrados (Verde Esmeralda/Teal):**
+       - Agrega participantes mediante el **Selector en Cascada** (Nivel $\rightarrow$ Letra $\rightarrow$ Alumnos) o buscador directo.
+       - Configura para cada alumno su condición de víctima y descargo individual, pudiendo quitarlos individualmente con el botón `×`.
+     - **3. Relato y Medidas Adoptadas (Púrpura/Violeta):**
+       - **Relato Objetivo:** Describe los hechos en tercera persona (mínimo 20 caracteres con contador reactivo).
+       - **Medidas Formativas:** Detalla las acciones reparatorias inmediatas adoptadas.
+   - **Columna Derecha (Barra Lateral Sticky de Control):**
+     - **Progreso en Vivo:** Barra reactiva que avanza del 0% al 100% según completas los campos.
+     - **Checklist de Requisitos:** Marca en verde el cumplimiento de abordaje, fecha, gravedad, estudiantes y relato.
+     - **Resumen de Alumnos:** Lista compacta de los estudiantes seleccionados para verificación rápida.
+3. **Confirmación Segura:**
+   - Haz clic en **"Registrar Incidente"** (se habilita solo al completar los requisitos).
+   - Se abrirá un **Modal de Confirmación** con el resumen del expediente. Revisa los datos y presiona **"Confirmar Registro"**.
+   - Si pulsas "Cancelar" teniendo datos ingresados, un diálogo de seguridad te preguntará si deseas descartar para evitar pérdidas accidentales.
 
 > ⚠️ **Notificación Inmediata:** Si el incidente es marcado como **Grave** o **Gravísimo**, el sistema emite una alerta visual destacada y notifica de manera automática al Coordinador de Convivencia y al Equipo Directivo.
 
@@ -211,14 +217,17 @@ Los Protocolos RICE son los procedimientos formales exigidos por la **Superinten
 ### A. Cuándo abrir un Protocolo
 Debe abrirse cuando un hecho califica dentro de las tipologías normativas (ej: *Maltrato entre estudiantes, Vulneración de derechos, Situaciones de drogas/alcohol, Acoso escolar cibernético, Agresiones sexuales*).
 
-### B. Cómo abrir un nuevo Protocolo
+### B. Cómo abrir un nuevo Protocolo (Nueva Interfaz 2 Columnas)
 1. Ve a **"Protocolos RICE"** y presiona **"+ Nuevo Protocolo"**.
-2. **Tipo de Protocolo:** Selecciona uno de los 10 protocolos normativos de la lista oficial.
-3. **Estudiante Involucrado:** Selecciona al estudiante afectado.
-4. **Incidente de Origen:** Elige el incidente previamente registrado que motivó la activación del protocolo.
-5. **Fecha de Apertura:** Fecha en que la escuela toma conocimiento formal.
-6. **Observaciones Iniciales:** Registro de las primeras medidas de resguardo tomadas.
-7. Haz clic en **"Crear Protocolo"**. El sistema calculará automáticamente los plazos máximos legales.
+2. **Formulario en Secciones Temáticas:**
+   - **1. Clasificación RICE (Índigo/Azul):** Selecciona directamente la tipología reglamentaria mediante las cápsulas interactivas oficiales.
+   - **2. Estudiante Titular (Esmeralda/Teal):** Elige al estudiante involucrado con el selector en cascada. El sistema evaluará automáticamente si existen alertas de escalada preventiva (`AlertaEscaladaBanner`) y mostrará su ficha con RUT y condición PIE.
+   - **3. Fecha de Apertura y Antecedente Relacionado (Ámbar/Naranja):** Define la fecha de inicio formal y vincula opcionalmente incidentes previos del alumno con un solo clic.
+   - **4. Observaciones y Diligencias Iniciales (Púrpura/Violeta):** Describe las primeras medidas de resguardo y antecedentes recibidos.
+3. **Barra Lateral de Control:**
+   - Supervisa el cumplimiento de los 5 requisitos normativos y el porcentaje de completitud en la barra reactiva.
+4. **Confirmación y Activación:**
+   - Haz clic en **"Aperturar Protocolo RICE"** y valida los antecedentes consolidados en el **Modal de Confirmación**. El sistema registrará el caso e iniciará el cómputo automático de plazos máximos legales.
 
 ### C. Checklist de Pasos Obligatorios
 Al entrar al detalle de cualquier protocolo, verás una **lista de chequeo paso a paso**:

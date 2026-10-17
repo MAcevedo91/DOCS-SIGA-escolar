@@ -978,7 +978,31 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Cero regresiones: Suite completa de backend aprobada con **48 test suites y 338 pruebas exitosas**.
   * **Validación Funcional en Entorno Real (Insomnia / Postman):**
     * Creación de mediación exitosa (`POST /api/v1/mediaciones`) retornando código `201 Created` y folio correlativo generado automáticamente (`MED-2026-0007`).
-    * Aviso formal a apoderados ejecutado (`POST /api/v1/mediaciones/:id/notificar-apoderados`) retornando código `200 OK`, con 2 notificaciones registradas con marca temporal (`fecha_aviso: 2026-10-15T15:44:56.303Z`) para los apoderados de los estudiantes involucrados.
+### Sprint 7 / UX-UI — Modernización Integral de Interfaces: Registro de Incidentes y Apertura de Protocolos RICE
+* **Objetivo:** Renovar la experiencia de usuario en los formularios críticos de convivencia escolar (`NuevoIncidentePage.jsx` y `NuevoProtocoloPage.jsx`), migrando a un layout en dos columnas asimétricas con barra lateral sticky de control en tiempo real, paleta con gradientes temáticos vivos y diferenciados, y modales de confirmación/descarte de datos.
+* **Componentes intervenidos:**
+  * **Página de Nuevo Incidente (`siga-frontend/src/pages/NuevoIncidentePage.jsx`):**
+    * Arquitectura de 2 columnas (`grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px]`).
+    * Gradientes diferenciados de alto contraste WCAG AA:
+      * Tarjeta 1 (Azul/Índigo): Abordaje formativo en chips seleccionables, fecha y semáforo de gravedad reglamentaria.
+      * Tarjeta 2 (Esmeralda/Teal): Selector en cascada (`SelectorEstudianteCascada`), roles individuales (víctima / descargo) y eliminación con un clic.
+      * Tarjeta 3 (Púrpura/Violeta): Relato objetivo (mínimo 20 caracteres con contador reactivo) y medidas pedagógicas adoptadas.
+    * Sidebar Sticky: Barra de progreso reactiva (0% a 100%), checklist interactivo de 5 requisitos de completitud, resumen de alumnos seleccionados y botones de acción.
+    * Modales interactivos: Diálogo modal de confirmación previa con resumen del expediente y modal de advertencia ante descarte de formulario sucio.
+  * **Página de Nuevo Protocolo RICE (`siga-frontend/src/pages/NuevoProtocoloPage.jsx`):**
+    * Arquitectura idéntica de 2 columnas asimétricas adaptativa a modo claro y oscuro.
+    * Gradientes temáticos:
+      * Sección 1 (Índigo/Azul): Cápsulas interactivas directas para los 10 protocolos normativos de la Superintendencia (eliminando redundancia de menús desplegables duplicados).
+      * Sección 2 (Esmeralda/Teal): Integración con `SelectorEstudianteCascada`, banner de riesgo de escalada (`AlertaEscaladaBanner`) y ficha del titular vinculado con opción de cambio inmediato.
+      * Sección 3 (Ámbar/Naranja): Fecha oficial de apertura e incidentes previos del alumno con spinner de consulta y selección opcional.
+      * Sección 4 (Púrpura/Violeta): Observaciones preliminares y contexto inicial con contador de caracteres.
+    * Sidebar Sticky con checklist normativo RICE de 5 puntos y barra de progreso de apertura.
+    * Modales de confirmación con detalle de expediente y alerta de descarte.
+  * **Backend RAG RICE y Analytics (`siga-backend/src/services/riceRagService.js`, `analyticsController.js`):**
+    * Generación dinámica de recomendaciones pedagógicas fundamentadas en el RICE mediante IA, en reemplazo de textos estáticos hardcodeados en el modal de detalle analítico (`DetalleCeldaModal.jsx`).
+* **Resultados de Validación y Certificación Automatizada:**
+  * **Pruebas Frontend:** 31 de 31 test suites aprobadas al 100% (156 pruebas unitarias y de integración sin regresiones).
+  * **Pruebas Backend:** 48 de 48 test suites aprobadas al 100% (340 pruebas pasando exitosamente).
 
 ---
 
