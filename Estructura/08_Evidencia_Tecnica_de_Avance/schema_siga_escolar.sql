@@ -81,13 +81,14 @@ CREATE TABLE IF NOT EXISTS periodos_academicos (
 -- 4. CURSOS (Estructura de Cursos por Nivel, Letra y Período Académico)
 -- =============================================================================
 CREATE TABLE IF NOT EXISTS cursos (
-    id             UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    tenant_id      UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
-    nombre         VARCHAR(50) NOT NULL,
-    nivel          VARCHAR(50) NOT NULL,
-    letra          VARCHAR(5),
-    periodo_id     UUID REFERENCES periodos_academicos(id) ON DELETE RESTRICT,
-    anio_academico INT,
+    id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id        UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    nombre           VARCHAR(50) NOT NULL,
+    nivel            VARCHAR(50) NOT NULL,
+    letra            VARCHAR(5),
+    periodo_id       UUID REFERENCES periodos_academicos(id) ON DELETE RESTRICT,
+    anio_academico   INT,
+    profesor_jefe_id UUID REFERENCES usuarios(id) ON DELETE SET NULL,
     CONSTRAINT unique_curso_periodo UNIQUE (tenant_id, nombre, periodo_id)
 );
 
@@ -105,8 +106,26 @@ CREATE TABLE IF NOT EXISTS estudiantes (
     es_pie           BOOLEAN NOT NULL DEFAULT FALSE,
     direccion        VARCHAR(255),
     activo           BOOLEAN NOT NULL DEFAULT TRUE,
+    estado_matricula VARCHAR(20) NOT NULL DEFAULT 'Regular' CHECK (estado_matricula IN ('Regular', 'Egresado', 'Retirado', 'Suspendido')),
     search_vector    TSVECTOR,
     CONSTRAINT unique_rut_per_tenant UNIQUE (tenant_id, rut)
+);
+
+-- =============================================================================
+-- 4.1 MATRÍCULAS (Historial Académico y Trayectoria Escolar por Año Lectivo)
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS matriculas (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id       UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    estudiante_id   UUID NOT NULL REFERENCES estudiantes(id) ON DELETE CASCADE,
+    curso_id        UUID REFERENCES cursos(id) ON DELETE SET NULL,
+    periodo_id      UUID NOT NULL REFERENCES periodos_academicos(id) ON DELETE CASCADE,
+    anio            INT NOT NULL,
+    estado_final    VARCHAR(20) NOT NULL DEFAULT 'En Curso' 
+                    CHECK (estado_final IN ('En Curso', 'Promovido', 'Repitente', 'Egresado', 'Retirado')),
+    fecha_matricula DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_matricula_estudiante_periodo UNIQUE (tenant_id, estudiante_id, periodo_id)
 );
 
 -- =============================================================================
@@ -588,3 +607,253 @@ CROSS JOIN (
 ) AS p(orden, accion, plazo_dias, prorrogable)
 ON CONFLICT (tenant_id, tipo_protocolo_id, orden) DO UPDATE 
 SET accion = EXCLUDED.accion, plazo_dias = EXCLUDED.plazo_dias, prorrogable = EXCLUDED.prorrogable;
+-- =============================================================================
+-- MIGRACIÓN: Módulo RAG Normativo RICE (Reglamento Interno y de Convivencia Escolar)
+-- Fecha: 08/10/2026
+-- Proyecto: SIGA Escolar
+-- Descripción:
+--   1. Habilita extensión pgvector en Supabase/PostgreSQL.
+--   2. Crea tabla rice_documentos (metadatos, versión y vigencia del RICE por tenant).
+--   3. Crea tabla rice_chunks (fragmentos de texto limpios con embeddings vectoriales).
+--   4. Configura índices HNSW para búsqueda rápida de similitud coseno.
+--   5. Implementa Row Level Security (RLS) para aislamiento estricto multi-tenant.
+--   6. Crea función RPC buscar_contexto_rice para inferencia RAG.
+-- =============================================================================
+
+-- 1. HABILITAR EXTENSIÓN VECTORIAL
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- 2. TABLA: rice_documentos
+CREATE TABLE IF NOT EXISTS rice_documentos (
+    id             UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id      UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    nombre_archivo VARCHAR(255) NOT NULL,
+    formato        VARCHAR(10) NOT NULL DEFAULT 'pdf' CHECK (formato IN ('pdf', 'md')),
+    anio_vigencia  INT NOT NULL,
+    version        INT NOT NULL DEFAULT 1,
+    estado         VARCHAR(20) NOT NULL DEFAULT 'procesando'
+                   CHECK (estado IN ('procesando', 'activo', 'obsoleto', 'error')),
+    total_chunks   INT NOT NULL DEFAULT 0,
+    subido_por     UUID NOT NULL REFERENCES usuarios(id) ON DELETE RESTRICT,
+    metadata       JSONB DEFAULT '{}'::jsonb,
+    created_at     TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Índices de rice_documentos
+CREATE INDEX IF NOT EXISTS idx_rice_documentos_tenant ON rice_documentos(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_rice_documentos_estado ON rice_documentos(tenant_id, estado);
+
+-- RLS para rice_documentos
+ALTER TABLE rice_documentos ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS tenant_isolation_rice_documentos ON rice_documentos;
+CREATE POLICY tenant_isolation_rice_documentos ON rice_documentos
+    USING (tenant_id = current_setting('app.tenant_id', true)::uuid);
+
+-- Trigger de updated_at para rice_documentos
+CREATE OR REPLACE FUNCTION actualizar_timestamp_rice_documentos()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_actualizar_rice_documentos ON rice_documentos;
+CREATE TRIGGER trg_actualizar_rice_documentos
+    BEFORE UPDATE ON rice_documentos
+    FOR EACH ROW
+    EXECUTE FUNCTION actualizar_timestamp_rice_documentos();
+
+
+-- 3. TABLA: rice_chunks
+CREATE TABLE IF NOT EXISTS rice_chunks (
+    id           UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id    UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    documento_id UUID NOT NULL REFERENCES rice_documentos(id) ON DELETE CASCADE,
+    numero_chunk INT NOT NULL,
+    seccion      TEXT,
+    articulo     TEXT,
+    contenido    TEXT NOT NULL,
+    embedding    vector(768),
+    created_at   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Índices de rice_chunks
+CREATE INDEX IF NOT EXISTS idx_rice_chunks_tenant ON rice_chunks(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_rice_chunks_documento ON rice_chunks(documento_id);
+
+-- Índice Vectorial HNSW optimizado para distancia coseno (<=>)
+CREATE INDEX IF NOT EXISTS idx_rice_chunks_embedding
+    ON rice_chunks USING hnsw (embedding vector_cosine_ops)
+    WITH (m = 16, ef_construction = 64);
+
+-- RLS para rice_chunks
+ALTER TABLE rice_chunks ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS tenant_isolation_rice_chunks ON rice_chunks;
+CREATE POLICY tenant_isolation_rice_chunks ON rice_chunks
+    USING (tenant_id = current_setting('app.tenant_id', true)::uuid);
+
+
+-- 4. FUNCIÓN RPC: buscar_contexto_rice
+-- Retorna los fragmentos más relevantes de acuerdo a la distancia coseno
+-- garantizando aislamiento estricto por tenant_id.
+DROP FUNCTION IF EXISTS buscar_contexto_rice;
+CREATE OR REPLACE FUNCTION buscar_contexto_rice(
+    p_tenant_id            UUID,
+    p_embedding            vector(768),
+    p_match_count          INT DEFAULT 4,
+    p_similarity_threshold FLOAT DEFAULT 0.50
+)
+RETURNS TABLE (
+    id           UUID,
+    documento_id UUID,
+    seccion      TEXT,
+    articulo     TEXT,
+    contenido    TEXT,
+    similitud    FLOAT
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        rc.id,
+        rc.documento_id,
+        rc.seccion,
+        rc.articulo,
+        rc.contenido,
+        (1 - (rc.embedding <=> p_embedding))::FLOAT AS similitud
+    FROM rice_chunks rc
+    INNER JOIN rice_documentos rd ON rc.documento_id = rd.id
+    WHERE rc.tenant_id = p_tenant_id
+      AND rd.estado = 'activo'
+      AND (1 - (rc.embedding <=> p_embedding)) >= p_similarity_threshold
+    ORDER BY rc.embedding <=> p_embedding ASC
+    LIMIT p_match_count;
+END;
+$$;
+
+-- =============================================================================
+-- 18. MÓDULO DE MEDIACIÓN ESCOLAR Y ACUERDOS FORMATIVOS RESTAURATIVOS
+-- =============================================================================
+
+CREATE SEQUENCE IF NOT EXISTS seq_mediaciones_folio START WITH 1;
+
+CREATE TABLE IF NOT EXISTS mediaciones (
+    id                      UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    folio                   VARCHAR(20) UNIQUE NOT NULL,
+    tenant_id               UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    incidente_id            UUID REFERENCES incidentes(id) ON DELETE SET NULL,
+    mediador_id             UUID NOT NULL REFERENCES usuarios(id) ON DELETE RESTRICT,
+    tipo_origen             VARCHAR(30) NOT NULL DEFAULT 'preventiva_convivencia'
+                            CHECK (tipo_origen IN (
+                                'derivada_incidente', 
+                                'preventiva_convivencia', 
+                                'solicitud_estudiante', 
+                                'solicitud_apoderado'
+                            )),
+    estado                  VARCHAR(30) NOT NULL DEFAULT 'borrador'
+                            CHECK (estado IN (
+                                'borrador', 
+                                'programada', 
+                                'en_sesion', 
+                                'acordada', 
+                                'sin_acuerdo', 
+                                'derivada_inspectoria'
+                            )),
+    motivo                  TEXT NOT NULL,
+    fecha_programada        TIMESTAMP WITH TIME ZONE NOT NULL,
+    lugar_sesion            VARCHAR(100) DEFAULT 'Oficina de Convivencia Escolar',
+    observaciones_previas   TEXT,
+    fecha_seguimiento       TIMESTAMP WITH TIME ZONE,
+    conclusiones_cierre     TEXT,
+    created_at              TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS mediacion_participantes (
+    id                          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    mediacion_id                UUID NOT NULL REFERENCES mediaciones(id) ON DELETE CASCADE,
+    tenant_id                   UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    estudiante_id               UUID NOT NULL REFERENCES estudiantes(id) ON DELETE RESTRICT,
+    rol_participante            VARCHAR(30) NOT NULL DEFAULT 'parte_1'
+                                CHECK (rol_participante IN (
+                                    'parte_1', 
+                                    'parte_2', 
+                                    'afectado', 
+                                    'mediador_par', 
+                                    'observador'
+                                )),
+    aviso_apoderado_enviado     BOOLEAN NOT NULL DEFAULT FALSE,
+    fecha_aviso_apoderado       TIMESTAMP WITH TIME ZONE,
+    medio_aviso                 VARCHAR(30) 
+                                CHECK (medio_aviso IN (
+                                    'correo', 
+                                    'comunicacion_escrita', 
+                                    'llamada_telefonica'
+                                )),
+    apoderado_notificado_email  VARCHAR(255),
+    created_at                  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_estudiante_en_mediacion UNIQUE (mediacion_id, estudiante_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_mediaciones_tenant_estado        ON mediaciones(tenant_id, estado);
+CREATE INDEX IF NOT EXISTS idx_mediaciones_folio                ON mediaciones(folio);
+CREATE INDEX IF NOT EXISTS idx_mediaciones_incidente            ON mediaciones(incidente_id);
+CREATE INDEX IF NOT EXISTS idx_mediaciones_mediador             ON mediaciones(mediador_id);
+CREATE INDEX IF NOT EXISTS idx_mediacion_part_estudiante        ON mediacion_participantes(estudiante_id);
+CREATE INDEX IF NOT EXISTS idx_mediacion_part_mediacion         ON mediacion_participantes(mediacion_id);
+CREATE INDEX IF NOT EXISTS idx_mediacion_part_tenant            ON mediacion_participantes(tenant_id);
+
+ALTER TABLE mediaciones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE mediaciones FORCE ROW LEVEL SECURITY;
+ALTER TABLE mediacion_participantes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE mediacion_participantes FORCE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS tenant_isolation_mediaciones ON mediaciones;
+CREATE POLICY tenant_isolation_mediaciones ON mediaciones
+    USING (tenant_id = NULLIF(current_setting('app.tenant_id', true), '')::uuid);
+
+DROP POLICY IF EXISTS tenant_isolation_mediacion_participantes ON mediacion_participantes;
+CREATE POLICY tenant_isolation_mediacion_participantes ON mediacion_participantes
+    USING (tenant_id = NULLIF(current_setting('app.tenant_id', true), '')::uuid);
+
+CREATE OR REPLACE FUNCTION trg_generar_folio_mediacion_fn()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_anio TEXT;
+    v_seq  INT;
+BEGIN
+    IF NEW.folio IS NULL OR TRIM(NEW.folio) = '' THEN
+        v_anio := to_char(CURRENT_DATE, 'YYYY');
+        v_seq  := nextval('seq_mediaciones_folio');
+        NEW.folio := 'MED-' || v_anio || '-' || LPAD(v_seq::text, 4, '0');
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_generar_folio_mediacion ON mediaciones;
+CREATE TRIGGER trg_generar_folio_mediacion
+    BEFORE INSERT ON mediaciones
+    FOR EACH ROW
+    EXECUTE FUNCTION trg_generar_folio_mediacion_fn();
+
+CREATE OR REPLACE FUNCTION actualizar_timestamp_mediaciones()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_actualizar_timestamp_mediaciones ON mediaciones;
+CREATE TRIGGER trg_actualizar_timestamp_mediaciones
+    BEFORE UPDATE ON mediaciones
+    FOR EACH ROW
+    EXECUTE FUNCTION actualizar_timestamp_mediaciones();
+
