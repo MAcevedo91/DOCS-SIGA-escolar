@@ -1006,6 +1006,35 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ---
 
+### SPRINT DE AJUSTES Y HALLAZGOS EN TERRENO: Escuela Coeducacional N°1 El Salvador (Octubre 2026)
+* **Objetivo:** Responder de forma ágil y certificada a los hallazgos operativos levantados directamente por la contraparte escolar (Dirección y Encargado de Convivencia Escolar), adaptando los flujos a la realidad pedagógica y normativa del colegio.
+* **Estado:** **Hallazgos 1, 2, 3, 4 y 5 completados y certificados al 100%**. 
+
+#### Hallazgos Implementados y Certificados:
+1. **Hallazgo 1 — Firma Única del Encargado(a) de Convivencia Escolar en Documentos Oficiales:**
+   - Modificación en el servicio de generación PDF (`pdfService.js`) tanto en el informe de incidentes como en el historial conductual: el bloque de firma institucional pasa de dos firmas (Dirección y Convivencia) a firma única centrada exclusiva para el/la **Encargado(a) de Convivencia Escolar**, conforme al requerimiento formal de la jefatura institucional.
+2. **Hallazgo 2 — Estructura y Roles Granulares de Formación y Convivencia:**
+   - Refactorización de la matriz de roles (`constants/roles.js`, `requireRole.js`, `RolBadge.jsx`, `UsuariosPage.jsx`, modales de usuario).
+   - Se desmenuzó el rol genérico *Equipo de Formación* en 4 roles operativos independientes: `Coordinador de Convivencia Escolar`, `Orientador`, `Psicólogo` y `Asistente Social`, manteniendo compatibilidad con `Directiva`, `Inspector` y `Docente`.
+   - Reorganización jerárquica con filtros en la interfaz de gestión de usuarios (`UsuariosPage.jsx`).
+3. **Hallazgo 3 — Reasignación Dinámica de Curso/Paralelo en Directorio y Cierre de Año:**
+   - Creación de endpoint atómico `PATCH /api/v1/estudiantes/:id/curso` con validación de pertenencia al tenant, motivo/observación obligatoria y registro en auditoría.
+   - En el frontend, creación de `ReasignarCursoModal.jsx` y su integración en el directorio de estudiantes (`EstudiantesPage.jsx`) y en el flujo de cierre de año (`CierreAnioPage.jsx`), permitiendo mover alumnos entre cursos paralelos (ej. de 8° A a 8° B por razones de convivencia escolar).
+4. **Hallazgo 4 — Validación y Previsualización de Borradores PDF para Involucrados:**
+   - Corrección de sanitización DLP multi-estudiante en `reportesController.js` y `pdfService.js`: ahora `otrosEstudiantes` se puebla obligatoriamente garantizando el reemplazo de nombres y RUTs de contrapartes conforme a la Circular N° 482 y Ley N° 19.628.
+   - Soporte de parámetro `?preview=true` que renderiza una marca de agua diagonal de *"DOCUMENTO DE VALIDACIÓN / VISTA PREVIA (NO OFICIAL - PENDIENTE DE APROBACIÓN)"* y pie de página de revisión interna, permitiendo al equipo validar el PDF antes de firmar formalmente.
+   - Badges y accesos directos en `IncidenteDetallePage.jsx` para previsualizar y validar el borrador de cada involucrado.
+5. **Hallazgo 5 — Observaciones Individuales por Estudiante al Derivar:**
+   - En `incidentesService.js`, extensión de `cambiarEstado` para procesar y persistir observaciones individualizadas en `incidente_estudiantes.observacion` al transicionar a `Derivado`.
+   - Creación del endpoint `PATCH /api/v1/incidentes/:id/estudiantes/:estudianteId/observacion` para registrar o editar la observación individual de derivación de un estudiante en cualquier momento.
+   - En `IncidenteDetallePage.jsx`, adaptación del modal de cambio de estado para ingresar observaciones específicas por alumno y renderizado de la tarjeta de derivación individual con botón de edición rápida.
+
+* **Resultados de Validación y Certificación Automatizada:**
+  * **Pruebas Frontend:** **33 de 33 test suites aprobadas al 100% (169 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
+  * **Pruebas Backend:** **50 de 50 test suites aprobadas al 100% (357 pruebas pasando exitosamente, 0 fallos)**.
+
+---
+
 ## 5. ARQUITECTURA TÉCNICA Y MATRIZ DE REQUERIMIENTOS
 
 ### Arquitectura de Software

@@ -208,6 +208,18 @@ Para asegurar el estricto cumplimiento de la **Ley N° 19.628** de Protección d
 - **Trazabilidad y Control de Versiones:** Los reportes cuentan con gestión de versiones estructuradas en 5 secciones normativas (Contexto, Hechos objetivos, Medidas adoptadas, Compromisos/Acuerdos y Plan de seguimiento). El borrador sugerido por IA se conserva inmutable, registrando quién realizó ediciones intermedias y quién efectuó la aprobación final.
 - **Bloqueo Estricto tras Aprobación:** Una vez que un informe adquiere el estado **"Aprobado"**, el sistema bloquea cualquier edición posterior, garantizando que el documento descargado en PDF o despachado al apoderado sea inalterable y posea plena validez probatoria.
 
+### 8.2 Derivaciones con Observaciones Individuales por Estudiante (Hallazgo 5)
+En incidentes que involucran a múltiples alumnos (riñas, agresiones o conflictos entre pares), las medidas pedagógicas y de apoyo no son idénticas para cada estudiante. SIGA Escolar incorpora la gestión individualizada de derivaciones:
+1. **Derivación al Cambiar de Estado:**
+   - En el panel lateral derecho del caso, selecciona el estado **"Derivado"** y pulsa **"Actualizar Estado"**.
+   - En el modal de confirmación, se desplegará automáticamente la sección *"Observaciones Individuales de Derivación por Alumno"*.
+   - Por cada estudiante involucrado (mostrando si es víctima o agresor/involucrado), ingresa la medida o profesional asignado correspondiente (ej: *Estudiante A derivado a psicólogo por contención y desregulación; Estudiante B derivado a orientación y entrevista con apoderado*).
+   - Presiona **"Confirmar Actualización"**. El estado del caso avanzará y las observaciones se guardarán de forma individual en el expediente de cada alumno.
+2. **Edición o Agregado Puntual desde la Tarjeta del Estudiante:**
+   - En la vista de detalle del incidente, cada estudiante cuenta con un recuadro azul donde se visualiza su observación individual de derivación.
+   - El equipo de convivencia puede presionar **"Editar Observación"** (o **"+ Agregar Observación Individual"**) para actualizar o complementar la medida en cualquier momento sin necesidad de reiniciar el flujo del caso.
+   - La información queda registrada con auditoría institucional y reflejada de inmediato en la ficha del caso.
+
 ---
 
 ## 9. Gestión de Protocolos Normativos RICE
