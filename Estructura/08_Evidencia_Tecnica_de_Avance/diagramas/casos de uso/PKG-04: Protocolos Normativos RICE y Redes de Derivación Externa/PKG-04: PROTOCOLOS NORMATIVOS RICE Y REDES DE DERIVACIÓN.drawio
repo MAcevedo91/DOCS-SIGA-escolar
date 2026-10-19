@@ -1,0 +1,135 @@
+<mxfile host="Electron">
+  <diagram name="Página-1" id="0kUJpF8wCdF3v2Oe3UZ2">
+    <mxGraphModel dx="1664" dy="956" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" plantUmlData="{&#xa;  &quot;data&quot;: &quot;```plantuml\n@startuml\nskinparam packageStyle rectangle\nskinparam shadowing false\n\nactor \&quot;Equipo de Formación\&quot; as EF\nactor \&quot;Directivo\&quot; as Dir\nactor \&quot;Red de Apoyo Externa\\n(Tribunales, Salud, OLN)\&quot; as RedExt\nactor \&quot;Superintendencia\\nde Educación\&quot; as SuperEduc\n\nrectangle \&quot;SIGA Escolar: Protocolos RICE y Normativa\&quot; {\n  usecase \&quot;Activar Protocolo\\nNormativo RICE\&quot; as CU401\n  usecase \&quot;Validar Pertenencia de\\nEstudiante a Incidente\&quot; as CU402\n  usecase \&quot;Gestionar Checklist\\nNormativo por Pasos\&quot; as CU403\n  usecase \&quot;Controlar Plazos Fatales\\nde Superintendencia\&quot; as CU404\n  usecase \&quot;Derivar Caso a\\nEntidad Externa\&quot; as CU405\n  usecase \&quot;Registrar Acta de\\nCierre de Protocolo\&quot; as CU406\n}\n\nEF --&gt; CU401\nEF --&gt; CU403\nEF --&gt; CU405\nDir --&gt; CU406\n\nCU405 --&gt; RedExt\nCU404 --&gt; SuperEduc\n\nCU401 ..&gt; CU402 : &lt;&lt;include&gt;&gt;\nCU403 ..&gt; CU404 : &lt;&lt;include&gt;&gt;\nCU406 ..&gt; CU403 : &lt;&lt;include&gt;&gt;\n@enduml\n```&quot;,&#xa;  &quot;config&quot;: null&#xa;}" id="41_eCx33By_w3DY_fE_B-1">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="SIGA Escolar: Protocolos RICE y Normativa" plantUmlId="rect_0" plantUmlBaseStyle="swimlane;collapsible=0;startSize=26;fillColor=none;strokeColor=#181818;fontColor=#000000;fontSize=13;fontStyle=1;whiteSpace=wrap;shadow=0;" plantUmlBaseValue="SIGA Escolar: Protocolos RICE y Normativa" id="41_eCx33By_w3DY_fE_B-2">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="swimlane;collapsible=0;startSize=26;fillColor=none;strokeColor=#181818;fontColor=#000000;fontSize=15;fontStyle=1;whiteSpace=wrap;shadow=0;" vertex="1">
+            <mxGeometry height="510" width="550" x="860" y="350" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Activar Protocolo&lt;br&gt;Normativo RICE" plantUmlId="uc_1" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="Activar Protocolo&lt;br&gt;Normativo RICE" id="41_eCx33By_w3DY_fE_B-3">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-2" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="52" width="176" x="20" y="46" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Validar Pertenencia de&lt;br&gt;Estudiante a Incidente" plantUmlId="uc_2" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="Validar Pertenencia de&lt;br&gt;Estudiante a Incidente" id="41_eCx33By_w3DY_fE_B-4">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-2" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="52" width="228" x="300" y="46" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Gestionar Checklist&lt;br&gt;Normativo por Pasos" plantUmlId="uc_3" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="Gestionar Checklist&lt;br&gt;Normativo por Pasos" id="41_eCx33By_w3DY_fE_B-5">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-2" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="52" width="203" x="60" y="300" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Controlar Plazos Fatales&lt;br&gt;de Superintendencia" plantUmlId="uc_4" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="Controlar Plazos Fatales&lt;br&gt;de Superintendencia" id="41_eCx33By_w3DY_fE_B-6">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-2" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="53" width="240" x="255" y="190" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Derivar Caso a&lt;br&gt;Entidad Externa" plantUmlId="uc_5" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="Derivar Caso a&lt;br&gt;Entidad Externa" id="41_eCx33By_w3DY_fE_B-7">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-2" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="52" width="162" x="90" y="138" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Registrar Acta de&lt;br&gt;Cierre de Protocolo" plantUmlId="uc_6" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="Registrar Acta de&lt;br&gt;Cierre de Protocolo" id="41_eCx33By_w3DY_fE_B-8">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-2" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="52" width="195" x="277.5" y="420" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«include»" plantUmlId="rel_21" plantUmlBaseStyle="endArrow=open;dashed=1;dashPattern=5 5;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="«include»" id="41_eCx33By_w3DY_fE_B-23">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-2" source="41_eCx33By_w3DY_fE_B-3" style="endArrow=open;dashed=1;dashPattern=5 5;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="41_eCx33By_w3DY_fE_B-4">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«include»" plantUmlId="rel_22" plantUmlBaseStyle="endArrow=open;dashed=1;dashPattern=5 5;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="«include»" id="41_eCx33By_w3DY_fE_B-24">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-2" source="41_eCx33By_w3DY_fE_B-5" style="endArrow=open;dashed=1;dashPattern=5 5;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="41_eCx33By_w3DY_fE_B-6">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«include»" plantUmlId="rel_23" plantUmlBaseStyle="endArrow=open;dashed=1;dashPattern=5 5;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="«include»" id="41_eCx33By_w3DY_fE_B-25">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-2" source="41_eCx33By_w3DY_fE_B-8" style="endArrow=open;dashed=1;dashPattern=5 5;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="41_eCx33By_w3DY_fE_B-5">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="actor_7" plantUmlBaseStyle="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-9">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="60" width="40" x="744.9966666666667" y="448" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Equipo de Formación" plantUmlId="actorlbl_8" plantUmlBaseStyle="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=14;" plantUmlBaseValue="Equipo de Formación" id="41_eCx33By_w3DY_fE_B-10">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=15;" vertex="1">
+            <mxGeometry height="17" width="154" x="687.9966666666667" y="508" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="actor_9" plantUmlBaseStyle="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-11">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="60" width="40" x="744.9999999999999" y="720" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Directivo" plantUmlId="actorlbl_10" plantUmlBaseStyle="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=14;" plantUmlBaseValue="Directivo" id="41_eCx33By_w3DY_fE_B-12">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=15;" vertex="1">
+            <mxGeometry height="17" width="70" x="729.9999999999999" y="782" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="actor_11" plantUmlBaseStyle="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-13">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="60" width="40" x="1491.83" y="420" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Red de Apoyo Externa&#xa;(Tribunales, Salud, OLN)" plantUmlId="actorlbl_12" plantUmlBaseStyle="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=14;" plantUmlBaseValue="Red de Apoyo Externa&#xa;(Tribunales, Salud, OLN)" id="41_eCx33By_w3DY_fE_B-14">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=14;" vertex="1">
+            <mxGeometry height="17" width="349" x="1340" y="478" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="actor_13" plantUmlBaseStyle="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=14;shadow=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-15">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=15;shadow=0;" vertex="1">
+            <mxGeometry height="60" width="40" x="1491.83" y="585" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Superintendencia&#xa;de Educación" plantUmlId="actorlbl_14" plantUmlBaseStyle="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=14;" plantUmlBaseValue="Superintendencia&#xa;de Educación" id="41_eCx33By_w3DY_fE_B-16">
+          <mxCell parent="41_eCx33By_w3DY_fE_B-1" style="text;html=1;align=center;verticalAlign=top;fontColor=#000000;fontSize=15;" vertex="1">
+            <mxGeometry height="17" width="235" x="1394.33" y="647" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_15" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1.37;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-17">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-1" source="41_eCx33By_w3DY_fE_B-9" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0.5;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitDx=0;exitDy=0;" target="41_eCx33By_w3DY_fE_B-3">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_16" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1.37;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-18">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-1" source="41_eCx33By_w3DY_fE_B-9" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0.5;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitDx=0;exitDy=0;" target="41_eCx33By_w3DY_fE_B-5">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_17" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1.37;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-19">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-1" source="41_eCx33By_w3DY_fE_B-9" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0.5;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitDx=0;exitDy=0;" target="41_eCx33By_w3DY_fE_B-7">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_18" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1.37;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-20">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-1" source="41_eCx33By_w3DY_fE_B-11" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0.5;exitPerimeter=0;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitDx=0;exitDy=0;" target="41_eCx33By_w3DY_fE_B-8">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_19" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-21">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-1" source="41_eCx33By_w3DY_fE_B-7" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="41_eCx33By_w3DY_fE_B-13">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_20" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=11;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="41_eCx33By_w3DY_fE_B-22">
+          <mxCell edge="1" parent="41_eCx33By_w3DY_fE_B-1" source="41_eCx33By_w3DY_fE_B-6" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=15;edgeStyle=none;rounded=0;html=1;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="41_eCx33By_w3DY_fE_B-15">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

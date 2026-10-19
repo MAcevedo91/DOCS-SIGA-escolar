@@ -36,10 +36,12 @@ actor "Inspector" as Insp
 actor "Equipo de Formación\n(Dupla / Convivencia)" as EF
 actor "Directivo\n(Director / UTP)" as Dir
 actor "Administrador" as Admin
+actor "Apoderado\n<<Móvil sin Login>>" as Apod
 
 actor "Google Gemini Flash\n<<API Externa>>" as Gemini
 actor "Red de Apoyo Externa\n(Tribunales, Salud, OLN)" as RedExt
 actor "Superintendencia\nde Educación" as SuperEduc
+actor "Especialista Externo\n(Neurólogo / Psiquiatra)" as Medico
 
 User <|-- Doc
 User <|-- Insp
@@ -53,15 +55,18 @@ User <|-- Admin
 
 ## 3. MAPA GENERAL DE PAQUETES DE CASOS DE USO
 
-El sistema se estructura de forma modular en **7 paquetes cohesivos**:
+El sistema se estructura de forma modular en **10 paquetes cohesivos**:
 
 * **PKG-01:** Seguridad, Autenticación y Auditoría (RBAC & Multi-tenant)
 * **PKG-02:** Gestión de la Comunidad Educativa, Cursos y Estudiantes
 * **PKG-03:** Bitácora de Convivencia y Registro de Incidentes (Mobile-First)
 * **PKG-04:** Protocolos Normativos RICE y Redes de Derivación Externa
 * **PKG-05:** Inteligencia Artificial Generativa y Analítica Predictiva
-* **PKG-06:** Asistencia, Algoritmo de Promoción y Cierre de Ciclo Escolar
+* **PKG-06:** Cierre de Año Escolar y Promoción de Estudiantes
 * **PKG-07:** Configuración Institucional, Notificaciones y Analítica Avanzada
+* **PKG-08:** Mediación Escolar y Acuerdos Restaurativos (Sprint 7.2)
+* **PKG-09:** Dinámicas Socioemocionales y Colaboración Externa (Sprint 8)
+* **PKG-10:** Citaciones Formativas y Alianza Familia-Escuela (Sprint 10)
 
 ---
 
@@ -315,7 +320,7 @@ CU506 ..> CU505 : <<extend>>
 
 ---
 
-## 9. PKG-06: ASISTENCIA, PROMOCIÓN Y CIERRE DE CICLO ESCOLAR
+## 9. PKG-06: CIERRE DE AÑO ESCOLAR Y PROMOCIÓN DE ESTUDIANTES
 
 ### 9.1 Diagrama de Casos de Uso (PlantUML)
 
@@ -324,24 +329,27 @@ CU506 ..> CU505 : <<extend>>
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-actor "Docente / Inspector" as Doc
-actor "Administrador / Directivo" as Admin
+actor "Administrador" as Admin
+actor "Directivo\n(Director / UTP)" as Dir
 
-rectangle "SIGA Escolar: Ciclo Escolar, Asistencia y Promoción" {
-  usecase "Tomar Asistencia Diaria\npor Bloque" as CU601
-  usecase "Consultar Porcentaje de\nAsistencia por Alumno" as CU602
-  usecase "Simular Propuesta\nPreliminar de Promoción" as CU603
-  usecase "Ejecutar Algoritmo de\nPromoción Escolar" as CU604
-  usecase "Cerrar Año Escolar y\nArchivar Historial" as CU605
+rectangle "SIGA Escolar: Cierre de Año Escolar y Promoción" {
+  usecase "Consultar Estado del\nPeríodo Lectivo Activo" as CU601
+  usecase "Generar Propuesta Algorítmica\nde Promoción" as CU602
+  usecase "Ajustar Nómina y\nEstados Finales de Alumnos" as CU603
+  usecase "Configurar Cursos y\nJefaturas Proyectadas" as CU604
+  usecase "Ejecutar Cierre de Año\ny Promoción Masiva" as CU605
 }
 
-Doc --> CU601
-Doc --> CU602
+Admin --> CU601
+Admin --> CU602
 Admin --> CU603
 Admin --> CU604
 Admin --> CU605
+Dir --> CU601
+Dir --> CU605
 
-CU603 ..> CU604 : <<include>>
+CU602 ..> CU601 : <<include>>
+CU605 ..> CU603 : <<include>>
 CU605 ..> CU604 : <<include>>
 @enduml
 ```
@@ -350,11 +358,11 @@ CU605 ..> CU604 : <<include>>
 
 | Código | Caso de Uso | Actores | Tipo / Relación | Requerimiento Trazable | Descripción Técnica |
 | :--- | :--- | :--- | :--- | :---: | :--- |
-| **CU-601** | Tomar Asistencia Diaria por Bloque | Docente, Inspector | Caso Base | Módulo Asistencia | Marcaje por estudiante (Presente, Ausente, Justificado, Atraso) en tiempo real. |
-| **CU-602** | Consultar Porcentaje de Asistencia por Alumno | Docente | Caso Base | Módulo Asistencia | Cálculo acumulado para supervisar umbral mínimo de 85% exigido por MINEDUC. |
-| **CU-603** | Simular Propuesta Preliminar de Promoción | Administrador, Directivo | Caso Base | Módulo Promoción | Vista previa no destructiva de promovidos/reprobados con alertas de casos borde. |
-| **CU-604** | Ejecutar Algoritmo de Promoción Escolar | Sistema | `<<include>>` de CU-603/605 | Módulo Promoción | Valida notas, asistencia y criterios RICE para determinar si el alumno es promovido. |
-| **CU-605** | Cerrar Año Escolar y Archivar Historial | Administrador | Caso Base | Módulo Promoción | Congela el periodo lectivo, promueve niveles y archiva antecedentes históricos. |
+| **CU-601** | Consultar Estado del Período Activo | Administrador, Directivo | Caso Base | Módulo Cierre | Obtiene resumen del año vigente, total de alumnos por curso y fechas lectivas. |
+| **CU-602** | Generar Propuesta Algorítmica de Promoción | Administrador | `<<include>>` de CU-601 | Módulo Cierre | Aplica la secuencia oficial del MINEDUC (`SECUENCIA_NIVELES`) para sugerir pases de curso. |
+| **CU-603** | Ajustar Nómina y Estados Finales | Administrador | Caso Base | Módulo Cierre | Pestañas interactivas para modificar el estado final de alumnos antes de sellar el año. |
+| **CU-604** | Configurar Cursos y Jefaturas Proyectadas | Administrador | Caso Base | Módulo Cierre | Estructura los cursos del año entrante y asocia docentes a sus jefaturas. |
+| **CU-605** | Ejecutar Cierre de Año y Promoción Masiva | Administrador, Directivo | Caso Base | Módulo Cierre | Transacción atómica en Supabase: archiva período anterior, crea nuevo año y promueve nómina. |
 
 ---
 
@@ -405,7 +413,145 @@ EF --> CU707
 
 ---
 
-## 11. GUÍA PARA EL MODELADOR VISUAL (COMPAÑERO DE EQUIPO)
+## 11. PKG-08: MEDIACIÓN ESCOLAR Y ACUERDOS RESTAURATIVOS (SPRINT 7.2)
+
+### 11.1 Diagrama de Casos de Uso (PlantUML)
+
+```plantuml
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Equipo de Formación\n(Dupla / Convivencia)" as EF
+actor "Docente\n(Profesor Jefe / Mediador)" as Doc
+actor "Directivo" as Dir
+
+rectangle "SIGA Escolar: Mediación y Acuerdos Restaurativos" {
+  usecase "Abrir Proceso de\nMediación Escolar" as CU801
+  usecase "Validar Vinculación de\nEstudiantes a Conflicto" as CU802
+  usecase "Pactar Compromisos\nRestaurativos y Acuerdos" as CU803
+  usecase "Emitir y Firmar Acta\nde Mediación en PDF" as CU804
+  usecase "Evaluar Cumplimiento\ny Cerrar Mediación" as CU805
+  usecase "Derivar a Protocolo RICE\npor Ruptura de Acuerdos" as CU806
+}
+
+EF --> CU801
+Doc --> CU801
+EF --> CU803
+EF --> CU804
+EF --> CU805
+Dir --> CU805
+
+CU801 ..> CU802 : <<include>>
+CU804 ..> CU803 : <<include>>
+CU806 ..> CU805 : <<extend>>
+@enduml
+```
+
+### 11.2 Tabla de Especificación Técnica
+
+| Código | Caso de Uso | Actores | Tipo / Relación | Épica / Requerimiento | Descripción Técnica |
+| :--- | :--- | :--- | :--- | :---: | :--- |
+| **CU-801** | Abrir Proceso de Mediación Escolar | Equipo Formación, Docente Mediador | Caso Base | Épica 7.2 (HU 7.2.1) | Genera expediente de mediación voluntaria con folio correlativo único `MED-2026-XXXX`. |
+| **CU-802** | Validar Vinculación de Estudiantes a Conflicto | Sistema | `<<include>>` de CU-801 | Épica 7.2 | Comprueba que los estudiantes pertenezcan al mismo curso o tengan antecedentes en bitácora. |
+| **CU-803** | Pactar Compromisos Restaurativos y Acuerdos | Equipo Formación | Caso Base | Épica 7.2 | Registro estructurado de compromisos formativos, tareas reparatorias y plazos de revisión. |
+| **CU-804** | Emitir y Firmar Acta de Mediación en PDF | Equipo Formación | `<<include>>` de CU-803 | Épica 7.2 | Compila PDF oficial con PDFKit conteniendo acuerdos, fecha de seguimiento y firmas de partes. |
+| **CU-805** | Evaluar Cumplimiento y Cerrar Mediación | Equipo Formación, Directivo | Caso Base | Épica 7.2 | Cierre formal tras sesión de seguimiento a 15/30 días marcando estado `RESUELTA`. |
+| **CU-806** | Derivar a Protocolo RICE por Ruptura | Sistema / Equipo Formación | `<<extend>>` de CU-805 | Épica 7.2, RF-08 | *Punto de extensión:* Incumplimiento reiterado o agresión grave posterior. Dispara flujo RICE. |
+
+---
+
+## 12. PKG-09: DINÁMICAS SOCIOEMOCIONALES Y COLABORACIÓN EXTERNA (SPRINT 8)
+
+### 12.1 Diagrama de Casos de Uso (PlantUML)
+
+```plantuml
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Equipo de Formación\n(Psicólogo / Convivencia)" as EF
+actor "Directivo" as Dir
+actor "Especialista Externo\n(Neurólogo / Psiquiatra)" as Medico
+
+rectangle "SIGA Escolar: Sociograma y Perfil Especialistas" {
+  usecase "Visualizar Sociograma\nDinámico de Curso" as CU901
+  usecase "Filtrar Red Socioemocional\npor Rango Temporal" as CU902
+  usecase "Exportar Perfil Escolar\npara Especialistas" as CU903
+  usecase "Ejecutar Sanitización DLP\npara Clínicos Externos" as CU904
+}
+
+EF --> CU901
+Dir --> CU901
+EF --> CU903
+
+CU903 --> Medico
+
+CU902 ..> CU901 : <<extend>>
+CU903 ..> CU904 : <<include>>
+@enduml
+```
+
+### 12.2 Tabla de Especificación Técnica
+
+| Código | Caso de Uso | Actores | Tipo / Relación | Épica / Requerimiento | Descripción Técnica |
+| :--- | :--- | :--- | :--- | :---: | :--- |
+| **CU-901** | Visualizar Sociograma Dinámico de Curso | Equipo Formación, Directivo | Caso Base | Épica 8 (HU 8.1.1) | Renderiza grafo interactivo de nodos (alumnos) y aristas ponderadas por co-ocurrencias en incidentes. |
+| **CU-902** | Filtrar Red Socioemocional por Rango Temporal | Equipo Formación | `<<extend>>` de CU-901 | Épica 8 | Permite filtrar la red por mes, semestre o año para ver la evolución de alianzas y tensiones. |
+| **CU-903** | Exportar Perfil Escolar para Especialistas | Equipo Formación, Especialista Externo | Caso Base | Épica 8 (HU 8.2) | Genera informe clínico-conductual estandarizado para neurólogos y psicólogos tratantes. |
+| **CU-904** | Ejecutar Sanitización DLP para Clínicos | Sistema | `<<include>>` de CU-903 | RNF-09, Ley 19.628 | Anonimiza nombres de terceros y compañeros involucrados, protegiendo la privacidad de menores. |
+
+---
+
+## 13. PKG-10: CITACIONES FORMATIVAS Y ALIANZA FAMILIA-ESCUELA (SPRINT 10)
+
+### 13.1 Diagrama de Casos de Uso (PlantUML)
+
+```plantuml
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Docente\n(Profesor Jefe)" as Doc
+actor "Equipo de Formación" as EF
+actor "Directivo" as Dir
+actor "Apoderado\n<<Móvil sin Login>>" as Apod
+
+rectangle "SIGA Escolar: Citaciones Formativas y Alianza Familiar" {
+  usecase "Programar Citación de\nColaboración Formativa" as CU1001
+  usecase "Despachar Colilla Digital\ny Token Seguro" as CU1002
+  usecase "Confirmar o Justificar\nAsistencia vía Móvil" as CU1003
+  usecase "Registrar Compromisos\nMutuos Familia-Escuela" as CU1004
+  usecase "Emitir Acta Oficial de\nCitación en PDF" as CU1005
+  usecase "Monitorear Métricas de\nAdherencia Parental" as CU1006
+}
+
+Doc --> CU1001
+EF --> CU1001
+Apod --> CU1003
+Doc --> CU1004
+Doc --> CU1005
+Dir --> CU1006
+
+CU1001 ..> CU1002 : <<include>>
+CU1005 ..> CU1004 : <<include>>
+@enduml
+```
+
+### 13.2 Tabla de Especificación Técnica
+
+| Código | Caso de Uso | Actores | Tipo / Relación | Épica / Requerimiento | Descripción Técnica |
+| :--- | :--- | :--- | :--- | :---: | :--- |
+| **CU-1001** | Programar Citación Formativa | Docente, Equipo Formación | Caso Base | Épica 10 (HU 10.1) | Genera citación con folio `CIT-2026-XXXX`, motivo formativo positivo y fecha tentativa. |
+| **CU-1002** | Despachar Colilla Digital y Token Seguro | Sistema | `<<include>>` de CU-1001 | Épica 10 | Genera token criptográfico temporal de 72h y despacha email con enlace responsive sin login. |
+| **CU-1003** | Confirmar o Justificar Asistencia vía Móvil | Apoderado (Móvil) | Caso Base | Épica 10 (HU 10.1) | Interfaz pública móvil de 1-clic para confirmar asistencia o solicitar reprogramación de fecha. |
+| **CU-1004** | Registrar Compromisos Mutuos Familia-Escuela | Docente | Caso Base | Épica 10 (HU 10.2) | Acta digital de la reunión con acuerdos bidireccionales (compromisos del colegio y del hogar). |
+| **CU-1005** | Emitir Acta Oficial de Citación en PDF | Docente | `<<include>>` de CU-1004 | Épica 10 | Generación del documento formal con membrete del colegio y espacios de firma presencial. |
+| **CU-1006** | Monitorear Métricas de Adherencia Parental | Directivo | Caso Base | Épica 10 (HU 10.3) | Dashboard analítico que mide la tasa de asistencia de apoderados por curso y ciclo escolar. |
+
+---
+
+## 14. GUÍA PARA EL MODELADOR VISUAL (COMPAÑERO DE EQUIPO)
 
 Para generar los diagramas visuales en **Draw.io / diagrams.net**:
 
