@@ -3,7 +3,7 @@
 **Cliente Institucional:** Escuela Coeducacional N° 1 El Salvador, Atacama, Chile  
 **Entidad Académica:** Universidad Tecnológica de Chile INACAP (Proyecto de Título)  
 **Referencia Técnica:** *UML Distilled (Martin Fowler)*, Modelo 4+1 Vistas de Kruchten (Vista de Desarrollo), IEEE 1471 / ISO/IEC 42010  
-**Versión:** 3.0 (Diagrama Maestro Definitivo / Integración Total de Sprints)  
+**Versión:** 4.0 (Diseño Planar Anticolisión / Cero Cruce de Líneas / Diccionario Completo)  
 **Fecha:** Octubre 2026  
 
 ---
@@ -14,13 +14,21 @@ Este documento consolida en un **único diagrama maestro de componentes** la tot
 
 ### Vista de Desarrollo (Kruchten 4+1)
 El modelo descompone el sistema en **7 capas y subsistemas estructurales**:
-1. **Capa de Presentación (Frontend SPA / PWA - React 18):** Incluye la aplicación principal y el portal móvil de respuesta rápida sin login para apoderados.
-2. **Capa de Entrada, Transporte y Seguridad (Backend API Gateway - Express 5):** Expone interfaces REST (HTTPS/TLS 1.3), canal bidireccional en tiempo real (WSS) y punto de acceso tokenizado para citaciones.
-3. **Capa de Lógica de Negocio y Servicios de Dominio:** Alberga los 11 motores de negocio de la escuela (Incidentes, RICE, Mediación, Sociograma, Citaciones, Promoción, Alumnos, Jefaturas, Analítica, Documentación PDF y Notificaciones).
+1. **Capa de Presentación (Frontend SPA / PWA - React 18):** Aplicación de gestión y portal web móvil ultraligero de respuesta rápida sin login para familias.
+2. **Capa de Entrada, Transporte y Seguridad (Backend API Gateway - Express 5):** Interfaces REST (HTTPS/TLS 1.3), canal bidireccional en tiempo real (WSS) y punto de acceso público tokenizado de 72 horas.
+3. **Capa de Lógica de Negocio y Servicios de Dominio:** Los motores de regla institucional distribuidos en 3 columnas funcionales paralelas:
+   - *Columna A (Convivencia e IA):* Incidentes, Protocolos RICE, Sanitización DLP y Asistente Gemini Flash.
+   - *Columna B (Gestión Escolar y Core):* Estudiantes Módulo 11, Cursos/Jefaturas, Cierre Anual/Promoción y Compilador PDF.
+   - *Columna C (Familias, Redes y Procesamiento Asíncrono):* Mediación Escolar, Sociograma, Citaciones Formativas, Notificaciones y Colas Background.
 4. **Subsistema de Inteligencia Artificial y Privacidad:** Desacopla la invocación de Google Gemini Flash mediante un pipeline de sanitización DLP (Ley N° 19.628) y un Circuit Breaker de degradación grácil.
 5. **Subsistema de Procesamiento Asíncrono en Segundo Plano (Jobs & Queues):** Despacho desacoplado de colillas por correo y detección programada de ausentismo crónico.
 6. **Capa de Persistencia y Almacenamiento (Supabase):** PostgreSQL 15 con aislamiento estricto multi-tenant mediante Row Level Security (RLS) y almacenamiento seguro de evidencias.
-7. **Servicios y Entidades Externas en la Nube:** Proveedores externos de IA (Google AI Studio), SMTP institucional y receptores clínicos.
+7. **Servicios y Entidades Externas en la Nube:** Proveedores externos de IA (Google AI Studio), SMTP institucional y especialistas clínicos/salud externa.
+
+### Optimización de Trazado Planar (Anti-Cruces para Draw.io)
+Para garantizar una exportación limpia e impecable en Draw.io:
+* Se implementa un **enrutamiento ortogonal estricto (`skinparam linetype ortho`)**.
+* Se estructuran las dependencias en **3 carriles verticales paralelos**, asegurando que los flujos de datos viajen de arriba hacia abajo sin cruzarse horizontalmente entre columnas disjuntas.
 
 ---
 
@@ -32,193 +40,218 @@ skinparam componentStyle uml2
 skinparam packageStyle rectangle
 skinparam shadowing false
 skinparam monochrome true
+skinparam linetype ortho
+skinparam nodesep 30
+skinparam ranksep 40
+
+' Directiva de flujo vertical jerárquico
+top to bottom direction
 
 ' ==========================================================
-' CAPA DE PRESENTACIÓN (FRONTEND CLIENT - SPA / PWA)
+' CAPA 1: PRESENTACIÓN (FRONTEND CLIENT - SPA / PWA)
 ' ==========================================================
-package "Capa de Presentación (Frontend SPA / PWA - React 18)" as FrontendPkg {
-  [Vistas y Enrutador Declarativo\n(React Router DOM / RoleRoute)] as RouterUI
-  [Gestor de Estado Global\n(Zustand: auth, offline, notif)] as StateStore
-  [Cliente HTTP Interceptor\n(Axios / Inyección Bearer JWT)] as HttpClient
-  [Cliente WebSockets en Vivo\n(socketService / Conexión WSS)] as WsClient
-  [Motor de Trabajo Offline\n(Service Worker & IndexedDB)] as PWAEngine
-  [Portal Móvil de Apoderados\n(Confirmación Tokenizada 1-Clic)] as ParentMobilePortal
-  
+package "Capa de Presentación (Frontend React 18 & PWA)" as FrontendPkg {
+  [Portal Móvil Apoderados\n(Token 72h / 1-Clic)] as ParentMobilePortal
+  [Vistas y Enrutador SPA\n(React Router DOM / RoleRoute)] as RouterUI
+  [Gestor Estado Global\n(Zustand: auth, offline, notif)] as StateStore
+  [Motor Offline PWA\n(Service Worker & IndexedDB)] as PWAEngine
+  [Cliente HTTP Interceptor\n(Axios / Inyección JWT)] as HttpClient
+  [Cliente WebSockets en Vivo\n(socketService / WSS)] as WsClient
+
+  ParentMobilePortal -[hidden]right- RouterUI
+  RouterUI -[hidden]right- StateStore
+  StateStore -[hidden]right- PWAEngine
+  PWAEngine -[hidden]right- HttpClient
+  HttpClient -[hidden]right- WsClient
+
   RouterUI ..> StateStore : sincroniza estado
   StateStore ..> HttpClient : despacha peticiones REST
-  StateStore <.. WsClient : recibe notificaciones push
-  RouterUI ..> PWAEngine : fallback de red en patio
+  RouterUI ..> PWAEngine : contingencia patio
+  WsClient ..> StateStore : eventos push
 }
 
 ' ==========================================================
-' CAPA DE ENTRADA, SEGURIDAD Y TRANSPORTE (API GATEWAY)
+' CAPA 2: ENTRADA, SEGURIDAD Y CONTROL (EXPRESS 5 API GATEWAY)
 ' ==========================================================
-package "Capa de Control y Transporte (Express 5 & Sockets)" as GatewayPkg {
-  interface "HTTP / REST API (TLS 1.3)" as HttpInterface
+package "Capa de Entrada, Seguridad y Control (Express 5)" as GatewayPkg {
+  interface "HTTP / Acceso Tokenizado" as TokenInterface
+  interface "HTTPS / REST API (TLS 1.3)" as HttpInterface
   interface "WSS / WebSockets (Real-Time)" as WsInterface
-  interface "HTTP / Acceso Público Tokenizado" as TokenInterface
-  
-  [Filtros de Seguridad HTTP\n(Helmet / CORS / RateLimiter)] as SecFilter
-  [Middleware de Auth y RBAC\n(JWT Verify & requireRole)] as AuthRBAC
-  [Middleware de Auditoría Inmutable\n(auditLogger / setImmediate)] as AuditMW
-  [Controladores de Dominio y Omnibox\n(Express Route Handlers / Zod)] as Controllers
-  [Servidor de WebSockets y Canales\n(Socket.io / sockets/index.js)] as WsServer
-  
-  HttpInterface - [SecFilter]
-  TokenInterface - [SecFilter]
-  SecFilter ..> [AuthRBAC]
-  AuthRBAC ..> [Controllers] : request autenticado
-  SecFilter ..> [Controllers] : request con token público
-  Controllers ..> [AuditMW] : fire-and-forget
-  
-  WsInterface - [WsServer]
-  AuthRBAC ..> [WsServer] : handshake autenticado
+
+  [Filtros Seguridad Perimetral\n(Helmet / CORS / RateLimiter)] as SecFilter
+  [Middleware Auth & RBAC\n(JWT Verify & requireRole)] as AuthRBAC
+  [Middleware Auditoría Inmutable\n(auditLogger / setImmediate)] as AuditMW
+  [Controladores de Dominio\n(Express Route Handlers / Zod)] as Controllers
+  [Servidor WebSockets y Canales\n(Socket.io / sockets/index.js)] as WsServer
+
+  TokenInterface -[hidden]right- HttpInterface
+  HttpInterface -[hidden]right- WsInterface
+
+  TokenInterface -- SecFilter
+  HttpInterface -- SecFilter
+  WsInterface -- WsServer
+
+  SecFilter ..> AuthRBAC : valida credenciales
+  SecFilter ..> Controllers : bypass token apoderado
+  AuthRBAC ..> Controllers : request autenticado
+  AuthRBAC ..> WsServer : handshake con credencial
+  Controllers ..> AuditMW : registro asíncrono
 }
 
+' Conexiones Frontend -> Gateway
+ParentMobilePortal ..> TokenInterface : confirmación citación
 HttpClient ..> HttpInterface : llamadas JSON autenticadas
 WsClient ..> WsInterface : canal bidireccional
-ParentMobilePortal ..> TokenInterface : confirmación citación móvil
 
 ' ==========================================================
-' CAPA DE SERVICIOS DE DOMINIO Y LÓGICA DE NEGOCIO
+' CAPA 3, 4 Y 5: LÓGICA DE NEGOCIO Y SUBSISTEMAS PARALELOS
 ' ==========================================================
-package "Capa de Dominio y Lógica de Negocio" as DomainPkg {
-  [Servicio de Convivencia e Incidentes\n(incidentesService)] as IncidentesSvc
-  [Servicio de Protocolos RICE\n(protocolosService & derivacionesService)] as ProtocolosSvc
-  [Servicio de Mediación Escolar\n(mediacionesService - Folio MED)] as MediacionSvc
-  [Servicio de Sociograma Dinámico\n(sociogramaService - Co-ocurrencias)] as SociogramaSvc
-  [Servicio de Citaciones Formativas\n(citacionesService - Folio CIT)] as CitacionesSvc
-  [Servicio de Cierre y Promoción\n(cierreAnioService - Progresión Niveles)] as CierreSvc
-  [Servicio de Estudiantes y Comunidad\n(estudiantesService - Módulo 11)] as EstudiantesSvc
-  [Servicio de Configuración y Cursos\n(configuracionService & cursosService)] as ConfigCursosSvc
-  [Servicio de Analítica y Métricas\n(analyticsService & riesgoService)] as AnalyticsSvc
-  [Generador de Documentos Oficiales\n(pdfService / PDFKit)] as PdfSvc
-  [Servicio de Notificaciones y Broadcasts\n(notificacionesService & broadcastsService)] as NotifSvc
-  
-  Controllers ..> IncidentesSvc
-  Controllers ..> ProtocolosSvc
-  Controllers ..> MediacionSvc
-  Controllers ..> SociogramaSvc
-  Controllers ..> CitacionesSvc
-  Controllers ..> CierreSvc
-  Controllers ..> EstudiantesSvc
-  Controllers ..> ConfigCursosSvc
-  Controllers ..> AnalyticsSvc
-  Controllers ..> NotifSvc
-  
-  IncidentesSvc ..> NotifSvc : alerta falta grave/gravísima
-  CitacionesSvc ..> NotifSvc : aviso confirmación apoderado
-  NotifSvc ..> WsServer : emite push en tiempo real
-  
-  IncidentesSvc ..> PdfSvc : compila acta de incidente
-  ProtocolosSvc ..> PdfSvc : compila oficio derivación
-  MediacionSvc ..> PdfSvc : compila acta acuerdos mutuos
-  CitacionesSvc ..> PdfSvc : compila colilla y acta formativa
-  CierreSvc ..> PdfSvc : compila acta anual promoción
+package "Capa de Dominio y Lógica de Negocio (3 Columnas Funcionales)" as DomainMasterPkg {
+
+  ' ---- COLUMNA 1: CONVIVENCIA ESCOLAR E IA (IZQUIERDA) ----
+  package "Columna A: Convivencia e IA" as ColConvivenciaPkg {
+    [Servicio de Convivencia e Incidentes\n(incidentesService)] as IncidentesSvc
+    [Servicio de Protocolos RICE\n(protocolosService & derivacionesService)] as ProtocolosSvc
+    [Pipeline Sanitización DLP\n(dlpSanitizer - Ley N° 19.628)] as DlpSvc
+    [Cliente Gemini Flash & Circuit Breaker\n(geminiService / @google/genai)] as GeminiClient
+
+    IncidentesSvc ..> ProtocolosSvc : activa protocolo
+    IncidentesSvc ..> DlpSvc : anonimiza PII borrador
+    DlpSvc ..> GeminiClient : texto protegido
+  }
+
+  ' ---- COLUMNA 2: GESTIÓN ESCOLAR Y CORE (CENTRO) ----
+  package "Columna B: Gestión Escolar y Core" as ColEscolarPkg {
+    [Servicio Estudiantes y Matrícula\n(estudiantesService - Módulo 11)] as EstudiantesSvc
+    [Servicio Configuración y Cursos\n(configuracionService & cursosService)] as ConfigCursosSvc
+    [Servicio Cierre y Promoción\n(cierreAnioService - Secuencia Niveles)] as CierreSvc
+    [Compilador Documental Oficial\n(pdfService / PDFKit)] as PdfSvc
+
+    EstudiantesSvc -[hidden]down- ConfigCursosSvc
+    ConfigCursosSvc -[hidden]down- CierreSvc
+    CierreSvc ..> PdfSvc : compila acta anual
+  }
+
+  ' ---- COLUMNA 3: FAMILIAS, REDES Y ASÍNCRONO (DERECHA) ----
+  package "Columna C: Familias, Redes y Procesamiento Asíncrono" as ColFamiliasPkg {
+    [Servicio Mediación Escolar\n(mediacionesService - Folio MED)] as MediacionSvc
+    [Servicio Sociograma Dinámico\n(sociogramaService - Co-ocurrencias)] as SociogramaSvc
+    [Servicio Citaciones Formativas\n(citacionesService - Folio CIT)] as CitacionesSvc
+    [Servicio Notificaciones y Alertas\n(notificacionesService & broadcasts)] as NotifSvc
+    [Gestor de Colas Background\n(Jobs: EmailQueue, Ausentismo)] as JobQueueSvc
+
+    CitacionesSvc ..> NotifSvc : aviso confirmación
+    CitacionesSvc ..> JobQueueSvc : encola despacho colillas
+    SociogramaSvc ..> NotifSvc : alerta tensión grupal
+    NotifSvc ..> WsServer : emite push a inspectores
+  }
+
+  ColConvivenciaPkg -[hidden]right- ColEscolarPkg
+  ColEscolarPkg -[hidden]right- ColFamiliasPkg
 }
 
-' ==========================================================
-' SUBSISTEMA DE TRABAJOS EN SEGUNDO PLANO Y COLAS (JOBS)
-' ==========================================================
-package "Procesamiento Asíncrono en Segundo Plano" as AsyncPkg {
-  [Gestor de Colas y Tareas en Background\n(Jobs: EmailQueue, Ausentismo, Mensajes)] as JobQueueSvc
-  
-  CitacionesSvc ..> JobQueueSvc : encola despacho colillas
-  DomainPkg ..> JobQueueSvc : programa auditorías/alertas
-}
+' Conexiones Gateway -> Columnas de Dominio
+Controllers ..> IncidentesSvc : despacho convivencia
+Controllers ..> EstudiantesSvc : despacho escolar
+Controllers ..> CitacionesSvc : despacho citaciones / familias
+
+' Conexiones Inter-Dominio hacia Compilador PDF
+IncidentesSvc ..> PdfSvc : compila acta incidente
+MediacionSvc ..> PdfSvc : compila acta de acuerdos
 
 ' ==========================================================
-' SUBSISTEMA DE INTELIGENCIA ARTIFICIAL Y PRIVACIDAD
+' CAPA 6: PERSISTENCIA Y ALMACENAMIENTO (SUPABASE)
 ' ==========================================================
-package "Subsistema de IA y Privacidad (Sprint 6 & 8)" as AIPkg {
-  [Pipeline de Sanitización DLP\n(dlpSanitizer - Ley N° 19.628)] as DlpSvc
-  [Cliente Gemini Flash & Circuit Breaker\n(geminiService / @google/genai)] as GeminiClient
-  
-  IncidentesSvc ..> DlpSvc : anonimiza PII borrador
-  SociogramaSvc ..> DlpSvc : anonimiza perfil clínico
-  AnalyticsSvc ..> DlpSvc : anonimiza historial preventivo
-  DlpSvc ..> GeminiClient : payload protegido
-}
-
-' ==========================================================
-' CAPA DE PERSISTENCIA Y ALMACENAMIENTO (SUPABASE)
-' ==========================================================
-package "Capa de Persistencia y Datos (PostgreSQL 15)" as PersistencePkg {
+package "Capa de Persistencia y Datos (Supabase Cloud)" as PersistencePkg {
   interface "Supabase JS Client" as DbInterface
-  [Motor Relacional PostgreSQL\n(Row Level Security / tenant_id)] as PostgresDB
+  [Motor Relacional PostgreSQL 15\n(Row Level Security / tenant_id)] as PostgresDB
   [Almacén de Objetos Seguros\n(Supabase Storage Buckets)] as ObjectStorage
   [Tabla de Auditoría Inmutable\n(audit_log JSONB)] as AuditTable
-  
-  DbInterface - [PostgresDB]
+
+  DbInterface -- PostgresDB
+  PostgresDB -[hidden]right- ObjectStorage
+  ObjectStorage -[hidden]right- AuditTable
 }
 
-DomainPkg ..> DbInterface : operaciones CRUD
-AuditMW ..> AuditTable : registro asíncrono
-PdfSvc ..> ObjectStorage : guarda actas oficiales PDF
-IncidentesSvc ..> ObjectStorage : sube evidencias y adjuntos
-
 ' ==========================================================
-' SERVICIOS EXTERNOS EN LA NUBE Y ESPECIALISTAS
+' CAPA 7: SERVICIOS EXTERNOS EN LA NUBE Y ESPECIALISTAS
 ' ==========================================================
 package "Servicios Externos y Receptores" as ExternalPkg {
   [Google Gemini API\n(generativelanguage.googleapis.com)] as GeminiAPI
-  [Servidor de Correo SMTP\n(Notificaciones y Colillas Digitales)] as SmtpServer
-  [Especialistas Externos\n(Neurólogos / Psiquiatras / Salud)] as MedicosExternos
+  [Servidor de Correo SMTP\n(Notificaciones y Colillas)] as SmtpServer
+  [Especialistas Externos\n(Salud / Red Asistencial)] as MedicosExternos
+
+  GeminiAPI -[hidden]right- SmtpServer
+  SmtpServer -[hidden]right- MedicosExternos
 }
 
+' ==========================================================
+' ENLACES VERTICALES DIRECTOS HACIA PERSISTENCIA Y EXTERNOS
+' ==========================================================
+' Columna A (Izquierda) -> Externo AI
 GeminiClient ..> GeminiAPI : HTTPS / Generative AI
-JobQueueSvc ..> SmtpServer : despacho SMTP asíncrono
-PdfSvc ..> MedicosExternos : entrega perfil escolar sanitizado
+
+' Columna B (Centro) -> Persistencia Supabase
+DomainMasterPkg ..> DbInterface : operaciones CRUD seguras
+PdfSvc ..> ObjectStorage : almacena actas oficiales PDF
+IncidentesSvc ..> ObjectStorage : almacena evidencias
+AuditMW ..> AuditTable : persistencia fire-and-forget
+
+' Columna C (Derecha) -> Externos Comunicación y Salud
+JobQueueSvc ..> SmtpServer : despacho SMTP desacoplado
+PdfSvc ..> MedicosExternos : expediente sanitizado
 @enduml
 ```
 
 ---
 
-## 3. CATÁLOGO MAESTRO DE COMPONENTES POR SUBSISTEMA
+## 3. TABLA DESCRIPTIVA DE COMPONENTES DEL SISTEMA (DICCIONARIO ARQUITECTÓNICO)
 
-### 3.1 Capa de Presentación (Frontend SPA / PWA - React 18)
-* **`Vistas y Enrutador Declarativo (React Router DOM)`**: Gestiona la navegación protegida por roles (`<ProtectedRoute />`), incluyendo las 7 pantallas rediseñadas en Figma (Sprint 7) y los módulos de incidentes, mediaciones, sociograma y cierre anual.
-* **`Gestor de Estado Global (Zustand Stores)`**: Maneja reactivamente la sesión del usuario (`authStore`), la cola de peticiones pendientes de red (`offlineStore`) y el contador en vivo de alertas (`notificacionesStore`).
-* **`Cliente HTTP Interceptor (Axios)`**: Inyecta tokens Bearer JWT y centraliza la intercepción de errores HTTP 401 y 403.
-* **`Cliente WebSockets en Vivo (socketService)`**: Mantiene el canal bidireccional WSS para actualizar la campanita de notificaciones sin recargar la página.
-* **`Motor de Trabajo Offline (Service Worker & IndexedDB)`**: Permite a inspectores reportar incidentes en zonas sin cobertura de patio escolar y sincronizar diferidamente.
-* **`Portal Móvil de Apoderados`**: Vista web ultraligera y responsive donde las familias confirman asistencia o solicitan reprogramación de citaciones en 1 clic utilizando un token de 72 horas sin necesidad de crear cuenta ni recordar contraseñas.
+A continuación se detalla la matriz completa de componentes de **SIGA Escolar**, especificando su capa arquitectónica, denominación formal, archivos fuente en el repositorio, propósito técnico y los contratos de interfaz con los que interactúa.
 
-### 3.2 Capa de Entrada, Control y Seguridad (Backend API Gateway - Express 5)
-* **`Filtros de Seguridad HTTP`**: Protección perimetral con `Helmet` (cabeceras seguras HSTS/CSP), `CORS` estricto y limitación de tasa `RateLimiter` para mitigar ataques de fuerza bruta.
-* **`Middleware de Autenticación y RBAC`**: Desencripta y valida tokens JWT, aislando el contexto del colegio (`tenant_id`) y verificando roles (`requireRole`). Autentica además el handshake de WebSockets.
-* **`Middleware de Auditoría Inmutable`**: Captura eventos CRUD y los deriva en segundo plano con `setImmediate()` (patrón *fire-and-forget*) sin penalizar el tiempo de respuesta.
-* **`Servidor de WebSockets (Socket.io)`**: Gestiona salas (*rooms*) por establecimiento escolar para despachar avisos push reactivos.
-
-### 3.3 Capa de Dominio y Lógica de Negocio
-* **`incidentesService`**: Registro tipificado de faltas (Leves, Graves, Gravísimas), asignación de roles a involucrados (Víctima, Agresor, Testigo) y alertas tempranas de reincidencia.
-* **`protocolosService & derivacionesService`**: Máquina de estados para los 10 protocolos normativos RICE, checklists por pasos y semáforo de plazos fatales en días hábiles de la Superintendencia.
-* **`mediacionesService`**: Gestión integral de mediaciones voluntarias escolares (folio `MED-2026-XXXX`), registro de compromisos mutuos formativos y acuerdos reparatorios.
-* **`sociogramaService`**: Algoritmo pasivo de co-ocurrencias que calcula la matriz de adyacencia y genera el grafo interactivo de relaciones y tensiones grupales del aula.
-* **`citacionesService`**: Convocatorias formativas a familias (folio `CIT-2026-XXXX`), generación de tokens temporales de 72h y registro de acuerdos mutuos familia-escuela.
-* **`cierreAnioService`**: Asistente de 3 pasos de fin de año lectivo que ejecuta la progresión algorítmica de niveles escolares (Pre-Kínder a 4° Medio) y genera la nómina de promoción.
-* **`estudiantesService`**: Ingesta masiva streaming (CSV/Excel) con validación matemática de RUT chileno mediante algoritmo Módulo 11 y marcas PIE.
-* **`configuracionService & cursosService`**: Parametrización del establecimiento (RBD, autoridades, membrete oficial, reglas de alerta) y asignación jerárquica de profesores jefes.
-* **`analyticsService & riesgoService`**: Motor de agregación analítica de mapas de calor (Curso vs. Mes del año) y scoring de riesgo conductual acumulativo.
-* **`pdfService (PDFKit)`**: Motor vectorial de compilación documental para emitir actas oficiales de incidentes, oficios de derivación RICE, actas de mediación y colillas de citación con firmas.
-* **`notificacionesService & broadcastsService`**: Distribución interna de notificaciones y avisos institucionales masivos.
-
-### 3.4 Subsistemas Especializados y Persistencia
-* **`Subsistema de IA y Privacidad`**:
-  - `dlpSanitizer`: Anonimización estricta de PII (nombres, RUTs, domicilios) bajo la Ley N° 19.628 antes de enviar datos al modelo fundacional.
-  - `geminiService`: Consumo de Google Gemini Flash con patrón *Circuit Breaker* que commuta a plantillas locales ante fallos de conexión o cuota.
-* **`Subsistema de Procesamiento Asíncrono (Jobs & Queues)`**:
-  - `JobQueueSvc`: Desacoplamiento de envíos de correo (`emailQueue`), tareas programadas de ausentismo crónico (`alertaAusentismoJob`) y reintentos.
-* **`Capa de Persistencia (Supabase PostgreSQL 15)`**:
-  - Aislamiento multi-tenant inviolable mediante políticas `Row Level Security (RLS)` basadas en `tenant_id`.
-  - `audit_log` inmutable en formato JSONB para fiscalizaciones ministeriales.
-  - `Supabase Storage` para almacenamiento seguro de documentos PDF oficiales y evidencias adjuntas.
+| Capa / Subsistema | Componente UML | Módulo / Archivo Fuente | Propósito y Reglas de Negocio | Interfaces y Conexiones Principales |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Presentación** | `Vistas y Enrutador SPA` | `client/src/routes/AppRoutes.jsx`, `ProtectedRoute.jsx` | Gestiona el enrutamiento declarativo del navegador protegiendo vistas según el rol del usuario (Director, Inspector General, Docente, Dupla Psicosocial). Renderiza los dashboards y módulos rediseñados. | `In: Usuario navegador`<br>`Out: StateStore, PWAEngine` |
+| **1. Presentación** | `Gestor Estado Global` | `client/src/store/authStore.js`, `offlineStore.js`, `notificacionesStore.js` | Mantiene el estado en memoria de la sesión activa (JWT, roles), la cola de operaciones pendientes de sincronización offline y el badge reactivo de notificaciones. | `In: RouterUI, WsClient`<br>`Out: HttpClient` |
+| **1. Presentación** | `Cliente HTTP Interceptor` | `client/src/services/api.js` | Instancia de Axios configurada con interceptores para inyectar automáticamente el encabezado `Authorization: Bearer <token>` y capturar globalmente errores 401/403. | `In: StateStore, Servicios UI`<br>`Out: HttpInterface (REST API)` |
+| **1. Presentación** | `Cliente WebSockets en Vivo` | `client/src/services/socketService.js` | Establece conexión bidireccional permanente vía Socket.io para escuchar alertas críticas de incidentes y confirmaciones de citaciones en tiempo real sin recargar página. | `In: WsInterface (WSS)`<br>`Out: StateStore` |
+| **1. Presentación** | `Motor Offline PWA` | `client/public/service-worker.js`, `client/src/services/indexedDB.js` | Intercepta fallos de red en zonas sin conectividad (patios, canchas) y almacena reportes de incidentes en IndexedDB local para sincronizarlos al reconectar. | `In: RouterUI`<br>`Out: HttpClient (en reconexión)` |
+| **1. Presentación** | `Portal Móvil Apoderados` | `client/src/pages/PortalCitacionPage.jsx` | Vista web ultraligera y responsive adaptada para smartphones que permite al apoderado confirmar asistencia o solicitar reprogramación en 1 clic sin credenciales de login. | `In: Apoderado (Link SMS/Email)`<br>`Out: TokenInterface` |
+| **2. API Gateway** | `Filtros Seguridad Perimetral` | `server/src/middlewares/security.js` | Aplica cabeceras HTTP seguras con Helmet (HSTS, CSP), previene accesos indebidos con CORS restringido y bloquea ataques de fuerza bruta mediante `express-rate-limit`. | `In: TokenInterface, HttpInterface`<br>`Out: AuthRBAC, Controllers` |
+| **2. API Gateway** | `Middleware Auth & RBAC` | `server/src/middlewares/authMiddleware.js`, `requireRole.js` | Valida la firma del token JWT, extrae el identificador del establecimiento (`tenant_id`) y comprueba los privilegios del rol para autorizar la ejecución del endpoint. | `In: SecFilter`<br>`Out: Controllers, WsServer` |
+| **2. API Gateway** | `Middleware Auditoría Inmutable` | `server/src/middlewares/auditLogger.js` | Captura metadatos de toda mutación (usuario, IP, acción, payload anterior y nuevo) y los deriva asíncronamente con `setImmediate()` (patrón fire-and-forget) sin demorar la respuesta HTTP. | `In: Controllers`<br>`Out: AuditTable (PostgreSQL)` |
+| **2. API Gateway** | `Controladores de Dominio` | `server/src/controllers/*.js` (e.g. `incidentesController.js`) | Valida el esquema sintáctico de los datos entrantes mediante esquemas Zod y delega la ejecución de reglas a la capa de servicios de dominio correspondiente. | `In: AuthRBAC, SecFilter`<br>`Out: Servicios de Dominio` |
+| **2. API Gateway** | `Servidor WebSockets` | `server/src/sockets/index.js` | Administra salas segmentadas por colegio (`room: tenant_id`) y roles (`room: inspectoria`), transmitiendo alertas push inmediatas a los navegadores conectados. | `In: WsInterface, NotifSvc`<br>`Out: WsClient (Frontend)` |
+| **3. Dominio (Columna A)** | `incidentesService` | `server/src/services/incidentesService.js` | Registra y gestiona incidentes tipificados (Leves, Graves, Gravísimas), asigna roles a los involucrados (Víctima, Agresor, Testigo) y calcula reincidencias conductuales. | `In: Controllers`<br>`Out: ProtocolosSvc, DlpSvc, PdfSvc, DbInterface` |
+| **3. Dominio (Columna A)** | `protocolosService & derivaciones` | `server/src/services/protocolosService.js`, `derivacionesService.js` | Controla la máquina de estados de los 10 protocolos normativos RICE, gestiona el checklist de acciones obligatorias y monitorea plazos fatales en días hábiles ministeriales. | `In: IncidentesSvc, Controllers`<br>`Out: PdfSvc, DbInterface` |
+| **3. Dominio (Columna B)** | `estudiantesService` | `server/src/services/estudiantesService.js` | Procesa la ingesta masiva (CSV/Excel) de nóminas de matrícula con validación algorítmica de RUT chileno (Módulo 11), marcas PIE y asignación de cursos. | `In: Controllers`<br>`Out: DbInterface` |
+| **3. Dominio (Columna B)** | `configuracionService & cursos` | `server/src/services/configuracionService.js`, `cursosService.js` | Administra los parámetros globales del colegio (RBD, autoridades, membrete oficial, reglas de convivencia) y la jerarquía de cursos con sus profesores jefes. | `In: Controllers`<br>`Out: DbInterface` |
+| **3. Dominio (Columna B)** | `cierreAnioService` | `server/src/services/cierreAnioService.js` | Ejecuta el asistente de 3 pasos de fin de año lectivo, aplicando la secuencia de progresión de niveles escolares (Pre-Kínder a 4° Medio) y generando la nómina oficial de promoción. | `In: Controllers`<br>`Out: PdfSvc, DbInterface` |
+| **3. Dominio (Columna B)** | `pdfService` | `server/src/services/pdfService.js` | Motor vectorial basado en PDFKit que compila actas oficiales de incidentes, oficios de derivación RICE, actas de mediación y colillas de citación con firmas institucionales. | `In: IncidentesSvc, MediacionSvc, CierreSvc`<br>`Out: ObjectStorage, MedicosExternos` |
+| **3. Dominio (Columna C)** | `mediacionesService` | `server/src/services/mediacionesService.js` | Gestiona expedientes de mediación escolar voluntaria (folio formal `MED-2026-XXXX`), acuerdos mutuos formativos, compromisos reparatorios y seguimiento de cumplimiento. | `In: Controllers`<br>`Out: PdfSvc, DbInterface` |
+| **3. Dominio (Columna C)** | `sociogramaService` | `server/src/services/sociogramaService.js` | Algoritmo pasivo de co-ocurrencias que procesa historiales de incidentes grupales para computar la matriz de adyacencia y proyectar grafos de relaciones y tensiones en el aula. | `In: Controllers`<br>`Out: NotifSvc, DbInterface` |
+| **3. Dominio (Columna C)** | `citacionesService` | `server/src/services/citacionesService.js` | Administra convocatorias a apoderados (folio `CIT-2026-XXXX`), genera tokens temporales firmados criptográficamente (72h) y registra compromisos familia-escuela. | `In: Controllers`<br>`Out: NotifSvc, JobQueueSvc, DbInterface` |
+| **3. Dominio (Columna C)** | `notificacionesService & broadcasts` | `server/src/services/notificacionesService.js`, `broadcastsService.js` | Coordina la distribución interna de avisos y alertas críticas de convivencia, activando la emisión de mensajes push hacia el servidor de WebSockets. | `In: IncidentesSvc, CitacionesSvc, SociogramaSvc`<br>`Out: WsServer, DbInterface` |
+| **4. IA y Privacidad** | `Pipeline Sanitización DLP` | `server/src/services/dlpSanitizer.js` | Detecta y sustituye automáticamente identificadores personales sensibles (nombres de menores, RUTs, teléfonos, domicilios) por tokens anónimos en cumplimiento de la Ley N° 19.628. | `In: IncidentesSvc`<br>`Out: GeminiClient` |
+| **4. IA y Privacidad** | `Cliente Gemini Flash` | `server/src/services/geminiService.js` | Cliente oficial del SDK `@google/genai` con patrón *Circuit Breaker*; asiste en redacción formativa neutral y conmuta a plantillas predefinidas locales en caso de caída de cuota o red. | `In: DlpSvc`<br>`Out: GeminiAPI (Google Cloud)` |
+| **5. Procesamiento Asíncrono** | `Gestor de Colas Background` | `server/src/jobs/emailQueue.js`, `alertaAusentismoJob.js` | Cola en memoria y tareas programadas para el despacho desacoplado de colillas digitales por correo electrónico y el monitoreo nocturno de ausentismo crónico reiterado. | `In: CitacionesSvc, Scheduler`<br>`Out: SmtpServer` |
+| **6. Persistencia** | `Supabase PostgreSQL 15` | `database/schema.sql`, políticas RLS | Base de datos relacional con aislamiento estricto por establecimiento mediante políticas de Row Level Security (RLS) aplicadas a nivel de motor sobre la columna `tenant_id`. | `In: DbInterface (desde servicios de dominio)`<br>`Out: Motor SQL` |
+| **6. Persistencia** | `Almacén de Objetos Seguros` | `Supabase Storage Buckets` | Buckets privados con políticas de acceso controlado para alojar evidencias documentales (fotografías de incidentes) y actas oficiales en PDF compiladas por el sistema. | `In: PdfSvc, IncidentesSvc`<br>`Out: Storage Engine` |
+| **6. Persistencia** | `Tabla Auditoría Inmutable` | `database/audit_log.sql` (tabla `audit_log`) | Registro histórico estructurado en JSONB que almacena trazas indelebles de cada operación para auditorías forenses y fiscalizaciones de la Superintendencia de Educación. | `In: AuditMW (API Gateway)`<br>`Out: PostgreSQL` |
+| **7. Servicios Externos** | `Google Gemini API` | Endpoint `generativelanguage.googleapis.com` | Servicio fundacional en la nube de Google para inferencia de lenguaje natural y asistencia en redacción pedagógica neutral de hechos de convivencia. | `In: GeminiClient`<br>`Out: Nube Google` |
+| **7. Servicios Externos** | `Servidor de Correo SMTP` | Servicio SMTP institucional configurado | Agente de transferencia de correo para el envío de notificaciones y colillas imprimibles con enlaces seguros hacia las familias y apoderados. | `In: JobQueueSvc`<br>`Out: Servidores de Correo Familias` |
+| **7. Servicios Externos** | `Especialistas Externos` | Red de derivación de salud (Neurólogos, CESFAM) | Profesionales y entidades del sistema de salud y protección de derechos que reciben oficios y expedientes escolares oficiales compilados en PDF sanitizado. | `In: PdfSvc (vía canal formal escolar)`<br>`Out: Expediente físico/digital médico` |
 
 ---
 
-## 4. GUÍA PARA EL MODELADOR EN DRAW.IO
+## 4. GUÍA PASO A PASO PARA EL MODELADOR EN DRAW.IO
 
-1. En Draw.io, ir a: **`+` (Insertar) $\rightarrow$ `Avanzado` $\rightarrow$ `PlantUML`**.
-2. Pegar el bloque de código de la **Sección 2**.
-3. Presionar **Insertar**.
-4. **Acabado profesional:** Para optimizar las intersecciones de líneas en el diagrama visual, seleccionar las líneas y en la pestaña lateral **Estilo** activar la opción **`Line Jumps: Arc` (Saltos de Línea en Arco)**.
+1. Abrir **Draw.io** (o diagramas en la aplicación de escritorio).
+2. Ir al menú superior: **`+` (Insertar) $\rightarrow$ `Avanzado` $\rightarrow$ `PlantUML...`**.
+3. Seleccionar y borrar cualquier plantilla de muestra que aparezca en el cuadro de diálogo.
+4. Copiar íntegramente el bloque de código de la **Sección 2** de este documento y pegarlo en el editor.
+5. Hacer clic en **Insertar**.
+6. **Verificación visual del resultado:**
+   - Observará cómo los componentes se organizan de forma automática en 3 columnas principales sin cruces enredados de líneas.
+   - Si desea que las líneas adopten saltos curvos en caso de cualquier solapamiento fino, seleccione las conexiones, diríjase a la pestaña **Estilo** en la barra lateral derecha y establezca **`Line Jumps: Arc` (Saltos de Línea en Arco)**.
+7. Exportar el diagrama final como imagen PNG de alta resolución (`Archivo -> Exportar como -> PNG...`) o guardar como archivo nativo `.drawio`.
