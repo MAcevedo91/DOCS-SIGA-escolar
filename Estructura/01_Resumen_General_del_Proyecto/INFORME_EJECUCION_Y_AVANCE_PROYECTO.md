@@ -1002,6 +1002,25 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * **Suite Global Backend:**
     * 51 de 51 suites aprobadas al 100% (**364 pruebas en verde**, 0 fallos, 0 regresiones).
 
+### Sprint 7 / Épica 7.2 — Backend: Motor PDFKit de Acta Oficial de Mediación Escolar (TASK 7.2.3.1)
+* **Objetivo:** Desarrollar el motor de renderizado documental en PDFKit (`pdfMediacionService.js`) para la generación oficial y descarga del Acta de Mediación y Acuerdos Formativos, incorporando membrete institucional de la Escuela El Salvador (RBD 9876-5), tablas de participantes y compromisos formativos, cláusula legal normativa conforme a la Circular N° 482 de la Superintendencia de Educación, cuadrantes para firmas y estampado de hash criptográfico SHA-256 inmutable en pie de página.
+* **Componentes intervenidos:**
+  * **Servicio Especializado PDF (`src/services/pdfMediacionService.js`):**
+    * Maquetación en formato A4 con membrete superior azul marino institucional (`#1e3a5f`), datos oficiales del colegio (RBD 9876-5) y folio correlativo único.
+    * Ficha técnica consolidada: mediador a cargo, fecha de sesión, lugar, estado del proceso y fecha de seguimiento.
+    * Tabla de participantes con roles específicos (*Parte 1, Parte 2, Afectado, Mediador Par, Observador*) y estado del aviso formal a apoderados.
+    * Tabla oficial de compromisos formativos con clasificación tipológica, descripción detallada, fecha límite y cálculo de altura dinámica por fila para textos extensos.
+    * Cláusula jurídica de validez formativa basada en la Circular N° 482 y Ley N° 20.370 (enfoque restaurativo, confidencial y no punitivo).
+    * Tres cuadrantes delimitados para firmas digitales o manuscritas (Mediador/a y Estudiantes participantes).
+    * Función `calcularHashMediacion(mediacion)`: cálculo determinista de hash SHA-256 (64 caracteres hexadecimales) de los datos canónicos, estampado en el pie de página de cada hoja para garantizar inmutabilidad, trazabilidad forense y no repudio.
+  * **Controladores y Rutas Express 5 (`src/controllers/mediacionesController.js` y `src/routes/mediaciones.routes.js`):**
+    * Handler `descargarActaPdfHandler` que expone el endpoint `GET /api/v1/mediaciones/:id/acta-pdf` con cabeceras `application/pdf`, nombre de archivo correlativo seguro y control RBAC.
+* **Resultados de Validación Automatizada:**
+  * **Pruebas Unitarias (`src/__tests__/services/pdfMediacionService.test.js`):**
+    * 8 de 8 pruebas aprobadas al 100% (número mágico `%PDF-`, metadatos oficiales UTF-16BE, determinismo y sensibilidad del hash SHA-256, tolerancia ante expedientes sin compromisos o datos incompletos y headers HTTP del controlador).
+  * **Suite Global Backend:**
+    * 52 de 52 suites aprobadas al 100% (**372 pruebas en verde**, 0 fallos, 0 regresiones).
+
 ### Sprint 7 / UX-UI — Modernización Integral de Interfaces: Registro de Incidentes y Apertura de Protocolos RICE
 * **Objetivo:** Renovar la experiencia de usuario en los formularios críticos de convivencia escolar (`NuevoIncidentePage.jsx` y `NuevoProtocoloPage.jsx`), migrando a un layout en dos columnas asimétricas con barra lateral sticky de control en tiempo real, paleta con gradientes temáticos vivos y diferenciados, y modales de confirmación/descarte de datos.
 * **Componentes intervenidos:**
@@ -1075,8 +1094,8 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **51 de 51 test suites aprobadas al 100% (364 pruebas pasando exitosamente en Jest integrando `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **537 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **52 de 52 test suites aprobadas al 100% (372 pruebas pasando exitosamente en Jest integrando `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **545 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 

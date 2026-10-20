@@ -553,6 +553,26 @@ Una vez llevada a cabo la sesión de mediación, el mediador o equipo de formaci
 
 ---
 
+### Emisión y Descarga del Acta Oficial de Mediación Escolar (PDF — TASK 7.2.3.1)
+
+Una vez formalizados los acuerdos, el sistema permite generar un documento legal e institucional en formato PDF para el expediente físico del colegio o para la firma de las partes:
+
+1. **Cómo Descargar el Acta:**
+   * Ingresa al detalle del expediente de la mediación.
+   * Haz clic en el botón **Descargar Acta Oficial (PDF)** en la barra superior.
+   * El sistema compilará el documento en tiempo real y lo abrirá en tu navegador listo para imprimir o guardar.
+
+2. **Elementos del Documento Oficial:**
+   * **Membrete Institucional:** Identificación formal de la **Escuela Coeducacional N° 1 El Salvador**, **RBD: 9876-5**, dependencia y fecha/hora de emisión.
+   * **Folio Único Inalterable:** Código de trazabilidad con formato `MED-YYYY-XXXX` para fiscalizaciones de la Superintendencia de Educación.
+   * **Tabla de Participantes:** Identificación de los alumnos, sus cursos, RUT y roles en el proceso.
+   * **Cuadro de Acuerdos:** Detalle de cada compromiso formativo y su fecha límite.
+   * **Cláusula Legal:** Certificación de voluntariedad, confidencialidad y enfoque restaurativo conforme a la **Circular N° 482** y el **RICE**.
+   * **Cuadrantes de Firma:** Espacio delimitado para la firma del Mediador/a y los estudiantes convocados.
+   * **Hash SHA-256 de Autenticidad:** Código criptográfico de 64 caracteres en el pie de página de cada hoja que certifica que el contenido del documento no ha sufrido modificaciones fraudulentas posteriores.
+
+---
+
 ## 17. Preguntas Frecuentes y Solución de Problemas
 
 
