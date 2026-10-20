@@ -227,12 +227,12 @@ En incidentes que involucran a múltiples alumnos (riñas, agresiones o conflict
 Los Protocolos RICE son los procedimientos formales exigidos por la **Superintendencia de Educación**. 
 
 ### A. Cuándo abrir un Protocolo
-Debe abrirse cuando un hecho califica dentro de las tipologías normativas (ej: *Maltrato entre estudiantes, Vulneración de derechos, Situaciones de drogas/alcohol, Acoso escolar cibernético, Agresiones sexuales*).
+Debe abrirse cuando un hecho califica dentro de las tipologías normativas reglamentarias del establecimiento (ej: *Acoso escolar*, *Ciberacoso*, *Maltrato entre adultos*, *Vulneración de derechos* —el cual canaliza denuncias graves, violencia intrafamiliar y agresiones sexuales conforme a la normativa educacional—, *Accidente escolar*, *Drogas o alcohol*, entre otras).
 
 ### B. Cómo abrir un nuevo Protocolo (Nueva Interfaz 2 Columnas)
 1. Ve a **"Protocolos RICE"** y presiona **"+ Nuevo Protocolo"**.
 2. **Formulario en Secciones Temáticas:**
-   - **1. Clasificación RICE (Índigo/Azul):** Selecciona directamente la tipología reglamentaria mediante las cápsulas interactivas oficiales.
+   - **1. Clasificación RICE (Índigo/Azul):** Selecciona directamente la tipología reglamentaria mediante las cápsulas interactivas oficiales. Cada tipología incluye su definición orientadora para una rápida identificación pedagógica.
    - **2. Estudiante Titular (Esmeralda/Teal):** Elige al estudiante involucrado con el selector en cascada. El sistema evaluará automáticamente si existen alertas de escalada preventiva (`AlertaEscaladaBanner`) y mostrará su ficha con RUT y condición PIE.
    - **3. Fecha de Apertura y Antecedente Relacionado (Ámbar/Naranja):** Define la fecha de inicio formal y vincula opcionalmente incidentes previos del alumno con un solo clic.
    - **4. Observaciones y Diligencias Iniciales (Púrpura/Violeta):** Describe las primeras medidas de resguardo y antecedentes recibidos.
@@ -241,7 +241,7 @@ Debe abrirse cuando un hecho califica dentro de las tipologías normativas (ej: 
 4. **Confirmación y Activación:**
    - Haz clic en **"Aperturar Protocolo RICE"** y valida los antecedentes consolidados en el **Modal de Confirmación**. El sistema registrará el caso e iniciará el cómputo automático de plazos máximos legales.
 
-### C. Checklist de Pasos Obligatorios
+### C. Checklist de Pasos Obligatorios y Evidencias Probatorias
 Al entrar al detalle de cualquier protocolo, verás una **lista de chequeo paso a paso**:
 - Medidas de protección inmediatas a la víctima.
 - Comunicación y citación formal a los apoderados.
@@ -249,7 +249,11 @@ Al entrar al detalle de cualquier protocolo, verás una **lista de chequeo paso 
 - Derivación a redes de apoyo externas (si corresponde: CESFAM, OPD/OLN, Tribunales de Familia o Fiscalía).
 - Informe de cierre y plan de acompañamiento.
 
-Cada paso completado queda registrado con fecha, hora y el nombre del profesional que lo marcó, garantizando respaldo total ante eventuales fiscalizaciones de la Superintendencia.
+#### Carga y Gestión de Archivos de Respaldo (Evidencias):
+1. **Al Certificar un Paso:** Al presionar el botón **"Completar"**, el modal permite no solo ingresar la glosa u observación obligatoria, sino también **adjuntar directamente el documento probatorio** (PDF escaneado de citación firmada, acta de entrevista, informe médico o comprobante de derivación en formato PDF, Word o imagen de hasta 10 MB).
+2. **Visualización y Descarga:** Cada evidencia adjunta aparece en la tarjeta del paso con su nombre oficial, tamaño en KB/MB y un botón directo para previsualizar o descargar el archivo en una pestaña segura.
+3. **Incorporación Posterior:** Si el profesional requiere adjuntar documentos complementarios a un paso ya certificado, dispondrá del botón **"+ Adjuntar evidencia probatoria"** directamente en la tarjeta del paso mientras el caso continúe abierto.
+4. **Respaldo Legal:** Cada paso y archivo queda respaldado con fecha, hora y el nombre del profesional que lo cargó, garantizando trazabilidad total ante fiscalizaciones de la Superintendencia de Educación.
 
 ---
 

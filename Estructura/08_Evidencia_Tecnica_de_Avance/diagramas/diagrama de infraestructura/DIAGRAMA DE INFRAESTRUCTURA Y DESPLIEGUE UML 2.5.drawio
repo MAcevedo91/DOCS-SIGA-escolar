@@ -1,0 +1,148 @@
+<mxfile host="Electron">
+  <diagram name="Página-1" id="BT16p3VIifyfvUhPar-J">
+    <mxGraphModel dx="1414" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" plantUmlData="{&#xa;  &quot;data&quot;: &quot;@startuml\nskinparam componentStyle uml2\nskinparam packageStyle rectangle\nskinparam shadowing false\nskinparam monochrome true\nskinparam linetype ortho\nskinparam nodesep 25\nskinparam ranksep 35\ntop to bottom direction\n&#39; NIVEL 1: CLIENTES Y DISTRIBUCIÓN\npackage \&quot;Zona de Clientes y Distribución Frontend\&quot; as Zone1 {\n  node \&quot;Vercel Edge Network\\n&lt;&lt;cloud&gt;&gt;\\n(CDN Global / Hosting Frontend)\&quot; as VercelNode\n  node \&quot;Estación de Trabajo Escolar\\n&lt;&lt;device&gt;&gt;\\n(PC / Notebook Escuela El Salvador)\&quot; as PCNode\n  node \&quot;Smartphone Apoderados\\n&lt;&lt;device&gt;&gt;\\n(Web Móvil Token 72h)\&quot; as MobileNode\n  VercelNode -[hidden]right- PCNode\n  PCNode -[hidden]right- MobileNode\n}\nPCNode ..&gt; VercelNode : \&quot;HTTPS 443\\n(Descarga SPA)\&quot;\nMobileNode ..&gt; VercelNode : \&quot;HTTPS 443\\n(Descarga Portal)\&quot;\n&#39; NIVEL 2: CÓMPUTO Y CACHÉ\npackage \&quot;Zona de Cómputo Backend y Aceleración\&quot; as Zone2 {\n  node \&quot;Render Cloud Platform\\n&lt;&lt;cloud&gt;&gt;\\n(Web Service Linux Node.js 18 LTS)\\n• Express 5 REST API (PORT $PORT)\\n• WebSockets Server (PORT 3001)\\n• Bull Queue Workers &amp; Cron Jobs\\n• DLP Sanitizer (Ley 19.628) &amp; PDFKit\&quot; as RenderNode\n  node \&quot;Redis Cloud / Upstash\\n&lt;&lt;cloud&gt;&gt;\\n(Puerto 6379 TCP)\\n• L2 Cache (Dashboard &amp; Stats)\\n• Bull Queue Broker\&quot; as RedisNode\n  RenderNode -[hidden]right- RedisNode\n}\n&#39; Conexiones Clientes -&gt; Backend (Directas hacia abajo)\nPCNode --&gt; RenderNode : \&quot;HTTPS 443 (REST API JWT)\\nWSS 3001 (Alertas en Vivo)\&quot;\nMobileNode --&gt; RenderNode : \&quot;HTTPS 443\\n(Token 72h /tokens)\&quot;\nRenderNode --&gt; RedisNode : \&quot;rediss:// 6379\\n(TCP / TLS)\&quot;\n&#39; NIVEL 3: PERSISTENCIA Y SERVICIOS EXTERNOS\npackage \&quot;Zona de Persistencia y Nube Externa\&quot; as Zone3 {\n  node \&quot;Supabase Cloud Platform\\n&lt;&lt;cloud&gt;&gt;\\n(AWS Managed Infrastructure)\\n• PostgreSQL 15 (Multi-Tenant RLS)\\n• Supabase Storage (Evidencias y PDFs)\\n• audit_log (Trazabilidad JSONB)\&quot; as SupabaseNode\n  node \&quot;Google Cloud AI Studio\\n&lt;&lt;cloud&gt;&gt;\\n(Gemini Flash 2.0 API)\\n• Inferencia de Lenguaje Natural\&quot; as GeminiNode\n  node \&quot;Servidor SMTP Institucional\\n&lt;&lt;cloud&gt;&gt;\\n(Puerto 587 STARTTLS)\\n• Despacho Citaciones y Colillas\&quot; as SmtpNode\n  node \&quot;Sentry Cloud Monitoring\\n&lt;&lt;cloud&gt;&gt;\\n(Puerto 443 HTTPS)\\n• Observabilidad y Telemetría\&quot; as SentryNode\n  SupabaseNode -[hidden]right- GeminiNode\n  GeminiNode -[hidden]right- SmtpNode\n  SmtpNode -[hidden]right- SentryNode\n}\n&#39; Conexiones Backend -&gt; Persistencia y Externos (Abanico directo)\nRenderNode --&gt; SupabaseNode : \&quot;HTTPS / TCP 5432 (Pooler RLS)\\nHTTPS 443 (Storage Buckets)\&quot;\nRenderNode --&gt; GeminiNode : \&quot;HTTPS 443\\n(Payload DLP Sanitizado)\&quot;\nRenderNode --&gt; SmtpNode : \&quot;SMTP / STARTTLS 587\\n(Email Worker)\&quot;\nRenderNode --&gt; SentryNode : \&quot;HTTPS 443\\n(DSN Telemetría)\&quot;\n@enduml&quot;,&#xa;  &quot;config&quot;: null&#xa;}" id="9wv5-tAd9B3WN9RgmFQx-182">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Zona de Clientes y Distribución Frontend" plantUmlId="c_0" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=-4;fontSize=14;fontStyle=1;whiteSpace=wrap;shadow=0;" plantUmlBaseValue="Zona de Clientes y Distribución Frontend" id="9wv5-tAd9B3WN9RgmFQx-183">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-182" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=-4;fontSize=14;fontStyle=1;whiteSpace=wrap;shadow=0;" vertex="1">
+            <mxGeometry height="220" width="920" x="920" y="70" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Vercel Edge Network&#xa;«cloud»&#xa;(CDN Global / Hosting Frontend)" plantUmlId="n_1" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Vercel Edge Network&#xa;«cloud»&#xa;(CDN Global / Hosting Frontend)" id="9wv5-tAd9B3WN9RgmFQx-184">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-183" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="126.2962962962963" width="248.75977653631284" x="329.9664804469274" y="69.25925925925927" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Smartphone Apoderados&#xa;«device»&#xa;(Web Móvil Token 72h)" plantUmlId="n_3" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Smartphone Apoderados&#xa;«device»&#xa;(Web Móvil Token 72h)" id="9wv5-tAd9B3WN9RgmFQx-186">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-183" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="126.2962962962963" width="206.6145251396648" x="10.279329608938548" y="69.25925925925924" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS 443&#xa;(Descarga Portal)" plantUmlId="e_13" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;dashed=1;dashPattern=7 7;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS 443&#xa;(Descarga Portal)" id="9wv5-tAd9B3WN9RgmFQx-196">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-183" source="9wv5-tAd9B3WN9RgmFQx-186" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;dashed=1;dashPattern=7 7;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="9wv5-tAd9B3WN9RgmFQx-184">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Estación de Trabajo Escolar&#xa;«device»&#xa;(PC / Notebook Escuela El Salvador)" plantUmlId="n_2" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Estación de Trabajo Escolar&#xa;«device»&#xa;(PC / Notebook Escuela El Salvador)" id="9wv5-tAd9B3WN9RgmFQx-185">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-183" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="120.74" width="250" x="660.62" y="69.26" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS 443&#xa;(Descarga SPA)" plantUmlId="e_12" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;dashed=1;dashPattern=7 7;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS 443&#xa;(Descarga SPA)" id="9wv5-tAd9B3WN9RgmFQx-195">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-183" source="9wv5-tAd9B3WN9RgmFQx-185" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;dashed=1;dashPattern=7 7;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="9wv5-tAd9B3WN9RgmFQx-184">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Zona de Persistencia y Nube Externa" plantUmlId="c_7" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=-4;fontSize=14;fontStyle=1;whiteSpace=wrap;shadow=0;" plantUmlBaseValue="Zona de Persistencia y Nube Externa" id="9wv5-tAd9B3WN9RgmFQx-190">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-182" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=-4;fontSize=14;fontStyle=1;whiteSpace=wrap;shadow=0;" vertex="1">
+            <mxGeometry height="156" width="1180" x="750" y="920" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Supabase Cloud Platform&#xa;«cloud»&#xa;(AWS Managed Infrastructure)&#xa;• PostgreSQL 15 (Multi-Tenant RLS)&#xa;• Supabase Storage (Evidencias y PDFs)&#xa;• audit_log (Trazabilidad JSONB)" plantUmlId="n_8" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Supabase Cloud Platform&#xa;«cloud»&#xa;(AWS Managed Infrastructure)&#xa;• PostgreSQL 15 (Multi-Tenant RLS)&#xa;• Supabase Storage (Evidencias y PDFs)&#xa;• audit_log (Trazabilidad JSONB)" id="9wv5-tAd9B3WN9RgmFQx-191">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-190" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="110" width="300" x="15" y="34" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS 443 (REST API JWT)&#xa;WSS 3001 (Alertas en Vivo)" plantUmlId="e_14" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS 443 (REST API JWT)&#xa;WSS 3001 (Alertas en Vivo)" id="9wv5-tAd9B3WN9RgmFQx-197">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-182" source="9wv5-tAd9B3WN9RgmFQx-185" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;entryX=0;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="9wv5-tAd9B3WN9RgmFQx-188">
+            <mxGeometry relative="1" x="-0.0736" as="geometry">
+              <Array as="points">
+                <mxPoint x="1666.5" y="394" />
+              </Array>
+              <mxPoint x="1460" y="390" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS 443&#xa;(Token 72h /tokens)" plantUmlId="e_15" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS 443&#xa;(Token 72h /tokens)" id="9wv5-tAd9B3WN9RgmFQx-198">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-182" source="9wv5-tAd9B3WN9RgmFQx-186" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;entryX=0;entryY=0;entryDx=278;entryDy=10;entryPerimeter=0;" target="9wv5-tAd9B3WN9RgmFQx-188">
+            <mxGeometry relative="1" x="0.0225" as="geometry">
+              <Array as="points">
+                <mxPoint x="1060.5" y="340" />
+                <mxPoint x="1060" y="404" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="Zona de Cómputo Backend y Aceleración" plantUmlId="c_4" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=-4;fontSize=14;fontStyle=1;whiteSpace=wrap;shadow=0;" plantUmlBaseValue="Zona de Cómputo Backend y Aceleración" id="9wv5-tAd9B3WN9RgmFQx-187">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-182" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=-4;fontSize=14;fontStyle=1;whiteSpace=wrap;shadow=0;" vertex="1">
+            <mxGeometry height="326" width="308" x="1200" y="360" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Render Cloud Platform&#xa;«cloud»&#xa;(Web Service Linux Node.js 18 LTS)&#xa;• Express 5 REST API (PORT $PORT)&#xa;• WebSockets Server (PORT 3001)&#xa;• Bull Queue Workers &amp; Cron Jobs&#xa;• DLP Sanitizer (Ley 19.628) &amp; PDFKit" plantUmlId="n_5" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Render Cloud Platform&#xa;«cloud»&#xa;(Web Service Linux Node.js 18 LTS)&#xa;• Express 5 REST API (PORT $PORT)&#xa;• WebSockets Server (PORT 3001)&#xa;• Bull Queue Workers &amp; Cron Jobs&#xa;• DLP Sanitizer (Ley 19.628) &amp; PDFKit" id="9wv5-tAd9B3WN9RgmFQx-188">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-187" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="126" width="278" x="15" y="34" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Redis Cloud / Upstash&#xa;«cloud»&#xa;(Puerto 6379 TCP)&#xa;• L2 Cache (Dashboard &amp; Stats)&#xa;• Bull Queue Broker" plantUmlId="n_6" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Redis Cloud / Upstash&#xa;«cloud»&#xa;(Puerto 6379 TCP)&#xa;• L2 Cache (Dashboard &amp; Stats)&#xa;• Bull Queue Broker" id="9wv5-tAd9B3WN9RgmFQx-189">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-187" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="94" width="242" x="33" y="220" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="rediss:// 6379&#xa;(TCP / TLS)" plantUmlId="e_16" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="rediss:// 6379&#xa;(TCP / TLS)" id="9wv5-tAd9B3WN9RgmFQx-199">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-187" source="9wv5-tAd9B3WN9RgmFQx-188" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="9wv5-tAd9B3WN9RgmFQx-189">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Google Cloud AI Studio&#xa;«cloud»&#xa;(Gemini Flash 2.0 API)&#xa;• Inferencia de Lenguaje Natural" plantUmlId="n_9" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Google Cloud AI Studio&#xa;«cloud»&#xa;(Gemini Flash 2.0 API)&#xa;• Inferencia de Lenguaje Natural" id="9wv5-tAd9B3WN9RgmFQx-192">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-182" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="78" width="254" x="1095" y="970" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Servidor SMTP Institucional&#xa;«cloud»&#xa;(Puerto 587 STARTTLS)&#xa;• Despacho Citaciones y Colillas" plantUmlId="n_10" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Servidor SMTP Institucional&#xa;«cloud»&#xa;(Puerto 587 STARTTLS)&#xa;• Despacho Citaciones y Colillas" id="9wv5-tAd9B3WN9RgmFQx-193">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-182" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="78" width="250" x="1384" y="970" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Sentry Cloud Monitoring&#xa;«cloud»&#xa;(Puerto 443 HTTPS)&#xa;• Observabilidad y Telemetría" plantUmlId="n_11" plantUmlBaseStyle="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" plantUmlBaseValue="Sentry Cloud Monitoring&#xa;«cloud»&#xa;(Puerto 443 HTTPS)&#xa;• Observabilidad y Telemetría" id="9wv5-tAd9B3WN9RgmFQx-194">
+          <mxCell parent="9wv5-tAd9B3WN9RgmFQx-182" style="shape=cube;size=10;flipH=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;spacingRight=10;spacingTop=9;shadow=0;" vertex="1">
+            <mxGeometry height="78" width="241" x="1669" y="970" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS / TCP 5432 (Pooler RLS)&#xa;HTTPS 443 (Storage Buckets)" plantUmlId="e_17" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS / TCP 5432 (Pooler RLS)&#xa;HTTPS 443 (Storage Buckets)" id="9wv5-tAd9B3WN9RgmFQx-200">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-182" source="9wv5-tAd9B3WN9RgmFQx-188" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="9wv5-tAd9B3WN9RgmFQx-191">
+            <mxGeometry relative="1" x="0.0967" as="geometry">
+              <Array as="points">
+                <mxPoint x="1020" y="457" />
+              </Array>
+              <mxPoint x="940" y="586" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS 443&#xa;(Payload DLP Sanitizado)" plantUmlId="e_18" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS 443&#xa;(Payload DLP Sanitizado)" id="9wv5-tAd9B3WN9RgmFQx-201">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-182" source="9wv5-tAd9B3WN9RgmFQx-188" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=0;exitY=0;exitDx=278;exitDy=68;exitPerimeter=0;" target="9wv5-tAd9B3WN9RgmFQx-192">
+            <mxGeometry relative="1" x="0.0837" as="geometry">
+              <Array as="points">
+                <mxPoint x="1215" y="500" />
+                <mxPoint x="1160" y="500" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="SMTP / STARTTLS 587&#xa;(Email Worker)" plantUmlId="e_19" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="SMTP / STARTTLS 587&#xa;(Email Worker)" id="9wv5-tAd9B3WN9RgmFQx-202">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-182" source="9wv5-tAd9B3WN9RgmFQx-188" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;labelPosition=right;align=left;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="9wv5-tAd9B3WN9RgmFQx-193">
+            <mxGeometry relative="1" x="0.0223" as="geometry">
+              <Array as="points">
+                <mxPoint x="1580" y="500" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS 443&#xa;(DSN Telemetría)" plantUmlId="e_20" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS 443&#xa;(DSN Telemetría)" id="9wv5-tAd9B3WN9RgmFQx-203">
+          <mxCell edge="1" parent="9wv5-tAd9B3WN9RgmFQx-182" source="9wv5-tAd9B3WN9RgmFQx-188" style="strokeColor=#181818;fontColor=#000000;fontSize=13;html=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;endArrow=classicThin;endFill=1;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;entryX=0.872;entryY=0.015;entryDx=0;entryDy=0;entryPerimeter=0;" target="9wv5-tAd9B3WN9RgmFQx-194">
+            <mxGeometry relative="1" x="0.0853" as="geometry">
+              <Array as="points">
+                <mxPoint x="1710" y="457" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

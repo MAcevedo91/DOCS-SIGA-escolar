@@ -1008,7 +1008,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 ### SPRINT DE AJUSTES Y HALLAZGOS EN TERRENO: Escuela Coeducacional N°1 El Salvador (Octubre 2026)
 * **Objetivo:** Responder de forma ágil y certificada a los hallazgos operativos levantados directamente por la contraparte escolar (Dirección y Encargado de Convivencia Escolar), adaptando los flujos a la realidad pedagógica y normativa del colegio.
-* **Estado:** **Hallazgos 1, 2, 3, 4 y 5 completados y certificados al 100%**. 
+* **Estado:** **Hallazgos 1, 2, 3, 4, 5, 6 y 7 completados y certificados al 100%**. 
 
 #### Hallazgos Implementados y Certificados:
 1. **Hallazgo 1 — Firma Única del Encargado(a) de Convivencia Escolar en Documentos Oficiales:**
@@ -1029,9 +1029,21 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
    - Creación del endpoint `PATCH /api/v1/incidentes/:id/estudiantes/:estudianteId/observacion` para registrar o editar la observación individual de derivación de un estudiante en cualquier momento.
    - En `IncidenteDetallePage.jsx`, adaptación del modal de cambio de estado para ingresar observaciones específicas por alumno y renderizado de la tarjeta de derivación individual con botón de edición rápida.
 
+6. **Hallazgo 6 — Reestructuración del Catálogo de Protocolos RICE:**
+   - Adición de las tipologías prioritarias solicitadas por la Escuela El Salvador: `Acoso escolar`, `Ciberacoso` y `Maltrato entre adultos`.
+   - Subsunción de `Violencia intrafamiliar` y `Abuso sexual` dentro de `Vulneración de derechos` (marcando los registros directos como `activo = false` en `tipos_protocolo` para evitar su selección errónea en nuevos casos sin romper la integridad referencial de protocolos históricos).
+   - Inclusión de glosa descriptiva en `tipos_protocolo.descripcion` con sanitización en frontend (`NuevoProtocoloPage.jsx`) para omitir espacios vacíos y garantizar visualización limpia de las tarjetas de tipo de protocolo.
+   - Siembra de reglas estándar de 4 pasos por defecto en `reglas_protocolo` para cada nuevo tipo normativo.
+
+7. **Hallazgo 7 — Carga y Gestión de Archivos de Evidencia en el Checklist RICE:**
+   - Creación de tabla `protocolo_paso_evidencias` con aislamiento multi-tenant RLS en Supabase para asociar documentos probatorios (actas, cartas de citación, informes psicosociales o comprobantes de derivación al CESFAM/OPD).
+   - Middleware de subida en backend (`uploadEvidenciaMiddleware.js`) con límite de 10 MB y filtrado MIME seguro (PDF, imágenes, Word) y servicio de almacenamiento en Supabase Storage (`evidenciasStorageService.js`) con sanitización de nombres de archivo y trazabilidad en `auditoria`.
+   - Endpoints REST `POST /api/v1/protocolos/:id/pasos/:pasoId/evidencias` y `DELETE /api/v1/protocolos/:id/pasos/:pasoId/evidencias/:evidenciaId`.
+   - En el frontend, integración en `CompletarPasoModal.jsx` (selector/arrastre de archivo probatorio) y en `ChecklistProtocolo.jsx` (renderizado de tarjetas de evidencias, enlaces para visualización/descarga directa, botón de eliminación con confirmación y botón para adjuntar evidencias complementarias en cualquier momento mientras el caso permanezca abierto).
+
 * **Resultados de Validación y Certificación Automatizada:**
-  * **Pruebas Frontend:** **33 de 33 test suites aprobadas al 100% (169 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **50 de 50 test suites aprobadas al 100% (357 pruebas pasando exitosamente, 0 fallos)**.
+  * **Pruebas Frontend:** **33 de 33 test suites aprobadas al 100% (170 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
+  * **Pruebas Backend:** **50 de 50 test suites aprobadas al 100% (354 pruebas pasando exitosamente en Jest con nueva suite `protocolosEvidencias.test.js`, 0 fallos)**.
 
 ---
 
