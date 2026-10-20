@@ -253,7 +253,13 @@ Al entrar al detalle de cualquier protocolo, verás una **lista de chequeo paso 
 1. **Al Certificar un Paso:** Al presionar el botón **"Completar"**, el modal permite no solo ingresar la glosa u observación obligatoria, sino también **adjuntar directamente el documento probatorio** (PDF escaneado de citación firmada, acta de entrevista, informe médico o comprobante de derivación en formato PDF, Word o imagen de hasta 10 MB).
 2. **Visualización y Descarga:** Cada evidencia adjunta aparece en la tarjeta del paso con su nombre oficial, tamaño en KB/MB y un botón directo para previsualizar o descargar el archivo en una pestaña segura.
 3. **Incorporación Posterior:** Si el profesional requiere adjuntar documentos complementarios a un paso ya certificado, dispondrá del botón **"+ Adjuntar evidencia probatoria"** directamente en la tarjeta del paso mientras el caso continúe abierto.
-4. **Respaldo Legal:** Cada paso y archivo queda respaldado con fecha, hora y el nombre del profesional que lo cargó, garantizando trazabilidad total ante fiscalizaciones de la Superintendencia de Educación.
+4. **Descarga del Expediente Oficial RICE en PDF (Para Auditorías de la Superintendencia):**
+   - En la cabecera superior de la ficha del caso, haz clic en el botón **"Descargar Expediente RICE (PDF)"**.
+   - El sistema generará y descargará un documento institucional oficial que compila de forma consolidada:
+     - **Carátula:** Folio oficial, tipo de protocolo, fechas de apertura y cierre, antecedentes del estudiante titular y contacto de su apoderado.
+     - **Trazabilidad de Pasos:** Tabla con el detalle cronológico de cada paso normativo cumplido, fechas, observaciones y funcionario responsable.
+     - **Anexo Probatorio de Evidencias:** Tabla forense que individualiza cada archivo respaldado en los pasos, fecha y hora de subida, tamaño en KB y profesional que lo certificó.
+     - **Firma Única Institucional:** Bloque centrado exclusivo para la firma y timbre del/de la **Encargado(a) de Convivencia Escolar**, dando fe del debido proceso formativo ante los inspectores de la Superintendencia de Educación.
 
 ---
 

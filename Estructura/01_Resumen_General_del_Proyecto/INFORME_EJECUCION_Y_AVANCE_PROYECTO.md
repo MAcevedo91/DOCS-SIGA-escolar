@@ -1035,15 +1035,24 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
    - Inclusión de glosa descriptiva en `tipos_protocolo.descripcion` con sanitización en frontend (`NuevoProtocoloPage.jsx`) para omitir espacios vacíos y garantizar visualización limpia de las tarjetas de tipo de protocolo.
    - Siembra de reglas estándar de 4 pasos por defecto en `reglas_protocolo` para cada nuevo tipo normativo.
 
-7. **Hallazgo 7 — Carga y Gestión de Archivos de Evidencia en el Checklist RICE:**
+7. **Hallazgo 7 — Carga de Evidencias en el Checklist y Expediente Oficial RICE en PDF para Auditorías:**
    - Creación de tabla `protocolo_paso_evidencias` con aislamiento multi-tenant RLS en Supabase para asociar documentos probatorios (actas, cartas de citación, informes psicosociales o comprobantes de derivación al CESFAM/OPD).
    - Middleware de subida en backend (`uploadEvidenciaMiddleware.js`) con límite de 10 MB y filtrado MIME seguro (PDF, imágenes, Word) y servicio de almacenamiento en Supabase Storage (`evidenciasStorageService.js`) con sanitización de nombres de archivo y trazabilidad en `auditoria`.
    - Endpoints REST `POST /api/v1/protocolos/:id/pasos/:pasoId/evidencias` y `DELETE /api/v1/protocolos/:id/pasos/:pasoId/evidencias/:evidenciaId`.
-   - En el frontend, integración en `CompletarPasoModal.jsx` (selector/arrastre de archivo probatorio) y en `ChecklistProtocolo.jsx` (renderizado de tarjetas de evidencias, enlaces para visualización/descarga directa, botón de eliminación con confirmación y botón para adjuntar evidencias complementarias en cualquier momento mientras el caso permanezca abierto).
+   - **Expediente Oficial RICE con Evidencias en PDF (`pdfService.generarExpedienteProtocoloPDF`):**
+     - Generación automatizada de expediente legal para auditorías de la Superintendencia de Educación (Circular N° 482 / Ley N° 19.628).
+     - Incluye carátula con folio oficial, datos del estudiante titular y apoderado, tabla de checklist de pasos normativos certificados y tabla anexo de evidencias probatorias con trazabilidad forense (nombre de archivo, fecha/hora exacta, responsable y tamaño).
+     - Incorpora el bloque de **Firma Única Centrada del Encargado(a) de Convivencia Escolar** (cumpliendo con el Hallazgo 1).
+     - Endpoint `GET /api/v1/protocolos/:id/expediente-pdf` con control RBAC.
+   - **Interfaz de Usuario Web (`ProtocoloDetallePage.jsx` y `ChecklistProtocolo.jsx`):**
+     - Botón de descarga con spinner en la cabecera: *"Descargar Expediente RICE (PDF)"*.
+     - Gestión contextual y ágil de evidencias probatorias directamente dentro de cada paso del checklist (enlace directo, peso del archivo y opciones de carga o eliminación).
+     - Integración en `CompletarPasoModal.jsx` y `ChecklistProtocolo.jsx`.
 
 * **Resultados de Validación y Certificación Automatizada:**
-  * **Pruebas Frontend:** **33 de 33 test suites aprobadas al 100% (170 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **50 de 50 test suites aprobadas al 100% (354 pruebas pasando exitosamente en Jest con nueva suite `protocolosEvidencias.test.js`, 0 fallos)**.
+  * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
+  * **Pruebas Backend:** **50 de 50 test suites aprobadas al 100% (356 pruebas pasando exitosamente en Jest integrando `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **529 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 
