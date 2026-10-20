@@ -978,6 +978,30 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Cero regresiones: Suite completa de backend aprobada con **48 test suites y 338 pruebas exitosas**.
   * **Validación Funcional en Entorno Real (Insomnia / Postman):**
     * Creación de mediación exitosa (`POST /api/v1/mediaciones`) retornando código `201 Created` y folio correlativo generado automáticamente (`MED-2026-0007`).
+
+### Sprint 7 / Épica 7.2 — Backend: Modelo mediacion_compromisos y Endpoints de Gestión en Express (TASK 7.2.2.1)
+* **Objetivo:** Implementar la estructura de datos relacional para los acuerdos y compromisos formativos pactados en mediación escolar (`mediacion_compromisos`), garantizando integridad atómica con rollback compensatorio en Express 5, tipos regulados por enum o check constraint, y validación estricta Zod que impide fechas límites retroactivas anteriores a la mediación.
+* **Componentes intervenidos:**
+  * **Infraestructura y Base de Datos Supabase (`src/db/migrations/20261020_crear_tabla_mediacion_compromisos.sql`):**
+    * Tabla `mediacion_compromisos` con claves foráneas a `tenants`, `mediaciones` y `estudiantes`.
+    * Tipos de compromiso regulados mediante restricción `CHECK`: `'reparacion_relacional'`, `'disculpa_comunitaria'`, `'cuidado_espacios'`, `'actitud_aula'`, `'apoyo_academico'`, `'otro'`.
+    * Índices B-Tree optimizados sobre `tenant_id`, `mediacion_id`, `estudiante_id` y `fecha_limite`.
+    * Políticas de seguridad RLS (`tenant_isolation_mediacion_compromisos`) que aseguran el aislamiento estricto multi-tenant por colegio.
+  * **Contratos de Validación Zod (`src/schemas/mediacionesSchemas.js`):**
+    * `compromisoItemSchema`: valida estructura de cada acuerdo, longitud de descripción, formato de fecha `YYYY-MM-DD` y tipos admitidos.
+    * `crearGuardarCompromisosSchema(fechaMediacion)`: función de esquema contextualizada con `.superRefine()` que valida que ninguna `fecha_limite` sea anterior a la `fecha_programada` de la sesión de mediación.
+  * **Servicios de Negocio y Transaccionalidad (`src/services/mediacionesService.js`):**
+    * `guardarCompromisos`: lógica de reemplazo en lote con **rollback compensatorio** (respalda acuerdos previos en memoria, limpia existentes e inserta el nuevo conjunto; si la BD rechaza los nuevos registros, restaura automáticamente los anteriores). Actualiza estado de mediación a `'acordada'`, fija `fecha_seguimiento` y emite log de auditoría inmutable en `auditoriaService`.
+    * `listarCompromisos`: consulta los compromisos vigentes ordenados cronológicamente por fecha límite.
+    * `obtenerMediacionPorId`: select enriquecido para incorporar la relación `mediacion_compromisos (*)` en la ficha integral del expediente.
+  * **Controladores y Rutas Express 5 (`src/controllers/mediacionesController.js` y `src/routes/mediaciones.routes.js`):**
+    * Endpoints `PUT /api/v1/mediaciones/:id/compromisos` y `GET /api/v1/mediaciones/:id/compromisos` protegidos por roles RBAC (`Administrador`, `Directivo`, `Equipo de Formación`, `Inspector`, `Docente`).
+* **Resultados de Validación Automatizada:**
+  * **Pruebas Unitarias (`src/__tests__/services/mediacionCompromisos.test.js`):**
+    * 13 de 13 pruebas aprobadas al 100% (validación de enums, rechazo de fecha límite anterior a la mediación, atomicidad y rollback compensatorio, 404 de mediación y respuestas 200 de handlers).
+  * **Suite Global Backend:**
+    * 51 de 51 suites aprobadas al 100% (**364 pruebas en verde**, 0 fallos, 0 regresiones).
+
 ### Sprint 7 / UX-UI — Modernización Integral de Interfaces: Registro de Incidentes y Apertura de Protocolos RICE
 * **Objetivo:** Renovar la experiencia de usuario en los formularios críticos de convivencia escolar (`NuevoIncidentePage.jsx` y `NuevoProtocoloPage.jsx`), migrando a un layout en dos columnas asimétricas con barra lateral sticky de control en tiempo real, paleta con gradientes temáticos vivos y diferenciados, y modales de confirmación/descarte de datos.
 * **Componentes intervenidos:**
@@ -1051,8 +1075,8 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **50 de 50 test suites aprobadas al 100% (356 pruebas pasando exitosamente en Jest integrando `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **529 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **51 de 51 test suites aprobadas al 100% (364 pruebas pasando exitosamente en Jest integrando `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **537 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 
@@ -1061,7 +1085,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 ### Arquitectura de Software
 * **Capa de Presentación (Frontend):** React 18, Vite 5, Tailwind CSS 3, Zustand 4, Axios, Recharts 2, Lucide Icons. Desplegado en Vercel con CDN global y HTTPS.
 * **Capa de Aplicación (Backend):** Node.js 22, Express 5, Zod 4 (validación de contratos), pdfkit (generación documental), Helmet (seguridad HTTP), CORS, Google GenAI SDK (embeddings 768-dim y razonamiento normativo). Desplegado en Render PaaS con HTTPS.
-* **Capa de Persistencia (Base de Datos):** PostgreSQL 15 en Supabase con 19 tablas operativas (incluyendo `rice_documentos`, `rice_chunks`, `mediaciones` y `mediacion_participantes`), Row Level Security (RLS) multi-tenant con FORCE RLS, índices B-Tree y HNSW vectoriales, funciones RPC en PL/pgSQL y extensiones (`uuid-ossp`, `unaccent`, `pg_trgm`, `vector`). Script oficial exportado en [`DOCS/arquitectura_y_api/schema_siga_escolar.sql`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/arquitectura_y_api/schema_siga_escolar.sql).
+* **Capa de Persistencia (Base de Datos):** PostgreSQL 15 en Supabase con 20 tablas operativas (incluyendo `rice_documentos`, `rice_chunks`, `mediaciones`, `mediacion_participantes` y `mediacion_compromisos`), Row Level Security (RLS) multi-tenant con FORCE RLS, índices B-Tree y HNSW vectoriales, funciones RPC en PL/pgSQL y extensiones (`uuid-ossp`, `unaccent`, `pg_trgm`, `vector`). Script oficial exportado en [`DOCS/arquitectura_y_api/schema_siga_escolar.sql`](file:///home/macevedo/Proyectos/INACAP/siga-escolar/DOCS/arquitectura_y_api/schema_siga_escolar.sql).
 
 ### Matriz de Cumplimiento de Requerimientos
 

@@ -534,6 +534,25 @@ La normativa educacional exige que los apoderados sean oportunamente informados 
 
 ---
 
+### Registro y Seguimiento de Acuerdos y Compromisos Formativos (TASK 7.2.2.1)
+
+Una vez llevada a cabo la sesión de mediación, el mediador o equipo de formación registra los compromisos adquiridos voluntariamente por las partes:
+
+1. **Tipos de Compromisos Regulados:**
+   * **Reparación Relacional:** Acuerdos directos de trato digno, disculpa privada sincera y cese de hostilidades.
+   * **Disculpa Comunitaria:** Acciones reparatorias frente al curso o comunidad escolar cuando el conflicto afectó la convivencia colectiva.
+   * **Cuidado de Espacios:** Colaboración activa en la mantención y orden del patio escolar, salas de clases o biblioteca.
+   * **Actitud en Aula:** Pautas concretas de autorregulación, respeto a las normas de clase y escucha activa.
+   * **Apoyo Académico:** Compromisos formativos de ayuda entre pares o reforzamiento pedagógico mutuo.
+   * **Otro:** Acciones específicas acordadas entre las partes orientadas al bienestar escolar.
+
+2. **Reglas de Integridad y Validación Temporal:**
+   * **Fecha Límite Obligatoria:** Cada compromiso debe indicar una fecha límite concreta (`YYYY-MM-DD`). Por coherencia jurídica y formativa, el sistema **no permite ingresar fechas retroactivas o anteriores a la fecha en que se celebró la mediación**.
+   * **Transición Automática a "Acordada":** Al registrar exitosamente el lote de compromisos, el expediente de mediación transiciona automáticamente al estado **Acordada** y programa una fecha de seguimiento formativo.
+   * **Seguridad Transaccional:** El guardado se procesa de forma atómica con reversión automática ante fallos de conexión, evitando estados inconsistentes o pérdida de acuerdos previos.
+
+---
+
 ## 17. Preguntas Frecuentes y Solución de Problemas
 
 
