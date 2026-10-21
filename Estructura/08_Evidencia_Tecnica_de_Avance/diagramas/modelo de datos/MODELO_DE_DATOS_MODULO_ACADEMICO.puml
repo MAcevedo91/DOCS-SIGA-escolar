@@ -1,0 +1,209 @@
+@startuml siga-escolar-modulo-academico
+skinparam dpi 300
+skinparam roundcorner 6
+skinparam linetype ortho
+skinparam nodesep 35
+skinparam ranksep 40
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classFontSize 14
+skinparam classFontName "Helvetica"
+skinparam defaultFontSize 13
+skinparam defaultTextAlignment left
+skinparam arrowColor #1e3a5f
+skinparam noteFontSize 12
+skinparam classBackgroundColor #FFFFFF
+skinparam classBorderColor #475569
+
+title **SIGA Escolar — Modelo de Datos: Módulo Académico, Matrículas y Salud**\n(Paquetes 1, 2 y 6: Núcleo, Roles, Cursos, Alumnos, Apoderados y Ficha Médica)
+
+' ==============================================================================
+' PAQUETE 1: NÚCLEO, SEGURIDAD Y AUDITORÍA
+' ==============================================================================
+package "1. Núcleo, Seguridad y Auditoría" as P1 #F8FAFC {
+  entity "tenants" as tenants <<Colegio / Establecimiento>> {
+    * **id** : UUID <<PK>>
+    --
+    * nombre : VARCHAR(200)
+    * rbd : VARCHAR(20) <<UNIQUE>>
+    * direccion : VARCHAR(255)
+    telefono : VARCHAR(50)
+    email_contacto : VARCHAR(100)
+    configuracion_notificaciones : JSONB
+    activo : BOOLEAN = true
+    * created_at : TIMESTAMPTZ
+  }
+
+  entity "usuarios" as usuarios <<Cuentas y RBAC>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * email : VARCHAR(150) <<UNIQUE>>
+    * password_hash : VARCHAR(255)
+    * nombre : VARCHAR(100)
+    * apellido : VARCHAR(100)
+    * rol : ENUM ('Administrador','Directivo','Equipo Formación','Inspector','Docente')
+    activo : BOOLEAN = true
+    bloqueado_hasta : TIMESTAMPTZ
+  }
+
+  entity "auditoria" as auditoria <<Bitácora Inmutable>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **usuario_id** : UUID <<FK>>
+    * accion : VARCHAR(20)
+    * tabla : VARCHAR(50)
+    registro_id : UUID
+    datos_before : JSONB
+    datos_after : JSONB
+    ip_origen : VARCHAR(45)
+    * created_at : TIMESTAMPTZ
+  }
+
+  entity "notificaciones" as notificaciones <<Alertas In-App>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **usuario_id** : UUID <<FK>>
+    tipo : VARCHAR(50)
+    titulo : VARCHAR(150)
+    mensaje : TEXT
+    leida : BOOLEAN = false
+    * created_at : TIMESTAMPTZ
+  }
+
+  tenants ||--o{ usuarios : "pertenece a"
+  tenants ||--o{ auditoria : "registra trazabilidad"
+  usuarios ||--o{ notificaciones : "recibe"
+}
+
+' ==============================================================================
+' PAQUETE 2: ESTRUCTURA ACADÉMICA Y MATRÍCULAS
+' ==============================================================================
+package "2. Estructura Académica y Matrículas" as P2 #EFF6FF {
+  entity "periodos_academicos" as periodos <<Años Lectivos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * anio : INT
+    fecha_inicio : DATE
+    fecha_termino : DATE
+    activo : BOOLEAN = true
+  }
+
+  entity "cursos" as cursos <<Cursos por Nivel>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    **profesor_jefe_id** : UUID <<FK>>
+    * nombre : VARCHAR(50)
+    * nivel : VARCHAR(20)
+    * letra : CHAR(1)
+  }
+
+  entity "estudiantes" as estudiantes <<Alumnos Matriculados>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **curso_id** : UUID <<FK>>
+    * rut : VARCHAR(12)
+    * nombre : VARCHAR(100)
+    * apellido : VARCHAR(100)
+    es_pie : BOOLEAN = false
+    tipo_diagnostico_pie : VARCHAR(100)
+    estado_matricula : ENUM ('Regular','Egresado','Retirado','Suspendido')
+    activo : BOOLEAN = true
+  }
+
+  entity "matriculas" as matriculas <<Historial y Promoción (PKG-06)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    **curso_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    * anio : INT
+    * estado_final : ENUM ('En Curso','Promovido','Repitente','Egresado','Retirado')
+    * fecha_matricula : DATE
+  }
+
+  entity "apoderados" as apoderados <<Familias y Tutores>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **estudiante_id** : UUID <<FK>>
+    * rut : VARCHAR(12)
+    * nombre : VARCHAR(100)
+    parentesco : VARCHAR(50)
+    telefono : VARCHAR(50)
+    es_titular : BOOLEAN = true
+  }
+
+  entity "funcionarios" as funcionarios <<Docentes y Asistentes>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **usuario_id** : UUID <<FK>>
+    * rut : VARCHAR(12)
+    * nombre : VARCHAR(100)
+    * cargo : VARCHAR(100)
+  }
+
+  periodos ||--o{ cursos : "contiene"
+  cursos ||--o{ estudiantes : "agrupa alumnos"
+  estudiantes ||--o{ matriculas : "historial matrícula"
+  periodos ||--o{ matriculas : "año lectivo"
+  estudiantes ||--o{ apoderados : "apoderado titular"
+  usuarios ||--o| funcionarios : "asocia funcionario"
+}
+
+' ==============================================================================
+' PAQUETE 6: SALUD Y SOCIOMETRÍA
+' ==============================================================================
+package "6. Bienestar, Salud y Sociometría" as P6 #FDF2F8 {
+  entity "perfiles_medicos" as perfiles_medicos <<Ley 19.628 / PKG-08>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK, UNIQUE>>
+    alergias : TEXT
+    condiciones_cronicas : TEXT
+    medicamentos_habituales : TEXT
+    requiere_atencion_especial : BOOLEAN
+    contacto_emergencia_nombre : VARCHAR(100)
+    contacto_emergencia_fono : VARCHAR(50)
+    * updated_at : TIMESTAMPTZ
+  }
+
+  entity "sociogramas_curso" as sociogramas <<Relaciones Sociales / PKG-08>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **curso_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    * fecha_aplicacion : DATE
+    preguntas_json : JSONB
+    respuestas_matriz : JSONB
+    indices_cohesion : JSONB
+    estudiantes_aislados : UUID[]
+  }
+
+  estudiantes ||--o| perfiles_medicos : "ficha médica (1:1)"
+  cursos ||--o{ sociogramas : "aplica sociograma"
+}
+
+' ==============================================================================
+' DISPOSICIÓN VERTICAL LIMPIA
+' ==============================================================================
+P1 -[hidden]down-> P2
+P2 -[hidden]down-> P6
+
+note right of P1
+  **Aislamiento Multi-Tenancy (RLS Supabase):**
+  Todas las entidades contienen **tenant_id : UUID <<FK>>**
+  para particionamiento estricto a nivel de base de datos.
+end note
+
+@enduml

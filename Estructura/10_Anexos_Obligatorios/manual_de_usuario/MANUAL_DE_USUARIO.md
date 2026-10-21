@@ -573,6 +573,29 @@ Una vez formalizados los acuerdos, el sistema permite generar un documento legal
 
 ---
 
+### Despacho Transaccional de Correos con Acta Adjunta (Apoderados y Docentes — TASK 7.2.3.2)
+
+Una vez formalizada la mediación y generada el acta, el sistema permite notificar de manera simultánea e inmediata a los responsables formativos de cada estudiante:
+
+1. **Destinatarios Automáticos:**
+   * **Apoderado/a Titular:** El sistema localiza automáticamente al apoderado marcado como titular (`es_titular = true`) de cada estudiante participante para remitirle copia oficial del acuerdo.
+   * **Profesor/a Jefe:** El sistema identifica al docente a cargo del curso de cada alumno involucrado a través del directorio institucional (`cursos.profesor_jefe_id`).
+
+2. **Desduplicación Inteligente:**
+   * Si ambos estudiantes pertenecen al mismo curso o tienen el mismo Profesor Jefe asignado, el docente **recibe exactamente un único correo consolidado** que menciona a ambos alumnos.
+   * Si los estudiantes involucrados son hermanos y comparten el mismo apoderado titular, el apoderado tampoco recibe correos duplicados.
+
+3. **Contenido del Correo Electrónico:**
+   * Saludo institucional personalizado según el rol del destinatario (*Apoderado/a Titular* o *Profesor/a Jefe*).
+   * Resumen de la sesión: folio del expediente (`MED-YYYY-XXXX`), fecha, lugar, nombre del mediador responsable y fecha programada de seguimiento.
+   * **Archivo Adjunto:** El documento oficial `Acta_Mediacion_[FOLIO].pdf` generado en formato PDFKit.
+   * **Código de Verificación SHA-256:** Estampado en el cuerpo del mensaje para que el destinatario pueda validar la autenticidad e inmutabilidad del archivo recibido.
+
+4. **Trazabilidad y Seguridad Legal:**
+   * Cada despacho queda registrado en la bitácora de auditoría inmutable del establecimiento (`auditoria`), incluyendo la lista exacta de destinatarios, la fecha/hora en formato ISO y el hash criptográfico del acta despachada.
+
+---
+
 ## 17. Preguntas Frecuentes y Solución de Problemas
 
 

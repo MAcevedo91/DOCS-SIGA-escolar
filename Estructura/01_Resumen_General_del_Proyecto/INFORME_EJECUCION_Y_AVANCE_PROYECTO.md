@@ -1021,6 +1021,30 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * **Suite Global Backend:**
     * 52 de 52 suites aprobadas al 100% (**372 pruebas en verde**, 0 fallos, 0 regresiones).
 
+### Sprint 7 / Épica 7.2 — Backend: Servicio Dispatcher Transaccional de Correos de Mediación (TASK 7.2.3.2)
+* **Objetivo:** Desarrollar el servicio dispatcher transaccional de correos electrónicos (`emailServiceMediacion.js`) para notificar formalmente y remitir copia adjunta del Acta Oficial de Mediación Escolar en formato PDF a los Apoderados Titulares y a los Profesores Jefes de cada alumno involucrado, implementando desduplicación estricta de remitentes y trazabilidad inmutable con hash SHA-256 en auditoría.
+* **Componentes intervenidos:**
+  * **Plantilla de Correo Electrónico Institucional (`src/templates/emails/acta-mediacion-oficial.html` y `src/utils/emailTemplates.js`):**
+    * Diseño HTML responsivo y accesible acorde a la identidad corporativa de la Escuela Coeducacional N° 1 El Salvador (RBD 9876-5).
+    * Incluye bloque de bienvenida personalizado con tratamiento protocolar según rol del destinatario (*Apoderado/a Titular* o *Profesor/a Jefe*).
+    * Resumen ejecutivo del acta: folio correlativo oficial, fecha de la sesión, lugar, nombre del/la mediador/a a cargo, nombres de los estudiantes involucrados y fecha comprometida para la sesión de seguimiento.
+    * Bloque de seguridad y verificación con estampado del hash SHA-256 inmutable de 64 caracteres.
+    * Renderizador `renderActaMediacionOficialTemplate` con fallback en texto plano para clientes de correo sin soporte HTML.
+  * **Servicio Dispatcher Transaccional (`src/services/emailServiceMediacion.js`):**
+    * `obtenerDestinatariosDesduplicados(tenantId, mediacion)`: inspecciona a todos los alumnos participantes, extrae sus apoderados titulares (`es_titular = true`) e identifica el profesor jefe del curso (`cursos.profesor_jefe_id` $\rightarrow$ `usuarios`).
+    * **Desduplicación Estricta:** indexa destinatarios mediante un `Map` por correo electrónico normalizado en minúsculas. Si ambos alumnos pertenecen al mismo curso o comparten profesor jefe (o comparten apoderado en caso de hermanos), el docente o apoderado recibe exactamente **un único correo consolidado**, evitando saturación y spam institucional.
+    * Generación al vuelo del buffer PDF mediante `pdfMediacionService.generarActaMediacionPDF` y cálculo de su hash determinista SHA-256.
+    * Encolamiento seguro en Bull/Redis vía `emailService.enviarEmail` pasando el PDF serializado en Base64 como archivo adjunto (`Acta_Mediacion_[FOLIO].pdf`).
+    * **Trazabilidad Inmutable en Auditoría:** emisión de registro en la tabla canónica `auditoria` (vía `auditoriaService.registrarAuditoria`) y respaldo en `auditoria_logs` con acción `SEND_EMAIL`, tabla `mediacion_actas`, lista de destinatarios, timestamp ISO y hash SHA-256 inmutable.
+  * **Controladores y Rutas Express 5 (`src/controllers/mediacionesController.js` y `src/routes/mediaciones.routes.js`):**
+    * Endpoint `POST /api/v1/mediaciones/:id/despachar-acta` protegido por roles RBAC (`Administrador`, `Directivo`, `Equipo de Formación`, `Inspector`).
+    * Handler `despacharActaHandler` que ejecuta el despacho transaccional y responde HTTP 200 con el resumen de destinatarios y comprobante de encolamiento.
+* **Resultados de Validación Automatizada:**
+  * **Pruebas Unitarias (`src/__tests__/services/emailServiceMediacion.test.js`):**
+    * 8 de 8 pruebas aprobadas al 100% (despacho a apoderados y profesores distintos, desduplicación ante mismo curso/profesor jefe, desduplicación de apoderados compartidos, verificación de adjunto PDF en Base64, registro en auditoría con hash SHA-256 y timestamp, manejo de errores y códigos de respuesta del controlador).
+  * **Suite Global Backend:**
+    * 53 de 53 suites aprobadas al 100% (**380 pruebas en verde**, 0 fallos, 0 regresiones).
+
 ### Sprint 7 / UX-UI — Modernización Integral de Interfaces: Registro de Incidentes y Apertura de Protocolos RICE
 * **Objetivo:** Renovar la experiencia de usuario en los formularios críticos de convivencia escolar (`NuevoIncidentePage.jsx` y `NuevoProtocoloPage.jsx`), migrando a un layout en dos columnas asimétricas con barra lateral sticky de control en tiempo real, paleta con gradientes temáticos vivos y diferenciados, y modales de confirmación/descarte de datos.
 * **Componentes intervenidos:**
@@ -1094,8 +1118,8 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **52 de 52 test suites aprobadas al 100% (372 pruebas pasando exitosamente en Jest integrando `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **545 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **53 de 53 test suites aprobadas al 100% (380 pruebas pasando exitosamente en Jest integrando `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **553 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 

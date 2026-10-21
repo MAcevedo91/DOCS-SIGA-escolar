@@ -1,0 +1,403 @@
+@startuml
+skinparam dpi 300
+skinparam roundcorner 6
+skinparam linetype ortho
+skinparam nodesep 26
+skinparam ranksep 30
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classFontSize 14
+skinparam classFontName "Helvetica"
+skinparam defaultFontSize 13
+skinparam defaultTextAlignment left
+skinparam arrowColor #1e3a5f
+skinparam noteFontSize 12
+skinparam classBackgroundColor #FFFFFF
+skinparam classBorderColor #475569
+
+title **SIGA Escolar — Modelo de Datos Relacional Unificado (Alta Resolución)**\n(Core MVP + RICE + Cierre de Año + Sprints 6, 7, 8 y 10)
+
+' ==============================================================================
+' COLUMNA 1: GESTIÓN ESCOLAR, ROLES Y ESTUDIANTES
+' ==============================================================================
+
+package "1. Núcleo, Seguridad y Auditoría" as P1 #F8FAFC {
+  entity "tenants" as tenants <<Colegio>> {
+    * **id** : UUID <<PK>>
+    --
+    * nombre : VARCHAR(200)
+    * rbd : VARCHAR(20) <<UNIQUE>>
+    * direccion : VARCHAR(255)
+    telefono : VARCHAR(50)
+    email_contacto : VARCHAR(100)
+    configuracion_notificaciones : JSONB
+    activo : BOOLEAN = true
+    * created_at : TIMESTAMPTZ
+  }
+
+  entity "usuarios" as usuarios <<Cuentas y RBAC>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * email : VARCHAR(150) <<UNIQUE>>
+    * password_hash : VARCHAR(255)
+    * nombre : VARCHAR(100)
+    * apellido : VARCHAR(100)
+    * rol : ENUM
+    activo : BOOLEAN = true
+    bloqueado_hasta : TIMESTAMPTZ
+  }
+
+  entity "auditoria" as auditoria <<Bitácora>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **usuario_id** : UUID <<FK>>
+    * accion : VARCHAR(20)
+    * tabla : VARCHAR(50)
+    registro_id : UUID
+    datos_before : JSONB
+    datos_after : JSONB
+    ip_origen : VARCHAR(45)
+    * created_at : TIMESTAMPTZ
+  }
+
+  entity "notificaciones" as notificaciones <<Alertas>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **usuario_id** : UUID <<FK>>
+    tipo : VARCHAR(50)
+    titulo : VARCHAR(150)
+    mensaje : TEXT
+    leida : BOOLEAN = false
+    * created_at : TIMESTAMPTZ
+  }
+
+  tenants ||--o{ usuarios : "pertenece a"
+  tenants ||--o{ auditoria : "registra"
+  usuarios ||--o{ notificaciones : "recibe"
+}
+
+package "2. Estructura Académica y Matrículas" as P2 #EFF6FF {
+  entity "periodos_academicos" as periodos <<Años Lectivos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * anio : INT
+    fecha_inicio : DATE
+    fecha_termino : DATE
+    activo : BOOLEAN = true
+  }
+
+  entity "cursos" as cursos <<Cursos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    **profesor_jefe_id** : UUID <<FK>>
+    * nombre : VARCHAR(50)
+    * nivel : VARCHAR(20)
+    * letra : CHAR(1)
+  }
+
+  entity "estudiantes" as estudiantes <<Alumnos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **curso_id** : UUID <<FK>>
+    * rut : VARCHAR(12)
+    * nombre : VARCHAR(100)
+    * apellido : VARCHAR(100)
+    es_pie : BOOLEAN = false
+    tipo_diagnostico_pie : VARCHAR(100)
+    estado_matricula : ENUM
+    activo : BOOLEAN = true
+  }
+
+  entity "matriculas" as matriculas <<Historial (PKG-06)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    **curso_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    * anio : INT
+    * estado_final : ENUM
+    * fecha_matricula : DATE
+  }
+
+  entity "apoderados" as apoderados <<Familias>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **estudiante_id** : UUID <<FK>>
+    * rut : VARCHAR(12)
+    * nombre : VARCHAR(100)
+    parentesco : VARCHAR(50)
+    telefono : VARCHAR(50)
+    es_titular : BOOLEAN = true
+  }
+
+  entity "funcionarios" as funcionarios <<Docentes>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **usuario_id** : UUID <<FK>>
+    * rut : VARCHAR(12)
+    * nombre : VARCHAR(100)
+    * cargo : VARCHAR(100)
+  }
+
+  periodos ||--o{ cursos : "contiene"
+  cursos ||--o{ estudiantes : "agrupa"
+  estudiantes ||--o{ matriculas : "historial"
+  periodos ||--o{ matriculas : "año"
+  estudiantes ||--o{ apoderados : "tutor"
+  usuarios ||--o| funcionarios : "perfil"
+}
+
+package "6. Salud y Sociometría" as P6 #FDF2F8 {
+  entity "perfiles_medicos" as perfiles_medicos <<Ley 19.628>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK, UNIQUE>>
+    alergias : TEXT
+    condiciones_cronicas : TEXT
+    medicamentos_habituales : TEXT
+    requiere_atencion_especial : BOOLEAN
+    contacto_emergencia_nombre : VARCHAR(100)
+    contacto_emergencia_fono : VARCHAR(50)
+  }
+
+  entity "sociogramas_curso" as sociogramas <<Relaciones (PKG-08)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **curso_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    * fecha_aplicacion : DATE
+    preguntas_json : JSONB
+    respuestas_matriz : JSONB
+    indices_cohesion : JSONB
+  }
+
+  estudiantes ||--o| perfiles_medicos : "ficha médica"
+  cursos ||--o{ sociogramas : "evalúa curso"
+}
+
+' ==============================================================================
+' COLUMNA 2: CONVIVENCIA ESCOLAR, PROTOCOLOS Y MEDIACIÓN
+' ==============================================================================
+
+package "3. Gestión de Incidentes" as P3 #FFFBEB {
+  entity "tipos_abordaje" as tipos_abordaje <<Severidad>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * codigo : VARCHAR(20)
+    * nombre : VARCHAR(100)
+    * severidad : ENUM
+    requiere_protocolo : BOOLEAN = false
+  }
+
+  entity "incidentes" as incidentes <<Expediente Principal>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **tipo_abordaje_id** : UUID <<FK>>
+    * folio : VARCHAR(30) <<UNIQUE>>
+    * titulo : VARCHAR(200)
+    * descripcion : TEXT
+    * fecha_incidente : TIMESTAMPTZ
+    lugar : VARCHAR(100)
+    * estado : ENUM
+    nivel_urgencia : ENUM
+  }
+
+  entity "incidente_estudiantes" as inc_estudiantes <<Involucrados>> {
+    * **id** : UUID <<PK>>
+    --
+    * **incidente_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    * rol_participacion : ENUM
+    medidas_adoptadas : TEXT
+  }
+
+  entity "entrevistas" as entrevistas <<Declaraciones>> {
+    * **id** : UUID <<PK>>
+    --
+    * **incidente_id** : UUID <<FK>>
+    * fecha_entrevista : TIMESTAMPTZ
+    * tipo_entrevistado : ENUM
+    entrevistado_nombre : VARCHAR(150)
+    * relato : TEXT
+  }
+
+  entity "reportes_convivencia" as reportes <<Estadísticas>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    * tipo_reporte : VARCHAR(50)
+    * fecha_generacion : TIMESTAMPTZ
+    archivo_pdf_url : TEXT
+  }
+
+  tipos_abordaje ||--o{ incidentes : "clasifica"
+  incidentes ||--o{ inc_estudiantes : "involucra"
+  incidentes ||--o{ entrevistas : "testimonio"
+}
+
+package "4. Protocolos RICE" as P4 #FEF2F2 {
+  entity "tipos_protocolo" as tipos_protocolo <<Marco Normativo>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * codigo : VARCHAR(30)
+    * nombre : VARCHAR(150)
+    plazo_horas_maximo : INT
+    activo : BOOLEAN = true
+  }
+
+  entity "reglas_protocolo" as reglas_protocolo <<Condiciones>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tipo_protocolo_id** : UUID <<FK>>
+    * criterio_disparo : JSONB
+    * accion_automatica : VARCHAR(100)
+    * prioridad : INT
+  }
+
+  entity "pasos_protocolo" as pasos_protocolo <<Secuencia>> {
+    * **id** : UUID <<PK>>
+    --
+    * **incidente_id** : UUID <<FK>>
+    * **tipo_protocolo_id** : UUID <<FK>>
+    * orden : INT
+    * nombre_paso : VARCHAR(150)
+    * estado : ENUM
+    fecha_limite : TIMESTAMPTZ
+  }
+
+  entity "evidencias_paso" as evidencias <<Respaldos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **paso_id** : UUID <<FK>>
+    * nombre_archivo : VARCHAR(255)
+    * url_archivo : TEXT
+    tipo_archivo : VARCHAR(50)
+  }
+
+  tipos_protocolo ||--o{ reglas_protocolo : "reglas"
+  tipos_protocolo ||--o{ pasos_protocolo : "secuencia"
+  pasos_protocolo ||--o{ evidencias : "respalda"
+}
+
+package "5. Citaciones y Mediación" as P5 #F0FDF4 {
+  entity "citaciones" as citaciones <<Entrevistas (PKG-07)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **incidente_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    **apoderado_id** : UUID <<FK>>
+    * folio : VARCHAR(30) <<UNIQUE>>
+    * fecha_hora : TIMESTAMPTZ
+    * motivo : TEXT
+    * estado : ENUM
+  }
+
+  entity "acuerdos_citacion" as acuerdos_citacion <<Compromisos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **citacion_id** : UUID <<FK>>
+    * descripcion : TEXT
+    * responsable : VARCHAR(100)
+    * fecha_compromiso : DATE
+    cumplido : BOOLEAN = false
+  }
+
+  entity "mediaciones" as mediaciones <<Resolución (PKG-07)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **incidente_id** : UUID <<FK>>
+    * folio : VARCHAR(30) <<UNIQUE>>
+    * fecha_apertura : DATE
+    * estado : ENUM
+    * resultado_final : TEXT
+  }
+
+  entity "mediacion_participantes" as med_participantes <<Partes>> {
+    * **id** : UUID <<PK>>
+    --
+    * **mediacion_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    * rol : ENUM
+  }
+
+  entity "compromisos_mediacion" as compromisos_med <<Acta>> {
+    * **id** : UUID <<PK>>
+    --
+    * **mediacion_id** : UUID <<FK>>
+    * descripcion : TEXT
+    * fecha_seguimiento : DATE
+    estado_verificacion : ENUM
+  }
+
+  citaciones ||--o{ acuerdos_citacion : "genera acuerdos"
+  mediaciones ||--o{ med_participantes : "participan"
+  mediaciones ||--o{ compromisos_med : "compromisos"
+}
+
+package "7. Inteligencia RICE RAG" as P7 #F5F3FF {
+  entity "rice_documentos" as rice_docs <<PDF Normativas>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * titulo : VARCHAR(200)
+    * version : VARCHAR(20)
+    * vigencia_anio : INT
+    * url_archivo : TEXT
+  }
+
+  entity "rice_chunks" as rice_chunks <<Vectores pgvector>> {
+    * **id** : UUID <<PK>>
+    --
+    * **documento_id** : UUID <<FK>>
+    * capitulo_seccion : VARCHAR(150)
+    * contenido : TEXT
+    * embedding : vector(768)
+    pagina : INT
+  }
+
+  rice_docs ||--o{ rice_chunks : "vectoriza"
+}
+
+' ==============================================================================
+' ENLACES Y ALINEACIÓN DE COLUMNAS
+' ==============================================================================
+estudiantes -right-> inc_estudiantes : "involucrado"
+incidentes -down-> pasos_protocolo : "activa"
+incidentes -down-> citaciones : "origina"
+incidentes -down-> mediaciones : "deriva"
+
+P1 -[hidden]down-> P2
+P2 -[hidden]down-> P6
+
+P3 -[hidden]down-> P4
+P4 -[hidden]down-> P5
+P5 -[hidden]down-> P7
+
+P1 -[hidden]right-> P3
+P2 -[hidden]right-> P4
+
+note right of P1
+  **Multi-Tenancy (Row Level Security):**
+  Todas las entidades poseen **tenant_id : UUID <<FK>>**
+  para aislamiento estricto por colegio en Supabase.
+end note
+
+@enduml

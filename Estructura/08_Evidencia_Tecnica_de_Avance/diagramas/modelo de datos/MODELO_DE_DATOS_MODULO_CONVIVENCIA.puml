@@ -1,0 +1,244 @@
+@startuml
+skinparam dpi 300
+skinparam roundcorner 6
+skinparam linetype ortho
+skinparam nodesep 30
+skinparam ranksep 35
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classFontSize 14
+skinparam classFontName "Helvetica"
+skinparam defaultFontSize 13
+skinparam defaultTextAlignment left
+skinparam arrowColor #1e3a5f
+skinparam noteFontSize 12
+skinparam classBackgroundColor #FFFFFF
+skinparam classBorderColor #475569
+
+title **SIGA Escolar — Modelo de Datos: Convivencia Escolar, Protocolos RICE y Mediación**\n(Paquetes 3, 4, 5 y 7: Incidentes, Normativa RICE, Citaciones, Mediación y Vectores RAG)
+
+' Referencia externa para contexto
+entity "estudiantes\n<<Ref. Módulo Académico>>" as estudiantes #EFF6FF {
+  * **id** : UUID <<PK>>
+  --
+  * **tenant_id** : UUID <<FK>>
+  * nombre : VARCHAR(100)
+  * apellido : VARCHAR(100)
+  * rut : VARCHAR(12)
+}
+
+' ==============================================================================
+' PAQUETE 3: GESTIÓN DE INCIDENTES Y CASOS
+' ==============================================================================
+package "3. Gestión de Incidentes y Casos" as P3 #FFFBEB {
+  entity "tipos_abordaje" as tipos_abordaje <<Catálogo Severidad>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * codigo : VARCHAR(20)
+    * nombre : VARCHAR(100)
+    * severidad : ENUM ('Leve','Grave','Gravisima')
+    requiere_protocolo : BOOLEAN = false
+  }
+
+  entity "incidentes" as incidentes <<Expediente Principal>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **tipo_abordaje_id** : UUID <<FK>>
+    * folio : VARCHAR(30) <<UNIQUE>>
+    * titulo : VARCHAR(200)
+    * descripcion : TEXT
+    * fecha_incidente : TIMESTAMPTZ
+    lugar : VARCHAR(100)
+    * estado : ENUM ('Borrador','Abierto','En Proceso','Cerrado')
+    nivel_urgencia : ENUM ('Baja','Media','Alta','Critica')
+  }
+
+  entity "incidente_estudiantes" as inc_estudiantes <<Involucrados N:M>> {
+    * **id** : UUID <<PK>>
+    --
+    * **incidente_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    * rol_participacion : ENUM ('Afectado','Agresor','Testigo')
+    medidas_adoptadas : TEXT
+  }
+
+  entity "entrevistas" as entrevistas <<Declaraciones y Testimonios>> {
+    * **id** : UUID <<PK>>
+    --
+    * **incidente_id** : UUID <<FK>>
+    * fecha_entrevista : TIMESTAMPTZ
+    * tipo_entrevistado : ENUM ('Estudiante','Apoderado','Funcionario')
+    entrevistado_nombre : VARCHAR(150)
+    * relato : TEXT
+    compromisos : TEXT
+  }
+
+  entity "reportes_convivencia" as reportes <<Estadísticas e Informes>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * **periodo_id** : UUID <<FK>>
+    * tipo_reporte : VARCHAR(50)
+    * fecha_generacion : TIMESTAMPTZ
+    archivo_pdf_url : TEXT
+  }
+
+  tipos_abordaje ||--o{ incidentes : "clasifica severidad"
+  incidentes ||--o{ inc_estudiantes : "involucra alumnos"
+  incidentes ||--o{ entrevistas : "respalda con testimonios"
+}
+
+' ==============================================================================
+' PAQUETE 4: PROTOCOLOS RICE Y NORMATIVA
+' ==============================================================================
+package "4. Protocolos RICE y Normativa" as P4 #FEF2F2 {
+  entity "tipos_protocolo" as tipos_protocolo <<Marco Normativo RICE>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * codigo : VARCHAR(30)
+    * nombre : VARCHAR(150)
+    plazo_horas_maximo : INT
+    activo : BOOLEAN = true
+  }
+
+  entity "reglas_protocolo" as reglas_protocolo <<Condiciones Automáticas>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tipo_protocolo_id** : UUID <<FK>>
+    * criterio_disparo : JSONB
+    * accion_automatica : VARCHAR(100)
+    * prioridad : INT
+  }
+
+  entity "pasos_protocolo" as pasos_protocolo <<Etapas de Ejecución>> {
+    * **id** : UUID <<PK>>
+    --
+    * **incidente_id** : UUID <<FK>>
+    * **tipo_protocolo_id** : UUID <<FK>>
+    * orden : INT
+    * nombre_paso : VARCHAR(150)
+    * estado : ENUM ('Pendiente','En Progreso','Completado','Omitido')
+    fecha_limite : TIMESTAMPTZ
+  }
+
+  entity "evidencias_paso" as evidencias <<Respaldos Documentales>> {
+    * **id** : UUID <<PK>>
+    --
+    * **paso_id** : UUID <<FK>>
+    * nombre_archivo : VARCHAR(255)
+    * url_archivo : TEXT
+    tipo_archivo : VARCHAR(50)
+  }
+
+  tipos_protocolo ||--o{ reglas_protocolo : "contiene reglas"
+  tipos_protocolo ||--o{ pasos_protocolo : "define secuencia"
+  pasos_protocolo ||--o{ evidencias : "adjunta evidencias"
+}
+
+' ==============================================================================
+' PAQUETE 5: CITACIONES Y MEDIACIÓN
+' ==============================================================================
+package "5. Citaciones y Mediación de Conflictos" as P5 #F0FDF4 {
+  entity "citaciones" as citaciones <<Entrevistas Formales (PKG-07)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **incidente_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    **apoderado_id** : UUID <<FK>>
+    * folio : VARCHAR(30) <<UNIQUE>>
+    * fecha_hora : TIMESTAMPTZ
+    * motivo : TEXT
+    * estado : ENUM ('Programada','Realizada','Cancelada','No Asistio')
+  }
+
+  entity "acuerdos_citacion" as acuerdos_citacion <<Compromisos Familiares>> {
+    * **id** : UUID <<PK>>
+    --
+    * **citacion_id** : UUID <<FK>>
+    * descripcion : TEXT
+    * responsable : VARCHAR(100)
+    * fecha_compromiso : DATE
+    cumplido : BOOLEAN = false
+  }
+
+  entity "mediaciones" as mediaciones <<Resolución Pacífica (PKG-07)>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    **incidente_id** : UUID <<FK>>
+    * folio : VARCHAR(30) <<UNIQUE>>
+    * fecha_apertura : DATE
+    * estado : ENUM ('Abierta','En Sesiones','Acordada','Fallida')
+    * resultado_final : TEXT
+  }
+
+  entity "mediacion_participantes" as med_participantes <<Partes Mediadas>> {
+    * **id** : UUID <<PK>>
+    --
+    * **mediacion_id** : UUID <<FK>>
+    * **estudiante_id** : UUID <<FK>>
+    * rol : ENUM ('Solicitante','Invitado','Facilitador')
+  }
+
+  entity "compromisos_mediacion" as compromisos_med <<Acta de Convivencia>> {
+    * **id** : UUID <<PK>>
+    --
+    * **mediacion_id** : UUID <<FK>>
+    * descripcion : TEXT
+    * fecha_seguimiento : DATE
+    estado_verificacion : ENUM ('Pendiente','Cumplido','Incumplido')
+  }
+
+  citaciones ||--o{ acuerdos_citacion : "genera acuerdos"
+  mediaciones ||--o{ med_participantes : "participan"
+  mediaciones ||--o{ compromisos_med : "pacta compromisos"
+}
+
+' ==============================================================================
+' PAQUETE 7: INTELIGENCIA RICE RAG
+' ==============================================================================
+package "7. Inteligencia RICE RAG y Normativas" as P7 #F5F3FF {
+  entity "rice_documentos" as rice_docs <<PDF Reglamento y Protocolos>> {
+    * **id** : UUID <<PK>>
+    --
+    * **tenant_id** : UUID <<FK>>
+    * titulo : VARCHAR(200)
+    * version : VARCHAR(20)
+    * vigencia_anio : INT
+    * url_archivo : TEXT
+    procesado_rag : BOOLEAN = false
+  }
+
+  entity "rice_chunks" as rice_chunks <<Vectores pgvector / PKG-10>> {
+    * **id** : UUID <<PK>>
+    --
+    * **documento_id** : UUID <<FK>>
+    * capitulo_seccion : VARCHAR(150)
+    * contenido : TEXT
+    * embedding : vector(768)
+    pagina : INT
+  }
+
+  rice_docs ||--o{ rice_chunks : "vectoriza en chunks"
+}
+
+' ==============================================================================
+' VÍNCULOS ENTRE PAQUETES
+' ==============================================================================
+estudiantes ||--o{ inc_estudiantes : "participa"
+estudiantes ||--o{ citaciones : "citado a"
+estudiantes ||--o{ med_participantes : "involucrado en"
+
+incidentes ||--o{ pasos_protocolo : "activa ejecución"
+incidentes ||--o{ citaciones : "origina citación"
+incidentes ||--o{ mediaciones : "deriva a mediación"
+
+P3 -[hidden]down-> P4
+P4 -[hidden]down-> P5
+P5 -[hidden]down-> P7
+
+@enduml
