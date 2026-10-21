@@ -1045,6 +1045,30 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * **Suite Global Backend:**
     * 53 de 53 suites aprobadas al 100% (**380 pruebas en verde**, 0 fallos, 0 regresiones).
 
+### Sprint 7 / Épica 7.2 — Backend: Endpoints de Evaluación de Compromisos, Cierre Inmutable y Enlace RICE (TASK 7.2.4.1)
+* **Objetivo:** Implementar la lógica integral de evaluación formativa de acuerdos, sellado inmutable del expediente y consulta de historial restaurativo por estudiante en `mediacionesController.js` y `mediacionesService.js`, permitiendo actualizar acuerdos a estados granulares (`cumplido`, `parcial`, `incumplido`), sellar definitivamente el caso impidiendo mutaciones posteriores, derivar a inspectoría con apertura automática de protocolo RICE y consultar el historial conductual del alumno.
+* **Componentes intervenidos:**
+  * **Base de Datos y Migración SQL (`src/db/migrations/20261021_agregar_estado_cierre_mediaciones.sql`):**
+    * Inclusión de columna `estado VARCHAR(20) DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'cumplido', 'parcial', 'incumplido'))` en tabla `mediacion_compromisos`, con índice B-Tree dedicado y retrocompatibilidad con el booleano `cumplido`.
+    * Columnas `cerrada_at TIMESTAMP WITH TIME ZONE`, `cerrada_por_id UUID REFERENCES usuarios(id)` y `protocolo_id UUID REFERENCES protocolos_rice(id)` en tabla `mediaciones`.
+  * **Contratos de Validación Zod (`src/schemas/mediacionesSchemas.js`):**
+    * `evaluarCompromisosSchema`: valida arreglo de evaluaciones (`compromiso_id` UUID, `estado` enum, observaciones opcionales).
+    * `cerrarMediacionSchema`: valida `estado` de cierre (`'acordada'`, `'sin_acuerdo'`, `'derivada_inspectoria'`), `conclusiones_cierre` (mínimo 10 caracteres) y objeto opcional `protocolo_rice` (`tipo_protocolo_id`, `estudiante_id`, `observaciones`).
+  * **Lógica de Negocio y Transaccionalidad (`src/services/mediacionesService.js`):**
+    * `evaluarCompromisos`: valida pertenencia al tenant, comprueba que el caso no esté cerrado (`cerrada_at`), actualiza cada compromiso con su estado, fecha de cumplimiento (`NOW()` si cumplido, `null` si no) y emite registro inmutable en auditoría.
+    * `cerrarMediacion`: sella inmutablemente el caso registrando `cerrada_at`, `cerrada_por_id` y `conclusiones_cierre`. Si el estado es `'derivada_inspectoria'` y se envía `protocolo_rice`, invoca automáticamente a `protocolosService.crearProtocolo` y enlaza el `protocolo_id` generado.
+    * `obtenerHistorialMediacionesEstudiante`: consulta el expediente restaurativo completo del estudiante, calculando métricas de mediaciones acordadas, derivadas o sin acuerdo, total de compromisos, tasas de cumplimiento porcentual y detalle cronológico ordenado.
+    * **Blindaje de Inmutabilidad:** `guardarCompromisos` y `evaluarCompromisos` verifican si `mediacion.cerrada_at` existe; de ser así, rechazan cualquier modificación con código HTTP `409 Conflict`.
+  * **Controladores y Rutas Express 5 (`src/controllers/mediacionesController.js` y `src/routes/mediaciones.routes.js`):**
+    * `PATCH /api/v1/mediaciones/:id/evaluar-compromisos`: evaluación de compromisos (RBAC: Administrador, Directivo, Formación, Inspector).
+    * `PATCH /api/v1/mediaciones/:id/cerrar`: sellado inmutable y derivación RICE.
+    * `GET /api/v1/mediaciones/estudiante/:estudianteId`: historial y métricas conductuales (registrado antes de `/:id` para prevenir colisiones en Express).
+* **Resultados de Validación Automatizada:**
+  * **Pruebas Unitarias (`src/__tests__/services/mediacionEvaluacionCierre.test.js`):**
+    * 13 de 13 pruebas aprobadas al 100% (evaluación con sincronización de estado y booleano, rechazo 409 ante expedientes sellados, cierre con timestamp inmutable, derivación a inspectoría con apertura RICE, historial y métricas por alumno, manejo 404 y controladores Express).
+  * **Suite Global Backend:**
+    * 54 de 54 suites aprobadas al 100% (**393 pruebas en verde**, 0 fallos, 0 regresiones).
+
 ### Sprint 7 / UX-UI — Modernización Integral de Interfaces: Registro de Incidentes y Apertura de Protocolos RICE
 * **Objetivo:** Renovar la experiencia de usuario en los formularios críticos de convivencia escolar (`NuevoIncidentePage.jsx` y `NuevoProtocoloPage.jsx`), migrando a un layout en dos columnas asimétricas con barra lateral sticky de control en tiempo real, paleta con gradientes temáticos vivos y diferenciados, y modales de confirmación/descarte de datos.
 * **Componentes intervenidos:**
@@ -1118,8 +1142,8 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
 
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **53 de 53 test suites aprobadas al 100% (380 pruebas pasando exitosamente en Jest integrando `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **553 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **54 de 54 test suites aprobadas al 100% (393 pruebas pasando exitosamente en Jest integrando `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **566 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 

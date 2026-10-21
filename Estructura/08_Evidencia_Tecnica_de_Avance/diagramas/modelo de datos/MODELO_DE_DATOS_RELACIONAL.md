@@ -36,23 +36,32 @@ El **Modelo de Datos Relacional** de **SIGA Escolar** define la estructura forma
 
 ## 2. DIAGRAMA DE MODELO DE DATOS UNIFICADO (PLANTUML v1.0)
 
-> **Nota técnica de visualización:** Este diagrama unificado consolida las 28 tablas del sistema en 2 columnas paralelas simétricas con ruteo ortogonal (`skinparam linetype ortho`), eliminando cruces diagonales desordenados (*spaghetti*) y optimizado con resolución de **300 DPI** y tipografía ampliada (**14pt**) para lectura nítida en el informe.
+> **Nota técnica de visualización:** Este diagrama unificado consolida las 28 tablas del sistema en 2 columnas paralelas simétricas con ruteo ortogonal (`skinparam linetype ortho`), eliminando cruces diagonales desordenados (*spaghetti*) y optimizado con resolución de **300 DPI** y tipografía ampliada (**18pt entidades / 16pt atributos**) para lectura nítida en el informe.
 
 ```plantuml
 @startuml
-skinparam dpi 300
+skinparam dpi 160
 skinparam roundcorner 6
 skinparam linetype ortho
-skinparam nodesep 26
-skinparam ranksep 30
+skinparam nodesep 28
+skinparam ranksep 32
 skinparam packageStyle rectangle
 skinparam shadowing false
-skinparam classFontSize 14
 skinparam classFontName "Helvetica"
-skinparam defaultFontSize 13
+skinparam defaultFontName "Helvetica"
+
+' Jerarquía de fuentes ampliadas para lectura de alta definición
+skinparam titleFontSize 22
+skinparam packageFontSize 18
+skinparam classFontSize 18
+skinparam classAttributeFontSize 16
+skinparam defaultFontSize 16
+skinparam arrowFontSize 14
+skinparam noteFontSize 14
+
 skinparam defaultTextAlignment left
 skinparam arrowColor #1e3a5f
-skinparam noteFontSize 12
+skinparam backgroundColor #FFFFFF
 skinparam classBackgroundColor #FFFFFF
 skinparam classBorderColor #475569
 

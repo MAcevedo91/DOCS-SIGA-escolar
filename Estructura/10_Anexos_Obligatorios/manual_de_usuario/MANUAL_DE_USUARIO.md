@@ -596,6 +596,30 @@ Una vez formalizada la mediación y generada el acta, el sistema permite notific
 
 ---
 
+### Evaluación de Compromisos, Cierre Inmutable y Enlace RICE (TASK 7.2.4.1)
+
+En la fase de seguimiento posterior a la mediación escolar, el equipo de convivencia cuenta con herramientas para certificar el cumplimiento de los acuerdos y formalizar el cierre del expediente:
+
+1. **Evaluación Formativa de Compromisos:**
+   * Permite calificar el grado de cumplimiento de cada acuerdo alcanzado por los estudiantes:
+     * **Cumplido:** El estudiante honró plenamente el compromiso formativo acordado. El sistema registra automáticamente la fecha y hora de cumplimiento.
+     * **Parcial:** El compromiso fue abordado de forma incompleta o intermitente, permitiendo ingresar observaciones pedagógicas de seguimiento.
+     * **Incumplido:** El estudiante desatendió el compromiso acordado en el plazo establecido.
+   * La evaluación queda registrada con el usuario responsable en la bitácora de auditoría inmutable.
+
+2. **Sellado Inmutable y Cierre del Expediente:**
+   * Al concluir el seguimiento, el/la mediador/a o directivo procede al cierre definitivo del caso, registrando las **Conclusiones de Cierre** obligatorias (mínimo 10 caracteres).
+   * **Inmutabilidad y Blindaje Legal:** Una vez cerrado el expediente, el caso queda **sellado y bloqueado contra modificaciones posteriores**, protegiendo la integridad del proceso y evitando alteraciones maliciosas o inconsistencias ante auditorías de la Superintendencia de Educación.
+   * **Derivación a Inspectoría y Apertura de Protocolo RICE:** Si las partes no lograron un acuerdo restaurativo o incurrieron en faltas graves reglamentarias que impiden la mediación, el caso puede cerrarse como **Derivada a Inspectoría**, permitiendo opcionalmente **enlazar y aperturar de inmediato un Protocolo Normativo RICE** para el estudiante involucrado, garantizando la continuidad del debido proceso escolar.
+
+3. **Consulta de Historial Conductual y Restaurativo por Alumno:**
+   * Mediante el endpoint especializado (`/api/v1/mediaciones/estudiante/:estudianteId`), el personal docente y formativo puede consultar en cualquier momento la trayectoria completa de un alumno en mediaciones escolares:
+     * Tasa porcentual de cumplimiento de compromisos.
+     * Resumen de casos acordados, sin acuerdo o derivados a inspectoría.
+     * Detalle cronológico de acuerdos individuales pactados y sus fechas límite.
+
+---
+
 ## 17. Preguntas Frecuentes y Solución de Problemas
 
 

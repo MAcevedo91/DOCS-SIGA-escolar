@@ -2,16 +2,25 @@
 skinparam dpi 300
 skinparam roundcorner 6
 skinparam linetype ortho
-skinparam nodesep 35
-skinparam ranksep 40
+skinparam nodesep 32
+skinparam ranksep 38
 skinparam packageStyle rectangle
 skinparam shadowing false
-skinparam classFontSize 14
 skinparam classFontName "Helvetica"
-skinparam defaultFontSize 13
+skinparam defaultFontName "Helvetica"
+
+' Jerarquía de fuentes ampliadas para lectura de alta definición
+skinparam titleFontSize 22
+skinparam packageFontSize 18
+skinparam classFontSize 18
+skinparam classAttributeFontSize 16
+skinparam defaultFontSize 16
+skinparam arrowFontSize 14
+skinparam noteFontSize 14
+
 skinparam defaultTextAlignment left
 skinparam arrowColor #1e3a5f
-skinparam noteFontSize 12
+skinparam backgroundColor #FFFFFF
 skinparam classBackgroundColor #FFFFFF
 skinparam classBorderColor #475569
 
