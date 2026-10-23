@@ -1140,30 +1140,22 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      - Gestión contextual y ágil de evidencias probatorias directamente dentro de cada paso del checklist (enlace directo, peso del archivo y opciones de carga o eliminación).
      - Integración en `CompletarPasoModal.jsx` y `ChecklistProtocolo.jsx`.
 
-8. **Sprint 8 — TASK 8.1.1.1: Algoritmo de Co-ocurrencias y Matriz de Adyacencia Ponderada del Sociograma Escolar:**
-   - **Motor Algorítmico de Grafo Social de Aula (`sociogramaService.js`):**
-     - Computación de matriz de adyacencia simétrica $A[N \times N]$ ($A_{i,j} = A_{j,i}$ y diagonal principal $A_{i,i} = 0$) a partir de co-ocurrencias de estudiantes en incidentes disciplinarios y mediaciones escolares del curso.
-     - **Ponderación Matemática por Gravedad de Falta:**
-       - Falta Leve: $+1$ punto.
-       - Falta Grave: $+3$ puntos.
-       - Falta Gravísima: $+5$ puntos.
-       - Mediación Escolar / Acuerdo Formativo: $-2$ puntos (atenuación de tensión relacional).
-     - **Clasificación Cualitativa de Vínculos:**
-       - Peso $\ge 5$: `conflicto_severo`
-       - Peso $\ge 3$: `conflicto_moderado`
-       - Peso $> 0$: `conflicto_leve`
-       - Peso $< 0$: `acuerdo_restaurativo`
-     - **Métricas Topológicas de Red y Centralidad:** Grado de centralidad, conflictividad acumulada individual, densidad de la red de aula, identificación de estudiantes aislados ($grado = 0$), detección temprana de estudiantes en riesgo y ranking de pares críticos.
-     - **Rendimiento Garantizado:** Tiempo de ejecución $< 200\text{ ms}$ (promedio sub-$10\text{ ms}$ para cursos de hasta 45 alumnos).
-   - **Controlador y Rutas Express 5 (`sociogramaController.js`, `sociograma.routes.js`):**
-     - Endpoint canónico `GET /api/sociograma/curso/:cursoId` (con compatibilidad simétrica en `/api/v1/sociograma/curso/:cursoId`).
-     - Respuestas estructuradas con payload canónico `{ nodes, links, metricas, matriz_adyacencia, curso }`.
-     - Control RBAC estricto para perfiles autorizados (`Administrador`, `Directivo`, `Equipo de Formación`, `Inspector`, `Docente`).
+8. **Sprint 8 — Épica 8.1: Sociograma Escolar y Análisis de Redes de Convivencia:**
+   - **TASK 8.1.1.1 (Matriz de Adyacencia Ponderada):**
+     - Computación de matriz de adyacencia simétrica $A[N \times N]$ ($A_{i,j} = A_{j,i}$ y diagonal principal $A_{i,i} = 0$) a partir de co-ocurrencias en incidentes y mediaciones.
+     - Ponderación matemática canónica: Leve ($+1$), Grave ($+3$), Gravísimo ($+5$), Mediación/Acuerdo ($-2$).
+     - Clasificación cualitativa: `conflicto_severo`, `conflicto_moderado`, `conflicto_leve`, `acuerdo_restaurativo`.
+   - **TASK 8.1.2.1 (Centralidad de Grado, Agrupamiento y Cohesión Grupal):**
+     - **Centralidad de Grado Normalizada ($C_D^{\%}$):** Medición de la centralidad relacional de cada alumno escalada de $0$ a $100\%$ ($C_D(i) = \frac{k_i}{N-1} \times 100$).
+     - **Coeficiente de Agrupamiento Local y Global (Watts-Strogatz):** Identificación de triángulos de interacción y cliques locales ($C_i = \frac{2 e_i}{k_i(k_i - 1)}$) y promedio global del aula ($\bar{C}^{\%}$).
+     - **Índice Integral de Cohesión de Aula ($0 \text{ a } 100$):** Indicador sintético que pondera inclusión de estudiantes no aislados, transitividad relacional y factor de clima restaurativo con categorización formativa no estigmatizante (`diagnostico_clima`).
+     - **Cumplimiento Ético Institucional (Anti-Estigmatización):** Supresión absoluta de etiquetas punitivas (`agresor`, `matón`, `conflictivo`, `víctima`). Incorporación de niveles de acompañamiento (`prioritario`, `apoyo_formativo`, `observacion_preventiva`, `convivencia_positiva`) y blindaje de privacidad (sin exposición de diagnósticos médicos o PIE).
+     - **Validación Matemática Rigurosa:** Pruebas unitarias certificadas sobre grafos sintéticos canónicos (Completo $K_4$, Estrella $S_5$, Ciclo $C_4$, Triángulo con Hoja y Grafo Vacío).
 
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **55 de 55 test suites aprobadas al 100% (407 pruebas pasando exitosamente en Jest integrando `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **580 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **55 de 55 test suites aprobadas al 100% (415 pruebas pasando exitosamente en Jest integrando `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **588 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 

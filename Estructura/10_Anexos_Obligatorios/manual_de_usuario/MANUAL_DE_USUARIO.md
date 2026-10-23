@@ -726,11 +726,28 @@ Al consultar el sociograma de un curso (`/api/sociograma/curso/:cursoId`), el si
   - **Conflicto Leve (Peso $1$ a $2$):** Enlace amarillo; situaciones menores en observación.
   - **Acuerdo Restaurativo (Peso $< 0$):** Enlace verde o cian; indica pares donde los acuerdos formativos de mediación han reducido exitosamente la tensión vincular.
 
-* **Métricas Globales del Clima de Aula:**
-  - **Densidad de la Red:** Proporción de vínculos activos respecto al máximo posible del grupo curso.
-  - **Estudiantes en Riesgo:** Alumnos con alta conflictividad total acumulada ($\ge 4$ puntos).
-  - **Estudiantes Aislados:** Alumnos con grado de centralidad $0$ y sin registro de incidentes o mediaciones.
+* **Métricas Globales del Clima de Aula (Análisis de Redes SNA):**
+  - **Índice Integral de Cohesión de Aula ($0 \text{ a } 100$):** Indicador sintético que combina la tasa de integración de los alumnos, la cohesión relacional (transitividad) y la efectividad de las mediaciones formativas, clasificando el clima institucional en:
+    - $\ge 75$: *«Cohesión positiva y clima colaborativo»*
+    - $50 - 74$: *«Cohesión moderada con dinámicas estables»*
+    - $25 - 49$: *«Requiere fortalecimiento de vínculos formativos»*
+    - $< 25$: *«Foco de atención prioritaria para mediación grupal»*
+  - **Densidad de la Red ($0 \text{ a } 100\%$):** Porcentaje de vínculos activos respecto al máximo combinatorio del grupo curso.
+  - **Coeficiente de Agrupamiento Promedio (Watts-Strogatz):** Mide la tendencia de los estudiantes a formar subgrupos o triángulos de apoyo y convivencia ($0 \text{ a } 100\%$).
+  - **Centralidad de Grado Normalizada:** Porcentaje de interacción de cada estudiante respecto al total de compañeros del aula ($0 \text{ a } 100\%$).
+  - **Estudiantes Aislados:** Alumnos con grado de centralidad $0$ y sin registro de incidentes o mediaciones, permitiendo orientar dinámicas de integración grupal.
   - **Pares Críticos:** Listado priorizado de las duplas con mayor peso acumulado para focalizar acuerdos y entrevistas familiares.
+
+---
+
+### 19.3 Enfoque Ético y Protección contra la Estigmatización Escolar
+En estricto cumplimiento con la **Ley N° 19.628 de Protección de Datos Personales** y la **Política Nacional de Convivencia Educativa**:
+1. **Terminología Formativa y Respetuosa:** El sistema prohíbe y suprime etiquetas estigmatizantes (`agresor`, `víctima`, `problemático`, `conflictivo`). Cada situación es tipificada según su nivel de acompañamiento pedagógico:
+   - *Acompañamiento formativo prioritario*
+   - *Apoyo formativo focalizado*
+   - *Observación preventiva formativa*
+   - *Convivencia positiva y armónica*
+2. **Confidencialidad Médica y Pedagógica:** El sociograma no expone antecedentes de salud, diagnósticos clínicos ni pertenencia al Programa de Integración Escolar (PIE), resguardando plenamente la dignidad e intimidad del estudiante y su grupo familiar.
 
 ---
 
