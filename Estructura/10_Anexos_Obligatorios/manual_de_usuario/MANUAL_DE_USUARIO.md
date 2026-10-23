@@ -26,7 +26,10 @@
 14. [Analítica Escolar y Mapa de Calor por Cursos (Evolución del Clima de Aula)](#14-analítica-escolar-y-mapa-de-calor-por-cursos-evolución-del-clima-de-aula)
 15. [Cierre de Año Lectivo y Promoción de Cursos](#15-cierre-de-año-lectivo-y-promoción-de-cursos)
 16. [Módulo de Mediación Escolar y Acuerdos Formativos (Enfoque Restaurativo)](#16-módulo-de-mediación-escolar-y-acuerdos-formativos-enfoque-restaurativo)
-17. [Preguntas Frecuentes y Solución de Problemas](#17-preguntas-frecuentes-y-solución-de-problemas)
+17. [Módulo Copiloto RAG Normativo RICE](#17-módulo-copiloto-rag-normativo-rice)
+18. [Navegación Unificada y Acceso Rápido Permanente](#18-navegación-unificada-y-acceso-rápido-permanente)
+19. [Sociograma Escolar y Redes de Convivencia de Aula (Matriz de Co-ocurrencias)](#19-sociograma-escolar-y-redes-de-convivencia-de-aula-matriz-de-co-ocurrencias)
+20. [Preguntas Frecuentes y Solución de Problemas](#20-preguntas-frecuentes-y-solución-de-problemas)
 
 ---
 
@@ -697,6 +700,37 @@ Al revisar un incidente conductual específico en la pantalla de detalle (`/inci
 En cualquier sección del sistema —incluso al consultar la ficha de un estudiante, registrar un nuevo incidente o revisar un protocolo RICE paso a paso— dispondrás de:
 * **Menú Lateral Persistente (Sidebar):** Permite cambiar de módulo (Dashboard, Estudiantes, Incidentes, Protocolos, Cierre de Año, etc.) en un solo clic sin necesidad de volver atrás en el navegador. En dispositivos móviles se despliega mediante el botón de menú hamburguesa.
 * **Barra Superior Siempre Visible (Navbar):** Permite buscar alumnos rápidamente por nombre o RUT desde cualquier pantalla, cambiar entre modo claro y oscuro, consultar el Copiloto RICE y revisar las notificaciones en tiempo real.
+
+---
+
+## 19. Sociograma Escolar y Redes de Convivencia de Aula (Matriz de Co-ocurrencias)
+
+### 19.1 Propósito y Fundamento Formativo
+El **Sociograma Escolar** es una herramienta analítica avanzada basada en teoría de grafos y matrices de adyacencia ponderada. Permite al Equipo Directivo, Dupla Psicosocial y Profesores Jefes visualizar y comprender la topología relacional de un curso completo:
+1. **Identificar Dinámicas Grupales Ocultas:** Detectar patrones de conflicto reiterado entre pares que pasan desapercibidos en incidentes aislados.
+2. **Detección Temprana de Estudiantes Aislados:** Identificar estudiantes que no presentan interacción ni conflicto registrado, orientando intervenciones preventivas para evitar marginación o soledad escolar.
+3. **Ponderación Objetiva por Gravedad y Mediación:** El algoritmo pondera matemáticamente los hechos ocurridos en el aula:
+   - **Falta Leve:** $+1$ punto de tensión.
+   - **Falta Grave:** $+3$ puntos de tensión.
+   - **Falta Gravísima:** $+5$ puntos de tensión.
+   - **Mediación Escolar Acordada:** $-2$ puntos (atenúa la conflictividad acumulada, reflejando el éxito del enfoque restaurativo).
+
+---
+
+### 19.2 Interpretación de Métricas y Vínculos de la Red
+Al consultar el sociograma de un curso (`/api/sociograma/curso/:cursoId`), el sistema computa y clasifica automáticamente los resultados:
+
+* **Clasificación de Vínculos (Aristas entre Estudiantes):**
+  - **Conflicto Severo (Peso $\ge 5$):** Enlace rojo destacado; indica confrontaciones graves reiteradas o gravísimas que requieren mediación obligatoria o intervención de inspectoría.
+  - **Conflicto Moderado (Peso $3$ a $4$):** Enlace naranja; alerta sobre roces persistentes que deben ser abordados por el profesor jefe.
+  - **Conflicto Leve (Peso $1$ a $2$):** Enlace amarillo; situaciones menores en observación.
+  - **Acuerdo Restaurativo (Peso $< 0$):** Enlace verde o cian; indica pares donde los acuerdos formativos de mediación han reducido exitosamente la tensión vincular.
+
+* **Métricas Globales del Clima de Aula:**
+  - **Densidad de la Red:** Proporción de vínculos activos respecto al máximo posible del grupo curso.
+  - **Estudiantes en Riesgo:** Alumnos con alta conflictividad total acumulada ($\ge 4$ puntos).
+  - **Estudiantes Aislados:** Alumnos con grado de centralidad $0$ y sin registro de incidentes o mediaciones.
+  - **Pares Críticos:** Listado priorizado de las duplas con mayor peso acumulado para focalizar acuerdos y entrevistas familiares.
 
 ---
 
