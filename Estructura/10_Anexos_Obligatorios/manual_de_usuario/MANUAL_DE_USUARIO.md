@@ -29,7 +29,8 @@
 17. [Módulo Copiloto RAG Normativo RICE](#17-módulo-copiloto-rag-normativo-rice)
 18. [Navegación Unificada y Acceso Rápido Permanente](#18-navegación-unificada-y-acceso-rápido-permanente)
 19. [Sociograma Escolar y Redes de Convivencia de Aula (Matriz de Co-ocurrencias)](#19-sociograma-escolar-y-redes-de-convivencia-de-aula-matriz-de-co-ocurrencias)
-20. [Preguntas Frecuentes y Solución de Problemas](#20-preguntas-frecuentes-y-solución-de-problemas)
+20. [Expediente Escolar Sanitizado para Especialistas de Salud Externa](#20-expediente-escolar-sanitizado-para-especialistas-de-salud-externa)
+21. [Preguntas Frecuentes y Solución de Problemas](#21-preguntas-frecuentes-y-solución-de-problemas)
 
 ---
 
@@ -748,6 +749,22 @@ En estricto cumplimiento con la **Ley N° 19.628 de Protección de Datos Persona
    - *Observación preventiva formativa*
    - *Convivencia positiva y armónica*
 2. **Confidencialidad Médica y Pedagógica:** El sociograma no expone antecedentes de salud, diagnósticos clínicos ni pertenencia al Programa de Integración Escolar (PIE), resguardando plenamente la dignidad e intimidad del estudiante y su grupo familiar.
+
+---
+
+## 20. Expediente Escolar Sanitizado para Especialistas de Salud Externa
+
+### 20.1 Propósito y Fundamento Legal (Ley N° 19.628 y Ley N° 20.584)
+Cuando un estudiante es derivado a evaluación médica, psicológica o neurológica externa (CESFAM, Cosam, neurólogos infantiles, psiquiatras o terapeutas), el establecimiento educacional debe remitir un reporte fidedigno de su desempeño y convivencia escolar.
+
+Sin embargo, en los relatos de incidentes y mediaciones suelen figurar nombres y circunstancias de otros niños y niñas (compañeros de curso o testigos). La **Ley N° 19.628 de Protección de la Vida Privada** y la **Circular N° 482 de la Superintendencia de Educación** prohíben estrictamente divulgar datos personales de terceros a entidades externas.
+
+Para resolver este desafío, SIGA Escolar incorpora el **Extractor y Sanitizador de Expedientes para Salud**:
+1. **Preserva la Identidad del Alumno Derivado:** Los datos del paciente (estudiante foco) se mantienen íntegros y claros para el especialista médico.
+2. **Anonimización Automática por Iniciales Genéricas:** Todo nombre de compañeros o terceros en los relatos es sustituido en tiempo real por iniciales con punto (ej. *"Juan Carlos Pérez"* $\to$ *"J. C. P."*, *"Camila Soto"* $\to$ *"C. S."*).
+3. **Censura de PII de Terceros:** Se suprimen automáticamente números de RUT, teléfonos y correos electrónicos de terceros.
+4. **Control Estricto RBAC:** Acceso restringido exclusivamente a **Directivos, Administrador y Equipo de Formación/Psicosocial**. Profesores o inspectores no tienen acceso a esta extracción para resguardar el secreto profesional y la confidencialidad.
+5. **Auditoría Inmutable:** Cada generación queda registrada en la bitácora institucional con el nombre del funcionario emisor, fecha/hora y especialista destinatario.
 
 ---
 

@@ -1152,10 +1152,17 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      - **Cumplimiento Ético Institucional (Anti-Estigmatización):** Supresión absoluta de etiquetas punitivas (`agresor`, `matón`, `conflictivo`, `víctima`). Incorporación de niveles de acompañamiento (`prioritario`, `apoyo_formativo`, `observacion_preventiva`, `convivencia_positiva`) y blindaje de privacidad (sin exposición de diagnósticos médicos o PIE).
      - **Validación Matemática Rigurosa:** Pruebas unitarias certificadas sobre grafos sintéticos canónicos (Completo $K_4$, Estrella $S_5$, Ciclo $C_4$, Triángulo con Hoja y Grafo Vacío).
 
+   - **TASK 8.2.1.1 (Extractor y Sanitizador de Expediente para Salud):**
+     - **Motor Regex de Anonimización de Terceros (`reporteEspecialistaService.js`):** Extracción del expediente conductual y de convivencia escolar para derivación clínica o psicosocial externa.
+     - **Sustitución por Iniciales Genéricas:** Detección de compañeros de curso y terceros involucrados en relatos de incidentes, medidas y mediaciones, reemplazándolos automáticamente por iniciales con punto (ej. *"Juan Carlos Pérez González"* $\to$ *"J. C. P. G."*, *"Camila Soto"* $\to$ *"C. S."*), preservando intacta la identidad del estudiante foco/paciente.
+     - **Censura de PII:** Eliminación automática de RUTs, correos y números telefónicos de terceros en los textos libres.
+     - **Control de Acceso RBAC Estricto (`reporteEspecialistaController.js`, `estudiantes.routes.js`):** Endpoint `GET /api/v1/estudiantes/:id/expediente-salud` restringido exclusivamente a roles directivos y psicosociales (`Administrador`, `Directivo`, `Equipo de Formación`), denegando con HTTP 403 Forbidden a perfiles docentes o generales.
+     - **Trazabilidad Forense en Auditoría:** Registro inmutable en `auditoriaService.registrarAuditoria` (`accion: 'GENERAR_REPORTE_ESPECIALISTA'`) guardando metadatos de emisión, especialista de destino, motivo y conteo de registros sanitizados.
+
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **55 de 55 test suites aprobadas al 100% (415 pruebas pasando exitosamente en Jest integrando `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **588 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **56 de 56 test suites aprobadas al 100% (427 pruebas pasando exitosamente en Jest integrando `reporteEspecialistaService.test.js`, `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **600 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 
