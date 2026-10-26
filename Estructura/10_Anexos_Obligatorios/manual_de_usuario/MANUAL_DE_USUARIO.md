@@ -766,6 +766,23 @@ Para resolver este desafío, SIGA Escolar incorpora el **Extractor y Sanitizador
 4. **Control Estricto RBAC:** Acceso restringido exclusivamente a **Directivos, Administrador y Equipo de Formación/Psicosocial**. Profesores o inspectores no tienen acceso a esta extracción para resguardar el secreto profesional y la confidencialidad.
 5. **Auditoría Inmutable:** Cada generación queda registrada en la bitácora institucional con el nombre del funcionario emisor, fecha/hora y especialista destinatario.
 
+### 20.2 Emisión y Descarga de la Ficha Médica/Psicológica Oficial (PDF Institucional de 2 Páginas)
+Para hacer entrega formal del expediente al especialista de salud tratante (neurólogo, psiquiatra, psicólogo o médico de cabecera), el sistema compila instantáneamente una **Ficha Médica y Psicológica Oficial en PDF** con diseño sobrio y membrete formal.
+
+#### Estructura del Documento Oficial (Exactamente 2 Páginas)
+* **Membrete Institucional Oficial (Página 1):** Encabezado con la identidad de la *Escuela Coeducacional N° 1 El Salvador* (RBD 9876-5, Diego de Almagro, Región de Atacama), Unidad de Convivencia Escolar / Dupla Psicosocial y aviso legal de confidencialidad estricta amparado en la Ley N° 19.628 y Ley N° 20.584.
+* **Sección I — Identificación del Estudiante y Contexto:** Nombre del estudiante, RUT, curso, fecha de nacimiento, estado de matrícula, fecha de emisión, funcionario emisor, especialista destinatario y motivo formal de la derivación.
+* **Sección II — Hábitos, Conducta y Atención Observada en Aula:** Registro pedagógico formativo sobre períodos de atención, focalización en tareas, autorregulación frente a frustración y articulación con apoyos de aula PIE (Decreto N° 83/2015).
+* **Sección III — Historial de Convivencia Escolar y Mediaciones (Página 2):** Detalle cronológico de incidentes disciplinarios relevantes y procesos de mediación formativa, donde los nombres de cualquier compañero de curso o testigo aparecen 100% reemplazados por iniciales genéricas.
+* **Sección IV — Conclusiones Institucionales y Cuadrantes de Doble Firma:** Sugerencias para el trabajo colaborativo escuela-salud y cuadrantes formales para la firma de la *Unidad de Convivencia Escolar / Dupla Psicosocial* y la *Dirección del Establecimiento*.
+* **Código Hash Criptográfico SHA-256 en Pie de Página:** Ambas carillas llevan impreso un hash criptográfico de 64 caracteres calculado sobre los datos canónicos de emisión (`Hash SHA-256 de Certificación: [hash]`), lo que permite al centro médico o tribunal certificar que el informe impreso o digital no ha sido adulterado.
+
+#### Paso a Paso para la Emisión de la Ficha Oficial
+1. Ingresa a la plataforma con un usuario autorizado (**Administrador**, **Directivo** o **Equipo de Formación**).
+2. Dirígete al módulo de **Estudiantes** y selecciona al estudiante correspondiente.
+3. En la pestaña de antecedentes formativos o en el botón de acciones rápidas, haz clic en **"Descargar Ficha Médica/Psicológica"** (o solicita el informe ingresando el especialista y motivo).
+4. El navegador abrirá o descargará inmediatamente el documento `Ficha_Medica_Oficial_[Nombre].pdf` listo para imprimir, firmar y remitir bajo sobre cerrado o canal confidencial al profesional de salud.
+
 ---
 
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  
