@@ -1170,10 +1170,17 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
       - **Certificación Forense mediante Hash SHA-256:** Cálculo criptográfico inmutable del payload canónico (`calcularHashFichaSalud`) estampado en el pie de página de ambas carillas (`Página X de 2`), permitiendo a hospitales y especialistas verificar la autenticidad e integridad del documento.
       - **Endpoint Oficial de Descarga:** Montaje de `GET /api/v1/estudiantes/:id/ficha-medica-pdf` con cabeceras `Content-Type: application/pdf`, `Content-Disposition: inline; filename="Ficha_Medica_Oficial_[Nombre].pdf"` y cabecera de autenticidad `X-Hash-Autenticidad-SHA256`.
 
+    - **TASK 8.2.2.1 (Tabla estudiante_informes_medicos y Endpoints de Historial):**
+      - **Modelo Relacional en Supabase con RLS Estricto (`20261026_crear_tabla_estudiante_informes_medicos.sql`):** Creación de la tabla `estudiante_informes_medicos` con integridad referencial en cascada, índices B-Tree de cobertura (`tenant_id`, `estudiante_id`, `hash_sha256`, `fecha_emision`), y políticas RLS forzadas (`FORCE ROW LEVEL SECURITY`) que garantizan aislamiento multi-tenant hermético.
+      - **Persistencia de Trazabilidad Forense:** Almacenamiento seguro del hash SHA-256 de certificación (64 caracteres hex), especialista destinatario, motivo de derivación, notas clínicas, usuario emisor y contadores de incidentes y mediaciones vinculadas.
+      - **Endpoint Paginado de Consulta (`reporteEspecialistaController.js`, `reporteEspecialistaService.js`):** Implementación de `GET /api/v1/estudiantes/:id/informes-medicos` con validación de existencia del estudiante, cálculo de paginación (`page`, `limit`, `total`, `totalPages`, `hasNextPage`, `hasPrevPage`) e inclusión referencial de datos del usuario emisor (`nombre`, `email`, `rol`).
+      - **Restricción RBAC Estricta:** Acceso restringido exclusivamente a los roles `Administrador`, `Directivo` y `Equipo de Formación` (Dupla Psicosocial / Encargado de Convivencia), rechazando con `HTTP 403 Forbidden` a perfiles docentes o generales.
+      - **Integración Transaccional con Motor PDFKit:** Auto-registro automático de la emisión histórica al momento de descargar la Ficha Médica/Psicológica Oficial mediante `descargarFichaSaludPdfHandler`.
+
 * **Resultados de Validación y Certificación Automatizada:**
   * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **57 de 57 test suites aprobadas al 100% (434 pruebas pasando exitosamente en Jest integrando `pdfFichaEspecialistaService.test.js`, `reporteEspecialistaService.test.js`, `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **607 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Backend:** **58 de 58 test suites aprobadas al 100% (445 pruebas pasando exitosamente en Jest integrando `estudianteInformesMedicos.test.js`, `pdfFichaEspecialistaService.test.js`, `reporteEspecialistaService.test.js`, `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **618 pruebas automáticas aprobadas al 100% sin regresiones**.
 
 ---
 

@@ -783,6 +783,19 @@ Para hacer entrega formal del expediente al especialista de salud tratante (neur
 3. En la pestaña de antecedentes formativos o en el botón de acciones rápidas, haz clic en **"Descargar Ficha Médica/Psicológica"** (o solicita el informe ingresando el especialista y motivo).
 4. El navegador abrirá o descargará inmediatamente el documento `Ficha_Medica_Oficial_[Nombre].pdf` listo para imprimir, firmar y remitir bajo sobre cerrado o canal confidencial al profesional de salud.
 
+### 20.3 Historial de Informes Médicos y Fichas Emitidas
+Cada vez que se genera o descarga una ficha oficial para un especialista externo, el sistema almacena de forma inalterable un registro en la tabla institucional de informes médicos (`estudiante_informes_medicos`).
+
+#### Información Registrada en el Historial
+* **Especialista y Centro de Destino:** Identificación del médico, neurólogo, psicólogo o centro de salud (CESFAM, COSAM, Hospital).
+* **Motivo y Notas Clínicas:** Justificación pedagógico-clínica de la emisión y observaciones complementarias.
+* **Usuario Emisor:** Nombre, correo y rol del funcionario institucional que tramitó el informe (ej. *Constanza Valenzuela - Equipo de Formación*).
+* **Hash SHA-256 de Certificación:** Código inmutable de 64 caracteres para corroborar que el informe en manos del especialista corresponde con el emitido originalmente por el colegio.
+* **Fecha y Hora de Emisión:** Marca de tiempo oficial de la entrega documental.
+
+#### Consulta Paginada del Historial
+Los usuarios con permisos de **Administrador**, **Directivo** o **Equipo de Formación** pueden consultar la nómina completa de informes emitidos para un alumno mediante el endpoint paginado `GET /api/v1/estudiantes/:id/informes-medicos?page=1&limit=10`, lo que garantiza auditoría continua y seguimiento cronológico de las derivaciones médicas del estudiante.
+
 ---
 
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  
