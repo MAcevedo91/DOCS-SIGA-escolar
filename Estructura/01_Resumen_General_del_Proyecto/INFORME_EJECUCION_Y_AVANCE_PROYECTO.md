@@ -1178,9 +1178,50 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
       - **Integración Transaccional con Motor PDFKit:** Auto-registro automático de la emisión histórica al momento de descargar la Ficha Médica/Psicológica Oficial mediante `descargarFichaSaludPdfHandler`.
 
 * **Resultados de Validación y Certificación Automatizada:**
-  * **Pruebas Frontend:** **34 de 34 test suites aprobadas al 100% (173 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
-  * **Pruebas Backend:** **58 de 58 test suites aprobadas al 100% (445 pruebas pasando exitosamente en Jest integrando `estudianteInformesMedicos.test.js`, `pdfFichaEspecialistaService.test.js`, `reporteEspecialistaService.test.js`, `sociogramaService.test.js`, `mediacionEvaluacionCierre.test.js`, `emailServiceMediacion.test.js`, `pdfMediacionService.test.js`, `mediacionCompromisos.test.js`, `protocolosEvidencias.test.js` y `protocolosCatalogo.test.js`, 0 fallos)**.
-  * **Total de Cobertura Monorepo:** **618 pruebas automáticas aprobadas al 100% sin regresiones**.
+  * **Pruebas Frontend:** **42 de 42 test suites aprobadas al 100% (204 pruebas unitarias y de integración pasando exitosamente, 0 fallos)**.
+  * **Pruebas Backend:** **61 de 61 test suites aprobadas al 100% (480 pruebas pasando exitosamente en Jest integrando `citacionesMigration.test.js`, `citacionesService.test.js`, `mediacionesDocumentos.test.js`, 0 fallos)**.
+  * **Total de Cobertura Monorepo:** **684 pruebas automáticas aprobadas al 100% sin regresiones**.
+
+---
+
+## 4.8 ÉPICA 10: GESTOR DE CITACIONES DE COLABORACIÓN PEDAGÓGICA-FORMATIVA Y ALIANZA FAMILIA-ESCUELA
+
+### HU 10.1 — Convocatoria Digital a Citación Formativa con Confirmación Móvil del Apoderado
+
+* **TASK 10.1.1 (3 SP | Marcelo Acevedo) — [BACKEND] Modelo de Datos citaciones_formativas y Tokens Seguros en Supabase:**
+  * ✅ **Estado: Implementado, Migrado y Certificado en Terreno.**
+  * **Base de Datos y Seguridad (`20261104_crear_tabla_citaciones_formativas.sql`, `citacionesMigration.test.js`):**
+    * Creación de la tabla `citaciones_formativas` con identificador UUID primario y folio correlativo único autoincremental `CIT-YYYY-XXXX` gestionado por secuencia PostgreSQL (`seq_citaciones_folio`) y trigger procedural `trg_generar_folio_citacion`.
+    * Aislamiento multi-tenant forzado mediante Row Level Security (RLS) y política `p_citaciones_tenant_isolation` basada en `app.current_tenant_id`.
+    * Generación nativa de tokens criptográficos temporales (`token_confirmacion` UUID) con caducidad estricta de 72 horas (`token_expira_en = now() + INTERVAL '72 hours'`).
+    * Claves foráneas con integridad referencial hacia `estudiantes(id)`, `apoderados(id)` y `usuarios(id)`.
+    * Índices B-Tree optimizados para consultas de alta concurrencia: `(tenant_id, estado)`, `(token_confirmacion)` y `(tenant_id, docente_id, fecha_hora_programada)`.
+    * Validación estricta por CHECK constraints de las 5 categorías formativas oficiales (`refuerzo_academico`, `habitos_asistencia`, `reconocimiento_felicitacion`, `acuerdos_convivencia`, `seguimiento_formativo`) y los 6 estados de ciclo de vida (`programada`, `confirmada`, `reprogramacion_solicitada`, `justificada`, `realizada`, `cancelada`).
+
+* **TASK 10.1.2 (3 SP | Marcelo Acevedo) — [BACKEND] Endpoints de Programación y Confirmación Móvil sin Login:**
+  * ✅ **Estado: Implementado, Desplegado y Certificado.**
+  * **API REST y Validaciones Zod (`citacionesValidations.js`, `citacionesService.js`, `citacionesController.js`, `citaciones.routes.js`, `citacionesPublic.routes.js`):**
+    * Creación de esquemas Zod con validación de contratos para emisión y respuesta pública (`crearCitacionSchema`, `responderCitacionPublicaSchema`).
+    * Detección y bloqueo automático de traslape de agenda del docente (`validarDisponibilidadDocente`): calcula ventana de conflicto de 45 minutos y responde con `HTTP 409 Conflict` si el profesor ya posee un compromiso agendado en ese bloque.
+    * Endpoint público seguro `GET /api/citaciones/public/token/:token` montado antes del middleware JWT: sanitiza y entrega únicamente los datos esenciales para la familia (folio, nombre de estudiante, curso, docente convocante, fecha, hora, modalidad y motivo pedagógico) previniendo fuga de PII sensible.
+    * Bloqueo de acceso por tokens caducados con respuesta `HTTP 410 Gone` cuando la fecha actual supera el umbral de 72 horas.
+    * Endpoint público interactivo `POST /api/citaciones/public/responder`: procesa confirmación de asistencia en 1-clic (`confirmar`), solicitud de reprogramación con nueva fecha propuesta (`reprogramar`) o justificación fundamentada de inasistencia (`justificar`).
+
+* **TASK 10.1.4 (3 SP | Daniel Flores) — [FRONTEND] Formulario React de Citación, Vista Móvil para Familias y Rediseño de Expediente:**
+  * ✅ **Estado: Implementado, Integrado y Certificado.**
+  * **Frontend (`NuevaCitacionModal.jsx`, `ConfirmacionCitacionPublicPage.jsx`, `EstudiantePerfilPage.jsx`, `AppRouter.jsx`, `citacionesService.js`):**
+    * Construcción de la landing page pública mobile-first `ConfirmacionCitacionPublicPage.jsx` montada en la ruta pública `/citaciones/confirmacion/:token` (accesible directamente desde enlace SMS o correo sin requerir usuario ni contraseña).
+    * Flujo de confirmación en 1-clic con integración directa a calendarios familiares: botón primario *"📅 Guardar en mi Calendario"* (descarga y apertura automática de evento `.ics` con recordatorio configurado en la agenda nativa del celular) y enlace secundario directo para Google Calendar.
+    * Vistas de contingencia amigables: pantalla de *"Enlace Expirado"* (regla de las 72 horas) con orientación para contactar al colegio y vista de citación no disponible ante tokens manipulados.
+    * Componente modal `NuevaCitacionModal.jsx` para docentes y directivos: selección de motivo formativo, fecha/hora, modalidad (presencial con sala o virtual con enlace) y control visual de errores por traslape de horario (HTTP 409).
+    * **Rediseño Integral de `EstudiantePerfilPage.jsx`**: expansión a ancho completo (`max-w-7xl`), hero banner institucional en degradado azul marino profundo con avatar de iniciales (`w-20 h-20`), badges cromáticos, resolución robusta del curso activo y botón de acción directa `[ 📅 Citar Apoderado ]` vinculado al modal de citaciones.
+
+* **Resultados de Validación en Terreno:**
+  * *Prueba 1 (Backend DDL - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
+  * *Prueba 2 (Backend Services - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
+  * *Prueba 3 (Frontend Citaciones - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
+  * *Prueba 4 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
+  * *Prueba 5 (Compilación de Producción):* `vite build` finalizado con éxito en 7.2s con precache PWA.
 
 ---
 

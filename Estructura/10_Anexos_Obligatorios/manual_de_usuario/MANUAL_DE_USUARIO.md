@@ -798,5 +798,50 @@ Los usuarios con permisos de **Administrador**, **Directivo** o **Equipo de Form
 
 ---
 
+## 21. Módulo de Citaciones Formativas y Alianza Familia-Escuela
+
+### ¿Qué es el Gestor de Citaciones Formativas?
+Es la herramienta institucional para convocar a los apoderados a entrevistas pedagógicas y formativas bajo un **enfoque colaborativo y no punitivo**, eliminando la percepción de castigo o angustia en las familias.
+
+El sistema envía una colilla digital con un **enlace móvil criptográfico de acceso directo** (validez estricta de 72 horas), permitiendo que el apoderado confirme su asistencia, proponga una reprogramación o justifique su inasistencia **en 1 solo clic desde su teléfono celular, sin necesidad de recordar contraseñas ni iniciar sesión**.
+
+---
+
+### Paso a Paso para Docentes y Directivos: Cómo Programar una Citación
+
+1. **Ingresar a la Ficha del Estudiante:**
+   * Dirígete al módulo de **Estudiantes** (`/estudiantes`) y selecciona al alumno correspondiente.
+2. **Presionar el Botón de Citación:**
+   * En la cabecera principal del expediente (junto a *Descargar PDF*) haz clic en **`[ 📅 Citar Apoderado ]`** (también puedes presionar *"Programar Citación con este Apoderado"* dentro de la tarjeta de contacto del apoderado).
+3. **Completar los Parámetros de la Convocatoria en el Modal:**
+   * **Categoría Formativa:** Selecciona el objetivo del encuentro:
+     * *Refuerzo Académico:* Acompañamiento colaborativo en estrategias de estudio.
+     * *Hábitos y Asistencia:* Fortalecimiento de la puntualidad y rutinas.
+     * *Reconocimiento y Felicitación:* Puesta en valor de avances y logros positivos.
+     * *Acuerdos de Convivencia:* Diálogo restaurativo y clima escolar.
+     * *Seguimiento Formativo:* Evaluación periódica de compromisos mutuos.
+   * **Mensaje para la Familia:** Escribe en un tono constructivo y claro los temas a tratar (mínimo 10 caracteres).
+   * **Fecha y Hora:** Elige el día y bloque horario. Si ya tienes otra citación agendada en ese mismo intervalo (ventana de 45 min), el sistema te alertará automáticamente con un conflicto de horario para resguardar tu agenda.
+   * **Modalidad:** Presencial (en sala de entrevistas del colegio) o Virtual (con enlace de videollamada).
+4. **Emitir y Despachar:**
+   * Haz clic en **Programar y Despachar**. El sistema genera el folio oficial (ej. `CIT-2026-0042`) y despacha la notificación con el enlace seguro al correo del apoderado.
+
+---
+
+### Experiencia del Apoderado en su Teléfono Móvil (Sin Login)
+
+1. **Recepción del Enlace Seguro:**
+   * El apoderado recibe un mensaje de correo o SMS con un enlace seguro único con vigencia de 72 horas:  
+     `https://app.escuelaelsalvador.cl/citaciones/confirmacion/[token-seguro]`
+2. **Visualización Inmediata de la Convocatoria:**
+   * Al abrir el enlace, el apoderado accede directamente a la tarjeta institucional con el nombre de su pupilo, fecha, hora, modalidad y el propósito formativo redactado por el profesor.
+3. **Acciones Disponibles en 1-Clic:**
+   * **Confirmar Asistencia:** Al presionar el botón verde *"Confirmar Mi Asistencia"*, el estado se actualiza en tiempo real en la plataforma del colegio.
+   * **Guardar en su Calendario:** Inmediatamente tras confirmar, el apoderado puede presionar **`[ 📅 Guardar en mi Calendario ]`** para registrar el evento con alarma automática en la aplicación nativa de su celular (iPhone, Samsung, Xiaomi o cualquier smartphone), o seleccionar el enlace de Google Calendar.
+   * **Solicitar Reprogramación:** Si el horario choca con su trabajo, puede presionar *"Solicitar Reprogramación"*, sugerir una nueva fecha y enviar un mensaje explicativo al docente.
+   * **Justificar Inasistencia:** Si no podrá asistir por causas de fuerza mayor, puede justificar el motivo para que quede constancia en la bitácora escolar.
+
+---
+
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  
 *Cualquier nueva función incorporada a la plataforma se documentará automáticamente en este archivo.*
