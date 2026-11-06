@@ -843,5 +843,30 @@ El sistema envía una colilla digital con un **enlace móvil criptográfico de a
 
 ---
 
+### Registro de Acuerdos Mutuos, Acta Oficial PDF y Despacho Automático
+
+Una vez realizada la entrevista entre el docente y el apoderado:
+
+1. **Cierre de la Entrevista y Registro de Acuerdos Mutuos:**
+   * El docente ingresa al detalle de la citación y selecciona la opción de registrar compromisos.
+   * **Tabla Comparativa de Acuerdos:** Se redactan de forma estructurada y equilibrada los compromisos que asume el colegio (estrategias de aula, refuerzo, derivación) y los que asume el apoderado en el hogar (apoyo en rutinas de estudio, supervisión de tareas).
+   * **Fecha de Próximo Seguimiento:** Se define una fecha límite para monitorear el cumplimiento de los acuerdos adoptados.
+
+2. **Generación del Acta Oficial de Citación (PDFKit):**
+   * El sistema compila un documento institucional en formato PDF de alta fidelidad que incorpora:
+     * **Membrete Oficial:** Escuela Coeducacional N°1 El Salvador, RBD `9876-5`.
+     * **Folio Único Institucional:** Identificador correlativo oficial con formato `CIT-YYYY-XXXX` (ej. `CIT-2026-0042`).
+     * **Tabla Comparativa a 2 Columnas:** Compromisos asumidos por el Colegio versus compromisos asumidos por la Familia.
+     * **Código Forense SHA-256:** Hash criptográfico inmutable de 64 caracteres que sella el contenido del acta contra cualquier intento de adulteración posterior.
+     * **Cuadrantes de Firma:** Espacios delimitados para las firmas del Docente/Directivo y del Apoderado Titular.
+
+3. **Dispatcher Automático de Copias por Correo Electrónico:**
+   * Al cerrar la entrevista y confirmarse los acuerdos:
+     * **Copia al Apoderado Titular:** Se remite un correo formal e institucional con el resumen de los compromisos y el documento PDF oficial adjunto (`Acta_Citacion_CIT-2026-XXXX.pdf`).
+     * **Copia Informativa al Profesor Jefe:** Se despacha una copia informativa automática al Profesor Jefe del curso del alumno para garantizar la continuidad pedagógica en el aula y mantener alineado al equipo docente.
+     * **Trazabilidad en Bitácora de Auditoría:** Cada despacho queda registrado de manera inmutable en `auditoria_logs` con el evento `DESPACHO_ACTA_CITACION`, los destinatarios notificados y la huella criptográfica SHA-256 del acta generada.
+
+---
+
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  
 *Cualquier nueva función incorporada a la plataforma se documentará automáticamente en este archivo.*

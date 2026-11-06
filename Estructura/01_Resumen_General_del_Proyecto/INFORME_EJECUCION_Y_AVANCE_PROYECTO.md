@@ -1216,12 +1216,35 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Componente modal `NuevaCitacionModal.jsx` para docentes y directivos: selección de motivo formativo, fecha/hora, modalidad (presencial con sala o virtual con enlace) y control visual de errores por traslape de horario (HTTP 409).
     * **Rediseño Integral de `EstudiantePerfilPage.jsx`**: expansión a ancho completo (`max-w-7xl`), hero banner institucional en degradado azul marino profundo con avatar de iniciales (`w-20 h-20`), badges cromáticos, resolución robusta del curso activo y botón de acción directa `[ 📅 Citar Apoderado ]` vinculado al modal de citaciones.
 
+* **TASK 10.2.1 (3 SP | Marcelo Acevedo) — [BACKEND] Modelo citacion_acuerdos_mutuos y Motor PDFKit de Acta Oficial:**
+  * ✅ **Estado: Implementado, Verificado y Certificado.**
+  * **Persistencia DDL Supabase (`20261104_crear_tabla_citacion_acuerdos_mutuos.sql`):**
+    * Creación de la tabla `citacion_acuerdos_mutuos` con relación 1:1 estricta con `citaciones_formativas (id)`.
+    * Modelado de compromisos balanceados en JSONB (`compromisos_colegio` y `compromisos_apoderado`), fecha de seguimiento de compromisos y columna inmutable `hash_sha256` (con restricción CHECK `LENGTH = 64` caracteres hexadecimales).
+    * Activación de Row Level Security (RLS) con aislamiento multi-tenant por `tenant_id` e índices B-tree sobre `citacion_id`, `tenant_id` y `fecha_proximo_seguimiento`.
+  * **Motor PDFKit Institucional (`pdfCitacionActaService.js`):**
+    * Generación de documento oficial con membrete de la *Escuela Coeducacional N°1 El Salvador* (RBD 9876-5) y folio institucional correlativo `CIT-YYYY-XXXX`.
+    * Tabla comparativa a 2 columnas con bordes institucionales (`#1E3A8A` / `#0D9488`) para contrastar compromisos del establecimiento vs familia.
+    * Bloque inferior con cuadrantes de firmas digitales (Docente/Directivo y Apoderado) y sello forense con hash SHA-256 criptográfico para impedir repudio o adulteración física/digital.
+
+* **TASK 10.2.2 (2 SP | Marcelo Acevedo) — [BACKEND] Dispatcher Automático de Copias de Citación por Correo:**
+  * ✅ **Estado: Implementado, Verificado y Certificado.**
+  * **Servicio de Despacho (`emailServiceCitacion.js`, `acta-citacion-oficial.html`, `emailTemplates.js`):**
+    * Resolución y desduplicación de destinatarios clave: Apoderado Titular convocado y Profesor Jefe del curso del estudiante (a través de la relación de cursos o consulta directa a Supabase).
+    * Plantilla HTML responsiva con diseño institucional, folio, detalles del encuentro y recomendaciones de acompañamiento.
+    * Adjunto binario en Base64 del Acta Oficial PDF (`Acta_Citacion_[Folio].pdf`).
+    * Registro de trazabilidad inmutable en `auditoria_logs` con la acción `DESPACHO_ACTA_CITACION`, los destinatarios notificados y el código hash SHA-256 del acta generada.
+
 * **Resultados de Validación en Terreno:**
-  * *Prueba 1 (Backend DDL - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
-  * *Prueba 2 (Backend Services - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
-  * *Prueba 3 (Frontend Citaciones - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
-  * *Prueba 4 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
-  * *Prueba 5 (Compilación de Producción):* `vite build` finalizado con éxito en 7.2s con precache PWA.
+  * *Prueba 1 (Backend DDL Citaciones - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
+  * *Prueba 2 (Backend Services Citaciones - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
+  * *Prueba 3 (Backend DDL Acuerdos - Jest):* 5/5 tests aprobados en `src/__tests__/db/citacionAcuerdosMigration.test.js`.
+  * *Prueba 4 (Backend PDFKit Acta - Jest):* 6/6 tests aprobados en `src/__tests__/services/pdfCitacionActaService.test.js`.
+  * *Prueba 5 (Backend Dispatcher Email Citación - Jest):* 7/7 tests aprobados en `src/__tests__/services/emailServiceCitacion.test.js`.
+  * *Prueba 6 (Frontend Citaciones - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
+  * *Prueba 7 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
+  * *Prueba 8 (Regresión Backend Completa):* 64/64 suites aprobadas (498 tests aprobados, 0 regresiones).
+  * *Prueba 9 (Compilación de Producción):* `vite build` finalizado con éxito en 7.2s con precache PWA.
 
 ---
 
