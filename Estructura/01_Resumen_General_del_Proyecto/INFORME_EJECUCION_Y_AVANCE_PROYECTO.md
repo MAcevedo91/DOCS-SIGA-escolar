@@ -1256,6 +1256,23 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * **Motor PDFKit con Estampado de Firmas (`pdfCitacionActaService.js`):**
     * Decodificación de firmas Base64 e inserción visual en los cuadrantes de firma del acta oficial PDF.
 
+* **TASK 10.3.1 (3 SP | Marcelo Acevedo) — [BACKEND] Endpoints de Analítica de Adherencia Parental y Consulta de Historial:**
+  * ✅ **Estado: Implementado, Optimizado y Certificado al 100%.**
+  * **Endpoint Analítico `GET /api/citaciones/metricas`:**
+    * Cálculo en tiempo real de volumen total de citaciones, desglose por estados (`realizada`, `confirmada`, `reprogramacion_solicitada`, `justificada`, `no_asiste`, `programada`, `cancelada`).
+    * **Tasa de Asistencia Efectiva (%):** proporción de entrevistas ejecutadas con éxito versus total evaluadas (`realizadas / (realizadas + no_asiste)`), blindado contra división por cero en establecimientos sin convocatorias previas.
+    * **Tasa de Adherencia Temprana (%):** porcentaje de apoderados que interactúan y confirman antes de la fecha pautada.
+    * **Distribución de Motivos Formativos:** frecuencias y porcentajes sobre las 5 categorías oficiales (`refuerzo_academico`, `habitos_asistencia`, `reconocimiento_felicitacion`, `acuerdos_convivencia`, `seguimiento_formativo`).
+    * **Efectividad de Compromisos:** relación de acuerdos mutuos suscritos en `citacion_acuerdos_mutuos` versus total de entrevistas realizadas.
+    * Filtros dinámicos con esquemas Zod: `fecha_desde`, `fecha_hasta` y `docente_id`.
+  * **Endpoint Histórico `GET /api/citaciones/estudiante/:estudianteId`:**
+    * Retorna el expediente cronológico descendente de citaciones del estudiante, enriquecido con datos del apoderado, docente citador y acuerdos mutuos alcanzados.
+    * Incorpora flag `tiene_acta: true/false`, hash SHA-256 de 64 caracteres y URL directa `/api/citaciones/:id/acta-pdf` para descarga instantánea.
+    * Resumen analítico por alumno: total de convocatorias, citas realizadas, inasistencias, tasa individual de asistencia familiar y compromisos vigentes.
+  * **Seguridad y Aislamiento Multi-Tenant (PostgreSQL + RLS):**
+    * Validación obligatoria de tenant (`tenant_id = req.user.tenant_id`) y verificación estricta de pertenencia del estudiante para prevenir vulnerabilidades IDOR.
+    * Precedencia enrutadora en Express declarada antes de comodines de ruta para garantizar consistencia.
+
 * **Resultados de Validación en Terreno:**
   * *Prueba 1 (Backend DDL Citaciones - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
   * *Prueba 2 (Backend Services Citaciones - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
@@ -1263,12 +1280,14 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * *Prueba 4 (Backend PDFKit Acta - Jest):* 6/6 tests aprobados en `src/__tests__/services/pdfCitacionActaService.test.js`.
   * *Prueba 5 (Backend Dispatcher Email Citación - Jest):* 7/7 tests aprobados en `src/__tests__/services/emailServiceCitacion.test.js`.
   * *Prueba 6 (Backend Endpoints Acuerdos y Cierre - Jest):* 10/10 tests aprobados en `src/__tests__/services/citacionesAcuerdosEndpoints.test.js`.
-  * *Prueba 7 (Frontend Citaciones Base - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
-  * *Prueba 8 (Frontend Modal Acuerdos - Vitest):* 5/5 tests aprobados en `src/__tests__/citaciones/acuerdosCitacion.test.jsx`.
-  * *Prueba 9 (Frontend Entrevista y Firmas 60fps - Vitest):* 6/6 tests aprobados en `src/__tests__/citaciones/entrevistaPresencial.test.jsx`.
-  * *Prueba 10 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
-  * *Prueba 11 (Suite Completa Frontend - Vitest):* 44/44 suites aprobadas (211/211 tests aprobados, 0 regresiones).
-  * *Prueba 12 (Compilación de Producción):* `vite build` finalizado con éxito en 7.4s con precache PWA.
+  * *Prueba 7 (Backend Métricas e Historial - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesMetricasHistorial.test.js`.
+  * *Prueba 8 (Frontend Citaciones Base - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
+  * *Prueba 9 (Frontend Modal Acuerdos - Vitest):* 5/5 tests aprobados en `src/__tests__/citaciones/acuerdosCitacion.test.jsx`.
+  * *Prueba 10 (Frontend Entrevista y Firmas 60fps - Vitest):* 6/6 tests aprobados en `src/__tests__/citaciones/entrevistaPresencial.test.jsx`.
+  * *Prueba 11 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
+  * *Prueba 12 (Suite Completa Backend Citaciones):* 7/7 suites aprobadas (64/64 tests aprobados, 0 regresiones).
+  * *Prueba 13 (Suite Completa Frontend - Vitest):* 45/45 suites aprobadas (217/217 tests aprobados, 0 regresiones).
+  * *Prueba 14 (Certificación en Vivo cURL):* Endpoints `GET /metricas` y `GET /estudiante/:estudianteId` validados contra base de datos activa con token JWT firmado de Administrador.
 
 ---
 

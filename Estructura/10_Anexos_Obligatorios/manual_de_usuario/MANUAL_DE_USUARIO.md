@@ -874,6 +874,22 @@ Una vez realizada la entrevista pedagógica entre el docente y el apoderado:
      * **Bitácora de Auditoría:** Queda constancia inmutable en `auditoria_logs` con la acción `CIERRE_CITACION_ACUERDOS`.
    * El estado de la citación cambia automáticamente a **`✓ Realizada con Acuerdos`**, habilitando en la plataforma el botón **`[ 📄 Acta Oficial PDF ]`** para descarga inmediata en cualquier momento.
 
+### Analítica de Adherencia Parental y Consulta de Historial por Estudiante
+
+Para brindar al Equipo Directivo, Convivencia Escolar y Docentes una visión cuantitativa y cualitativa del compromiso familiar:
+
+1. **Métricas Globales de Adherencia Parental (`/api/citaciones/metricas`):**
+   * **Tasa de Asistencia Efectiva:** Mide el porcentaje de citaciones completadas exitosamente respecto a las convocatorias evaluadas (`realizadas / (realizadas + inasistencias)`), permitiendo detectar oportunamente brechas de ausentismo parental.
+   * **Tasa de Adherencia Temprana:** Monitorea la proporción de familias que interactúan activamente antes de la fecha (confirmando, reprogramando o justificando en 1 clic).
+   * **Distribución de Motivos Formativos:** Grafica la frecuencia relativa de convocatorias por cada categoría (Refuerzo Académico, Hábitos y Asistencia, Reconocimiento/Felicitación, Acuerdos de Convivencia y Seguimiento Formativo) para orientar planes de acción institucional.
+   * **Tasa de Efectividad de Acuerdos:** Supervisa el porcentaje de entrevistas realizadas que culminaron con compromisos mutuos sellados formalmente.
+   * **Filtros Temporales y por Docente:** Permite segmentar el análisis por rangos de fecha (`fecha_desde`, `fecha_hasta`) y docente citador.
+
+2. **Historial Cronológico Enriquecido por Alumno (`/api/citaciones/estudiante/:estudianteId`):**
+   * **Expediente Integral:** Centraliza todas las citaciones formativas del alumno ordenadas cronológicamente, con sus respectivos motivos, estados, comentarios del apoderado y conclusiones.
+   * **Resumen de Desempeño Familiar:** Entrega indicadores rápidos del estudiante: total de citaciones, entrevistas efectivas, inasistencias, tasa individual de asistencia y número de compromisos con seguimiento vigente.
+   * **Acceso Inmediato a Documentación Oficial:** Cada citación cerrada dispone de enlace directo a su Acta Oficial PDF sellada con código SHA-256 para consulta pedagógica o supervisión ministerial.
+
 ---
 
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  
