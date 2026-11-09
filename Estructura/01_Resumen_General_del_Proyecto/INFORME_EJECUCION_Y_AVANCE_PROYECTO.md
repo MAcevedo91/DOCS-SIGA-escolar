@@ -1246,6 +1246,16 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Integración en `EstudiantePerfilPage.jsx`: nueva sección destacada *"Citaciones Formativas y Acuerdos Mutuos"* con tarjetas cronológicas, badges cromáticos de estado y botones contextuales (`[ ✍️ Registrar Acuerdos ]` y `[ 📄 Acta Oficial PDF ]`).
     * Métodos de servicio: `registrarAcuerdosCitacion` y `descargarActaCitacionPdf`.
 
+* **TASK 10.2.4 (3 SP | Daniel Flores & Marcelo Acevedo) — [FRONTEND] Componente de Entrevista Presencial y Firmas en React:**
+  * ✅ **Estado: Implementado, Integrado y Certificado al 100%.**
+  * **Lienzo de Firmas Digitales a 60 FPS (`LienzoFirmaCitacion.jsx`):**
+    * Canvas responsivo optimizado mediante Pointer Events nativos (`setPointerCapture`, `onPointerDown`, `onPointerMove`, `onPointerUp`) y `touch-none` para dibujo fluido a 60 FPS sin jitter ni retardo en pantallas táctiles, tablets y mouse.
+    * Pestañas dinámicas para dos firmantes obligatorios: Docente/Directivo y Apoderado Titular, con indicadores de suscripción y exportación a PNG Base64 (`toDataURL('image/png')`).
+  * **Modal de Entrevista Presencial (`EntrevistaCitacionModal.jsx`):**
+    * Flujo guiado en 3 pasos: (1) Acuerdos Mutuos con banco de sugerencias rápidas pedagógicas y familiares en formato pastilla/chip, (2) Suscripción interactiva en lienzo de firmas, (3) Emisión oficial con código SHA-256 y descarga inmediata del PDF.
+  * **Motor PDFKit con Estampado de Firmas (`pdfCitacionActaService.js`):**
+    * Decodificación de firmas Base64 e inserción visual en los cuadrantes de firma del acta oficial PDF.
+
 * **Resultados de Validación en Terreno:**
   * *Prueba 1 (Backend DDL Citaciones - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
   * *Prueba 2 (Backend Services Citaciones - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
@@ -1255,9 +1265,10 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * *Prueba 6 (Backend Endpoints Acuerdos y Cierre - Jest):* 10/10 tests aprobados en `src/__tests__/services/citacionesAcuerdosEndpoints.test.js`.
   * *Prueba 7 (Frontend Citaciones Base - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
   * *Prueba 8 (Frontend Modal Acuerdos - Vitest):* 5/5 tests aprobados en `src/__tests__/citaciones/acuerdosCitacion.test.jsx`.
-  * *Prueba 9 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
-  * *Prueba 10 (Suite Completa Frontend - Vitest):* 44/44 suites aprobadas (211/211 tests aprobados, 0 regresiones).
-  * *Prueba 11 (Compilación de Producción):* `vite build` finalizado con éxito en 7.19s con precache PWA.
+  * *Prueba 9 (Frontend Entrevista y Firmas 60fps - Vitest):* 6/6 tests aprobados en `src/__tests__/citaciones/entrevistaPresencial.test.jsx`.
+  * *Prueba 10 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
+  * *Prueba 11 (Suite Completa Frontend - Vitest):* 44/44 suites aprobadas (211/211 tests aprobados, 0 regresiones).
+  * *Prueba 12 (Compilación de Producción):* `vite build` finalizado con éxito en 7.4s con precache PWA.
 
 ---
 

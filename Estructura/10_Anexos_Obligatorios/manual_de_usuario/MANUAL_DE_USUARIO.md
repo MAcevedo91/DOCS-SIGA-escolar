@@ -852,12 +852,11 @@ Una vez realizada la entrevista pedagógica entre el docente y el apoderado:
    * Identifica la citación correspondiente (identificada por su folio `CIT-YYYY-XXXX`).
    * Si la citación está en estado `Programada` o `Asistencia Confirmada`, haz clic en el botón verde **`[ ✍️ Registrar Acuerdos ]`**.
 
-2. **Formulario Interactivo de Acuerdos Mutuos (`CerrarCitacionAcuerdosModal`):**
-   * Se abrirá una ventana modal institucional con el membrete oficial del colegio.
-   * **Compromisos del Colegio:** Ingresa los acuerdos asumidos por el establecimiento (estrategias de refuerzo, adecuaciones de aula, seguimiento de convivencia). Puedes presionar **`+ Agregar`** para añadir múltiples compromisos o eliminar los que no correspondan.
-   * **Compromisos del Apoderado:** Redacta los compromisos que la familia asume en el hogar (rutinas de lectura, revisión diaria de libreta, supervisión de descanso).
-   * **Fecha de Próximo Seguimiento Pedagógico:** Selecciona una fecha estimada para evaluar conjuntamente el avance de los acuerdos.
-   * Presiona **`[ Registrar Acuerdos y Emitir Acta ]`**.
+2. **Modal de Entrevista Presencial y Selección de Sugerencias (`EntrevistaCitacionModal`):**
+   * Se abrirá la ventana modal de entrevista presencial dividida en 3 etapas didácticas:
+     * **Paso 1 (Acuerdos Mutuos y Banco Rápido):** Cuenta con botones tipo pastilla/chip con sugerencias pedagógicas y familiares preconfiguradas (*"Adecuación curricular", "Monitoreo semanal", "Rutinas de lectura 20 min", "Control de descanso"*). Al hacer clic en una sugerencia, se añade automáticamente a la lista. Además, puedes escribir y editar libremente cualquier compromiso. Define la fecha estimada de próximo seguimiento.
+     * **Paso 2 (Lienzo de Firmas Digitales a 60 FPS):** Invita a las partes a firmar con su dedo, lápiz óptico o ratón dentro del recuadro. Cuenta con pestañas independientes para la *Firma del Docente* y la *Firma del Apoderado Titular*, indicando visualmente cuándo cada firma ha sido estampada con éxito.
+     * **Paso 3 (Emisión y Descarga):** Tras presionar **`[ Finalizar y Sellar Acta Oficial 🔒 ]`**, el sistema genera el sello criptográfico SHA-256 y ofrece de inmediato el botón **`[ Descargar Acta Oficial PDF ]`**.
 
 3. **Generación del Acta Oficial de Citación (PDFKit) y Sello Criptográfico:**
    * El sistema sella el documento generando un **hash SHA-256 inmutable de 64 caracteres** que garantiza que los compromisos no puedan ser adulterados.
@@ -865,7 +864,7 @@ Una vez realizada la entrevista pedagógica entre el docente y el apoderado:
      * **Membrete Oficial:** Escuela Coeducacional N°1 El Salvador, RBD `9876-5`.
      * **Folio Único Institucional:** Formato correlativo `CIT-YYYY-XXXX`.
      * **Tabla Comparativa a 2 Columnas:** Compromisos asumidos por el Colegio versus compromisos asumidos por la Familia.
-     * **Cuadrantes de Firma:** Espacios para la firma del Docente y del Apoderado Titular.
+     * **Cuadrantes de Firma con Trazo Digital:** Espacios oficiales donde quedan estampadas las firmas manuscritas capturadas en pantalla.
      * **Código Forense SHA-256:** Estampado al pie del documento.
 
 4. **Dispatcher Automático de Copias por Correo Electrónico:**
