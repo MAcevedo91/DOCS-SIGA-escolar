@@ -1311,6 +1311,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * *Prueba 14 (Suite Completa Frontend Citaciones):* 4/4 suites aprobadas (27/27 tests aprobados, 0 regresiones).
   * *Prueba 15 (Compilación de Producción Frontend):* `vite build` exitosa en 7.72s con precache PWA y 0 errores.
   * *Prueba 16 (Certificación en Vivo cURL y PDF):* Endpoints `GET /metricas`, `GET /estudiante/:estudianteId` y generación de Acta Oficial PDF en 1 sola plana con firmas manuscritas integradas.
+  * *Prueba 17 (Rediseño de Panel Principal en Pantalla Única):* Reorganización visual completa del Dashboard a 2 columnas (25% Pizarra blanca activa con notas cuadradas y scroll interno, 75% KPIs superiores balanceados con ícono lateral y valor numérico centrado, y Mapa de Calor mensual con cobertura completa hasta la base de pantalla, certificando 46/46 suites y 226/226 tests aprobados en Vitest).
 
 ---
 

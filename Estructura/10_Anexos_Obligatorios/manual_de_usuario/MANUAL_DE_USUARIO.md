@@ -78,24 +78,32 @@ Para proteger la privacidad de los menores y resguardar la información sensible
 
 ## 4. El Panel de Control (Dashboard Principal)
 
-Al iniciar sesión, la primera pantalla que verás es el **Dashboard**. Aquí se resume el estado de la convivencia del colegio en tiempo real:
+Al iniciar sesión, la primera pantalla que verás es el **Panel Principal (Dashboard)**, estructurado en una sola plana sin necesidad de desplazamiento vertical para brindar máxima visibilidad operativa inmediata:
 
-### A. Tarjetas de Resumen
-- **Total de Incidentes:** Cantidad total de situaciones registradas durante el año lectivo.
-- **Incidentes Graves / Gravísimos:** Casos prioritarios que requieren atención de directivos o convivencia.
-- **Protocolos RICE Activos:** Procedimientos normativos que están actualmente en proceso.
-- **Estudiantes en Seguimiento:** Alumnos que cuentan con medidas formativas en desarrollo.
+### A. Columna Izquierda: Acciones Pendientes y Acciones Rápidas
+1. **Pizarra Activa de Acciones Pendientes (Pizarra Blanca):**
+   - Muestra las alertas y medidas formativas urgentes simulando una pizarra blanca escolar esmaltada con notas adhesivas (post-its) cuadradas.
+   - Si existen múltiples alertas, la pizarra cuenta con **desplazamiento vertical interno (scroll)** para consultar todas las notas sin alterar la altura fija de la pantalla.
+   - Cada nota adhesiva detalla el nombre del estudiante, el motivo del protocolo, la tarea asignada y el semáforo normativo (`VENCIDO`, `POR VENCER` o `EN PLAZO`).
+   - Al pie de la pizarra se ubica la leyenda explicativa del semáforo con enlaces directos para revisar todos los protocolos.
+2. **Módulo de Acciones Rápidas:**
+   - Ubicado en la base inferior izquierda, permite acceder con un solo clic a las dos acciones más críticas del sistema:
+     - ⚠️ **Registrar Incidente:** Abre el formulario de ingreso inmediato de incidentes de convivencia.
+     - 🛡️ **Activar Protocolo RICE:** Permite iniciar un protocolo formal ante situaciones tipificadas por la Superintendencia.
 
-### B. Semáforo de Urgencia y Acciones Pendientes
-El sistema calcula automáticamente cuántos días faltan para que venza cada etapa de un protocolo según las exigencias del Mineduc:
-- 🟢 **Verde (En Plazo):** El caso se encuentra con tiempo suficiente para ser atendido.
-- 🟡 **Amarillo (Por Vencer):** Quedan menos de 3 días para cumplir con el plazo normativo.
-- 🔴 **Rojo (Urgente / Vencido):** El plazo expiró o vence hoy; requiere acción inmediata del equipo de convivencia.
+### B. Columna Derecha: Indicadores Clave y Clima Escolar por Cursos
+1. **Tarjetas de Resumen (KPIs Superiores):**
+   - **Incidentes Totales:** Total acumulado de situaciones de convivencia registradas en el año lectivo.
+   - **Incidentes Graves:** Situaciones de alta prioridad que requieren intervención del equipo directivo.
+   - **Protocolos RICE Activos:** Procedimientos normativos en tramitación con plazos perentorios en curso.
+   - **Estudiantes en Seguimiento:** Alumnos con acuerdos o medidas formativas vigentes.
+2. **Clima Escolar por Cursos (Mapa de Calor):**
+   - Matriz mensual que cubre de Marzo a Diciembre, permitiendo identificar en tiempo real el estado de cada curso (Estable, En Alerta o Crítico).
+   - Incluye filtros por año lectivo y por ciclo formativo (Parvularia, 1° Ciclo, 2° Ciclo).
+   - Diagnóstico interactivo: al hacer clic sobre cualquier celda mensual, se abre el desglose de intervenciones del aula.
+   - Cumple con la normativa de privacidad de datos agregados y anónimos (Ley N° 19.628).
 
-### C. Gráficos Estadísticos (Para Directivos y Coordinación)
-- **Incidentes por Curso:** Permite identificar qué niveles requieren talleres de refuerzo o mediación grupal.
-- **Distribución por Gravedad:** Muestra el porcentaje de incidentes Leves, Graves y Gravísimos.
-- **Tendencia Mensual:** Permite evaluar si las medidas preventivas han disminuido los casos mes a mes.
+> **Nota:** Todos los gráficos estadísticos detallados (tendencias temporales, distribución por gravedad y reincidencias) han sido centralizados en el módulo **Analítica** accesible desde el menú lateral.
 
 ---
 
