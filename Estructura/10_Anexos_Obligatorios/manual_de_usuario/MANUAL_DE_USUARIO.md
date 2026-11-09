@@ -845,26 +845,35 @@ El sistema envía una colilla digital con un **enlace móvil criptográfico de a
 
 ### Registro de Acuerdos Mutuos, Acta Oficial PDF y Despacho Automático
 
-Una vez realizada la entrevista entre el docente y el apoderado:
+Una vez realizada la entrevista pedagógica entre el docente y el apoderado:
 
-1. **Cierre de la Entrevista y Registro de Acuerdos Mutuos:**
-   * El docente ingresa al detalle de la citación y selecciona la opción de registrar compromisos.
-   * **Tabla Comparativa de Acuerdos:** Se redactan de forma estructurada y equilibrada los compromisos que asume el colegio (estrategias de aula, refuerzo, derivación) y los que asume el apoderado en el hogar (apoyo en rutinas de estudio, supervisión de tareas).
-   * **Fecha de Próximo Seguimiento:** Se define una fecha límite para monitorear el cumplimiento de los acuerdos adoptados.
+1. **Acceso desde el Expediente del Alumno (`/estudiantes/:id`):**
+   * En la ficha del estudiante, desplázate hasta la sección **"Citaciones Formativas y Acuerdos Mutuos"**.
+   * Identifica la citación correspondiente (identificada por su folio `CIT-YYYY-XXXX`).
+   * Si la citación está en estado `Programada` o `Asistencia Confirmada`, haz clic en el botón verde **`[ ✍️ Registrar Acuerdos ]`**.
 
-2. **Generación del Acta Oficial de Citación (PDFKit):**
-   * El sistema compila un documento institucional en formato PDF de alta fidelidad que incorpora:
+2. **Formulario Interactivo de Acuerdos Mutuos (`CerrarCitacionAcuerdosModal`):**
+   * Se abrirá una ventana modal institucional con el membrete oficial del colegio.
+   * **Compromisos del Colegio:** Ingresa los acuerdos asumidos por el establecimiento (estrategias de refuerzo, adecuaciones de aula, seguimiento de convivencia). Puedes presionar **`+ Agregar`** para añadir múltiples compromisos o eliminar los que no correspondan.
+   * **Compromisos del Apoderado:** Redacta los compromisos que la familia asume en el hogar (rutinas de lectura, revisión diaria de libreta, supervisión de descanso).
+   * **Fecha de Próximo Seguimiento Pedagógico:** Selecciona una fecha estimada para evaluar conjuntamente el avance de los acuerdos.
+   * Presiona **`[ Registrar Acuerdos y Emitir Acta ]`**.
+
+3. **Generación del Acta Oficial de Citación (PDFKit) y Sello Criptográfico:**
+   * El sistema sella el documento generando un **hash SHA-256 inmutable de 64 caracteres** que garantiza que los compromisos no puedan ser adulterados.
+   * Compila un documento oficial en PDF de alta fidelidad que incorpora:
      * **Membrete Oficial:** Escuela Coeducacional N°1 El Salvador, RBD `9876-5`.
-     * **Folio Único Institucional:** Identificador correlativo oficial con formato `CIT-YYYY-XXXX` (ej. `CIT-2026-0042`).
+     * **Folio Único Institucional:** Formato correlativo `CIT-YYYY-XXXX`.
      * **Tabla Comparativa a 2 Columnas:** Compromisos asumidos por el Colegio versus compromisos asumidos por la Familia.
-     * **Código Forense SHA-256:** Hash criptográfico inmutable de 64 caracteres que sella el contenido del acta contra cualquier intento de adulteración posterior.
-     * **Cuadrantes de Firma:** Espacios delimitados para las firmas del Docente/Directivo y del Apoderado Titular.
+     * **Cuadrantes de Firma:** Espacios para la firma del Docente y del Apoderado Titular.
+     * **Código Forense SHA-256:** Estampado al pie del documento.
 
-3. **Dispatcher Automático de Copias por Correo Electrónico:**
-   * Al cerrar la entrevista y confirmarse los acuerdos:
-     * **Copia al Apoderado Titular:** Se remite un correo formal e institucional con el resumen de los compromisos y el documento PDF oficial adjunto (`Acta_Citacion_CIT-2026-XXXX.pdf`).
-     * **Copia Informativa al Profesor Jefe:** Se despacha una copia informativa automática al Profesor Jefe del curso del alumno para garantizar la continuidad pedagógica en el aula y mantener alineado al equipo docente.
-     * **Trazabilidad en Bitácora de Auditoría:** Cada despacho queda registrado de manera inmutable en `auditoria_logs` con el evento `DESPACHO_ACTA_CITACION`, los destinatarios notificados y la huella criptográfica SHA-256 del acta generada.
+4. **Dispatcher Automático de Copias por Correo Electrónico:**
+   * Inmediatamente tras guardar:
+     * **Copia al Apoderado Titular:** Se despacha un correo formal con el resumen de compromisos y el archivo `Acta_Citacion_[Folio].pdf` adjunto.
+     * **Copia Informativa al Profesor Jefe:** Se remite una copia idéntica al Profesor Jefe del curso del alumno.
+     * **Bitácora de Auditoría:** Queda constancia inmutable en `auditoria_logs` con la acción `CIERRE_CITACION_ACUERDOS`.
+   * El estado de la citación cambia automáticamente a **`✓ Realizada con Acuerdos`**, habilitando en la plataforma el botón **`[ 📄 Acta Oficial PDF ]`** para descarga inmediata en cualquier momento.
 
 ---
 

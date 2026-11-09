@@ -1235,16 +1235,29 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Adjunto binario en Base64 del Acta Oficial PDF (`Acta_Citacion_[Folio].pdf`).
     * Registro de trazabilidad inmutable en `auditoria_logs` con la acción `DESPACHO_ACTA_CITACION`, los destinatarios notificados y el código hash SHA-256 del acta generada.
 
+* **TASK 10.2.3 (3 SP | Marcelo Acevedo & Daniel Flores) — [BACKEND & FRONTEND] Endpoints y Modal de Registro de Acuerdos Mutuos y Cierre de Citación:**
+  * ✅ **Estado: Implementado, Integrado y Certificado al 100%.**
+  * **Backend API (`citacionesValidations.js`, `citacionesService.js`, `citacionesController.js`, `citaciones.routes.js`):**
+    * Esquema Zod `registrarAcuerdosSchema`: valida listas estructuradas de compromisos ($\ge 1$ por contraparte) y fecha de seguimiento opcional.
+    * Endpoint privado `POST /api/citaciones/:id/acuerdos`: persiste los compromisos en `citacion_acuerdos_mutuos`, actualiza el estado a `realizada`, calcula y estampa el hash SHA-256, genera el buffer PDF y dispara el dispatcher automático de correo a apoderado y profesor jefe.
+    * Endpoint privado `GET /api/citaciones/:id/acta-pdf`: descarga directa del Acta Oficial PDF con cabeceras `Content-Type: application/pdf` y `Content-Disposition`.
+  * **Frontend UI (`CerrarCitacionAcuerdosModal.jsx`, `citacionesService.js`, `EstudiantePerfilPage.jsx`):**
+    * Creación de `CerrarCitacionAcuerdosModal.jsx`: formulario dinámico para ingresar compromisos del colegio y de la familia, selector de fecha de seguimiento, visualización del hash SHA-256 generado y botón de descarga inmediata.
+    * Integración en `EstudiantePerfilPage.jsx`: nueva sección destacada *"Citaciones Formativas y Acuerdos Mutuos"* con tarjetas cronológicas, badges cromáticos de estado y botones contextuales (`[ ✍️ Registrar Acuerdos ]` y `[ 📄 Acta Oficial PDF ]`).
+    * Métodos de servicio: `registrarAcuerdosCitacion` y `descargarActaCitacionPdf`.
+
 * **Resultados de Validación en Terreno:**
   * *Prueba 1 (Backend DDL Citaciones - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
   * *Prueba 2 (Backend Services Citaciones - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
   * *Prueba 3 (Backend DDL Acuerdos - Jest):* 5/5 tests aprobados en `src/__tests__/db/citacionAcuerdosMigration.test.js`.
   * *Prueba 4 (Backend PDFKit Acta - Jest):* 6/6 tests aprobados en `src/__tests__/services/pdfCitacionActaService.test.js`.
   * *Prueba 5 (Backend Dispatcher Email Citación - Jest):* 7/7 tests aprobados en `src/__tests__/services/emailServiceCitacion.test.js`.
-  * *Prueba 6 (Frontend Citaciones - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
-  * *Prueba 7 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
-  * *Prueba 8 (Regresión Backend Completa):* 64/64 suites aprobadas (498 tests aprobados, 0 regresiones).
-  * *Prueba 9 (Compilación de Producción):* `vite build` finalizado con éxito en 7.2s con precache PWA.
+  * *Prueba 6 (Backend Endpoints Acuerdos y Cierre - Jest):* 10/10 tests aprobados en `src/__tests__/services/citacionesAcuerdosEndpoints.test.js`.
+  * *Prueba 7 (Frontend Citaciones Base - Vitest):* 7/7 tests aprobados en `src/__tests__/citaciones/citaciones.test.jsx`.
+  * *Prueba 8 (Frontend Modal Acuerdos - Vitest):* 5/5 tests aprobados en `src/__tests__/citaciones/acuerdosCitacion.test.jsx`.
+  * *Prueba 9 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
+  * *Prueba 10 (Suite Completa Frontend - Vitest):* 44/44 suites aprobadas (211/211 tests aprobados, 0 regresiones).
+  * *Prueba 11 (Compilación de Producción):* `vite build` finalizado con éxito en 7.19s con precache PWA.
 
 ---
 
