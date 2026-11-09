@@ -429,6 +429,39 @@ Al hacer clic sobre cualquier celda de la tabla (por ejemplo, *6° Básico B en 
    * **Orientación de Convivencia Escolar:** Recomendación pedagógica sugerida para el equipo directivo y el Profesor Jefe.
 3. **Protección de la Privacidad (Ley N° 19.628):** Este diagnóstico es **completamente anónimo** y agregado a nivel de grupo curso, resguardando la identidad de los estudiantes y evitando estigmatizaciones individuales.
 
+### 14.5 Dashboard de Analítica Integral y Trazabilidad Institucional
+Al acceder a la sección de **Analítica**, el equipo directivo cuenta con un panel analítico integral organizado en cuadrículas equilibradas:
+
+1. **Tarjetas de Resumen Ejecutivo (KPIs Superiores):**
+   * **Incidentes del Mes:** Total acumulado con porcentaje de variación frente al mes anterior.
+   * **Casos Abiertos:** Situaciones activas en etapa de indagación o seguimiento formativo.
+   * **Estudiantes en Riesgo:** Alumnos que concentran reiteración de casos y requieren focalización prioritaria.
+2. **Tendencia Temporal y Severidad (Fila Central 1):**
+   * Curva histórica de 12 meses desglosando incidentes Leves, Graves y Gravísimas para identificar estacionalidades y picos preventivos.
+   * Gráfico donut con el porcentaje de distribución por gravedad de las situaciones atendidas.
+3. **Frecuencia por Aula y Protocolos Formativos (Fila Central 2):**
+   * Gráfico de barras por curso que visibiliza qué niveles presentan mayor demanda pedagógica.
+   * Gráfico de barras horizontales detallando las tipologías de abordaje aplicadas (entrevistas, compromisos formativos, mediaciones y derivaciones).
+4. **Focalización Prioritaria y Trazabilidad de Funcionarios (Fila Inferior):**
+   * **Tabla de Focalización:** Listado de estudiantes con reiteración de casos, sus cursos, nivel de riesgo y acceso directo a su expediente mediante el botón de ficha.
+   * **Actividad de Funcionarios:** Registro institucional que detalla el rol de cada profesional y el volumen de casos reportados, garantizando debida diligencia.
+
+### 14.6 Emisión del Reporte Mensual Ejecutivo en PDF con Copiloto IA
+El sistema cuenta con un motor inteligente de generación de informes directivos oficiales en PDF:
+
+1. **Cómo generar el reporte:**
+   * En la cabecera superior de Analítica, haz clic en el botón verde institucional **"Reporte Mensual PDF"**.
+   * Se abrirá el **Modal Interactivo del Reporte Mensual** con diseño de hoja 3D, el sello del mes en curso (*ej. Noviembre 2026*) y un mini gráfico ilustrativo.
+   * Haz clic en **"Descargar PDF"**.
+2. **Proceso del Copiloto IA:**
+   * El sistema captura automáticamente en alta resolución los 4 gráficos que visualizas en pantalla.
+   * El botón muestra el avance secuencial (*"Analizando datos…"*, *"Redactando conclusiones…"*, *"Maquetando el PDF…"*) hasta confirmar con *"Listo ✓"* y celebrar con chispas visuales.
+3. **Estructura del Documento Oficial (4 Páginas sin Amontonamiento):**
+   * **Página 1 (Portada y Síntesis):** Membrete oficial de la Escuela Coeducacional N° 1 El Salvador, 4 indicadores KPIs y Síntesis Ejecutiva Global del Clima redactada por la IA.
+   * **Página 2 (Tendencia y Severidad):** Imagen en alta resolución del Gráfico de Tendencia seguida de su interpretación directiva con IA, e imagen del Gráfico de Gravedad con su correspondiente análisis normativo.
+   * **Página 3 (Aulas y Abordajes):** Imagen del Gráfico de Frecuencia por Aula seguida de su diagnóstico pedagógico por niveles, e imagen de los Abordajes con su evaluación formativa.
+   * **Página 4 (Focalización y Cierre):** Tabla de estudiantes focalizados con datos reales de la base de datos, directrices RICE conforme a la Circular N° 482 y cuadro de firmas tripartitas (Inspectoría, Convivencia Escolar y Dirección).
+
 ---
 
 ## 15. Cierre de Año Lectivo y Promoción de Cursos
