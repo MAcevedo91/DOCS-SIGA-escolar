@@ -890,6 +890,35 @@ Para brindar al Equipo Directivo, Convivencia Escolar y Docentes una visión cua
    * **Resumen de Desempeño Familiar:** Entrega indicadores rápidos del estudiante: total de citaciones, entrevistas efectivas, inasistencias, tasa individual de asistencia y número de compromisos con seguimiento vigente.
    * **Acceso Inmediato a Documentación Oficial:** Cada citación cerrada dispone de enlace directo a su Acta Oficial PDF sellada con código SHA-256 para consulta pedagógica o supervisión ministerial.
 
+### Tablero de Control de Citaciones y Pestaña en Expediente (`/citaciones`)
+
+Para facilitar el trabajo cotidiano de los equipos directivos, de inspectoría y convivencia escolar:
+
+1. **Acceso Directo desde la Barra Lateral:**
+   * Haz clic en el nuevo acceso **Citaciones** (ícono de calendario con visto bueno) en la barra de navegación lateral izquierda de SIGA Escolar.
+   * La vista despliega una cabecera minimalista con el total de citaciones activas del establecimiento.
+
+2. **Tarjetas de KPIs Institucionales:**
+   * **Total Citaciones:** Conteo consolidado de convocatorias emitidas.
+   * **Asistencia Efectiva:** Porcentaje de entrevistas realizadas con éxito versus inasistencias.
+   * **Adherencia Móvil:** Porcentaje de familias que han confirmado, reprogramado o justificado desde su celular mediante el enlace seguro de 1-clic.
+   * **Efectividad Acuerdos:** Proporción de citaciones concluidas con actas oficiales y compromisos suscritos.
+
+3. **Filtros Rápidos mediante Botones Píldora (Pills):**
+   * Filtra con un solo clic entre estados: *Todos*, *Programadas*, *Confirmadas*, *Realizadas*, *Reprogramadas* o *Inasistencias*.
+   * Utiliza el buscador en tiempo real para encontrar de inmediato cualquier citación por folio oficial (`CIT-2026-XXXX`), nombre del estudiante o del apoderado.
+   * Segmenta por categoría formativa o rango de fechas con los selectores compactos.
+
+4. **Programación Intuitiva de Citaciones:**
+   * Presiona el botón azul **`[ + Programar Citación ]`**.
+   * **Buscador en Cascada Integrado:** Si programas desde la bandeja general, puedes buscar al alumno por nivel y letra de curso o directamente por su RUT/Nombre. El sistema asociará automáticamente a su apoderado titular.
+   * **Chips Temáticos:** Selecciona el propósito de la citación haciendo clic en chips de colores (*Refuerzo Académico*, *Hábitos y Asistencia*, *Acuerdos de Convivencia*, *Reconocimiento*, *Seguimiento Formativo*).
+   * **Alternador de Modalidad:** Cambia entre *Presencial* (indicando sala) y *Online* (ingresando enlace Google Meet/Zoom).
+   * Al hacer clic en **`[ Programar y Despachar ]`**, se genera el folio correlativo y se notifica de inmediato a la familia por correo y móvil.
+
+5. **Pestaña en Ficha de Estudiante (`TabCitacionesEstudiante`):**
+   * En el perfil de cualquier estudiante (`/estudiantes/:id`), la pestaña de citaciones presenta sus métricas individuales, la lista cronológica de entrevistas, el botón para emitir nuevas citaciones directas y la descarga de actas oficiales con 1 solo clic.
+
 ---
 
 *Manual elaborado y mantenido por el equipo técnico de SIGA Escolar.*  

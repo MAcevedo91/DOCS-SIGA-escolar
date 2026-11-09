@@ -1273,6 +1273,27 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Validación obligatoria de tenant (`tenant_id = req.user.tenant_id`) y verificación estricta de pertenencia del estudiante para prevenir vulnerabilidades IDOR.
     * Precedencia enrutadora en Express declarada antes de comodines de ruta para garantizar consistencia.
 
+* **TASK 10.3.3 (3 SP | Daniel Flores & Marcelo Acevedo) — [FRONTEND] Tablero de Control de Citaciones, Pestaña en Expediente y Rediseño Intuitivo:**
+  * ✅ **Estado: Implementado, Rediseñado y Certificado al 100%.**
+  * **Tablero de Control Centralizado (`CitacionesPage.jsx`):**
+    * Ruta privada `/citaciones` registrada en `AppRouter.jsx` e incorporada a la barra de navegación lateral en `DashboardLayout.jsx` con ícono `CalendarCheck`.
+    * Cabecera compacta con contador dinámico de citaciones activas y botón de acción principal `+ Programar Citación`.
+    * **Tarjetas de KPIs Institucionales:** 4 tarjetas con micro-íconos squircle redondeados (*Total Citaciones*, *Asistencia Efectiva %*, *Adherencia Móvil %* y *Efectividad Acuerdos %*), eliminando sobrecarga de texto innecesario.
+    * **Filtros Rápidos mediante Botones Píldora (Pills):** Selector ágil de estados (*Todos*, *Programadas*, *Confirmadas*, *Realizadas*, *Reprogramadas*, *Inasistencias*) similar a la experiencia de usuario de `ProtocolosPage.jsx` y `IncidentesPage.jsx`.
+    * Buscador en tiempo real por término (folio, estudiante o apoderado), filtro desplegable por categoría formativa y selectores compactos de rango de fechas.
+    * Tabla interactiva de alto contraste con avatar e iniciales de alumnos, curso, datos de contacto del apoderado, badges de estado cromáticos y botones de acción unificados (`Realizar Entrevista`, `Acta Oficial PDF`, `.ICS`).
+  * **Formulario Intuitivo de Agendamiento (`NuevaCitacionModal.jsx`):**
+    * Rediseño estructurado en 3 secciones numeradas con badges de squircle.
+    * Integración de `SelectorEstudianteCascada` para búsqueda por nivel/curso o RUT directo cuando se abre desde la bandeja general, resolviendo automáticamente el apoderado titular asignado.
+    * Selección de propósito formativo mediante **Chips temáticos interactivos** con indicadores de color e íconos en 1-clic (*Refuerzo Académico*, *Hábitos y Asistencia*, *Acuerdos de Convivencia*, *Reconocimiento*, *Seguimiento Formativo*).
+    * Alternador dinámico de modalidad *Presencial* (con campo de sala) y *Online* (con campo de enlace videollamada Meet/Zoom).
+  * **Pestaña en Expediente del Alumno (`TabCitacionesEstudiante.jsx`):**
+    * Integración modular en `EstudiantePerfilPage.jsx` con KPIs del alumno, historial cronológico, botón para programar citaciones directas y descarga de actas oficiales en PDF.
+  * **Ingeniería Documental PDFKit (`pdfCitacionActaService.js`):**
+    * Neutralización de salto de página involuntario en el pie de página mediante control dinámico de márgenes (`margins.bottom = 0` y `lineBreak: false`), garantizando compilación exacta en 1 plana (`PAGES: 1`).
+    * Unificación de lectura y decodificación de firmas manuscritas Base64 (`firma_docente_data`, `firma_apoderado_data`).
+    * Centrado geométrico y ajuste de ancho completo (`522 pt`) del membrete legal y título normativo, corrigiendo desalineaciones residuales de cursor.
+
 * **Resultados de Validación en Terreno:**
   * *Prueba 1 (Backend DDL Citaciones - Jest):* 6/6 tests aprobados en `src/__tests__/db/citacionesMigration.test.js`.
   * *Prueba 2 (Backend Services Citaciones - Jest):* 15/15 tests aprobados en `src/__tests__/services/citacionesService.test.js`.
@@ -1285,9 +1306,11 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
   * *Prueba 9 (Frontend Modal Acuerdos - Vitest):* 5/5 tests aprobados en `src/__tests__/citaciones/acuerdosCitacion.test.jsx`.
   * *Prueba 10 (Frontend Entrevista y Firmas 60fps - Vitest):* 6/6 tests aprobados en `src/__tests__/citaciones/entrevistaPresencial.test.jsx`.
   * *Prueba 11 (Frontend Perfil - Vitest):* 10/10 tests aprobados en `src/__tests__/pages/EstudiantePerfilPage.test.jsx`.
-  * *Prueba 12 (Suite Completa Backend Citaciones):* 7/7 suites aprobadas (64/64 tests aprobados, 0 regresiones).
-  * *Prueba 13 (Suite Completa Frontend - Vitest):* 45/45 suites aprobadas (217/217 tests aprobados, 0 regresiones).
-  * *Prueba 14 (Certificación en Vivo cURL):* Endpoints `GET /metricas` y `GET /estudiante/:estudianteId` validados contra base de datos activa con token JWT firmado de Administrador.
+  * *Prueba 12 (Frontend Tablero y Pestaña Citaciones - Vitest):* 9/9 tests aprobados en `src/__tests__/citaciones/tableroCitaciones.test.jsx`.
+  * *Prueba 13 (Suite Completa Backend Citaciones):* 7/7 suites aprobadas (64/64 tests aprobados, 0 regresiones).
+  * *Prueba 14 (Suite Completa Frontend Citaciones):* 4/4 suites aprobadas (27/27 tests aprobados, 0 regresiones).
+  * *Prueba 15 (Compilación de Producción Frontend):* `vite build` exitosa en 7.72s con precache PWA y 0 errores.
+  * *Prueba 16 (Certificación en Vivo cURL y PDF):* Endpoints `GET /metricas`, `GET /estudiante/:estudianteId` y generación de Acta Oficial PDF en 1 sola plana con firmas manuscritas integradas.
 
 ---
 
