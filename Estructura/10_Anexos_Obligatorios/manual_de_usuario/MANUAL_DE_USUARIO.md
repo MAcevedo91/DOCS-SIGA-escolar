@@ -738,6 +738,30 @@ Al revisar un incidente conductual específico en la pantalla de detalle (`/inci
 
 ---
 
+### 17.5 Principio de Subsidiariedad Normativa y Circular N° 482 de la Superintendencia de Educación
+
+Para evitar la ineficacia de respuestas vacías ante consultas sobre materias no tipificadas explícitamente en el reglamento escolar del colegio, SIGA Escolar cuenta con una **Arquitectura RAG Jerárquica en Cascada (Hierarchical Fallback RAG)**:
+
+1. **Prioridad Local (RICE del Colegio):**
+   * El sistema busca primero en el RICE propio cargado por el establecimiento (Escuela El Salvador), respetando plenamente la autonomía de su Proyecto Educativo Institucional (PEI).
+2. **Activación Subsidiaria Obligatoria (Circular N° 482):**
+   * Si el RICE del colegio guarda silencio, omite o carece de un protocolo específico para la situación consultada (por ejemplo: **ciberacoso escolar o violencia digital**, ideación suicida, agresiones sexuales o porte de armas), rigen de forma obligatoria y supletoria los **10 protocolos tipo de la Circular N° 482 de la Superintendencia de Educación** (Resolución Exenta N° 482).
+3. **Orientación Paso a Paso Inmediata:**
+   * El Copiloto entrega el procedimiento estandarizado:
+     * *Acción inmediata y contención emocional de la víctima sin revictimizar.*
+     * *Notificación perentoria a apoderados en un plazo máximo de 24 horas.*
+     * *Debido proceso escolar: entrevistas por separado, derecho a ser escuchado (descargos) y prohibición de careos cara a cara.*
+     * *Medidas formativas, restaurativas y disciplinarias proporcionales.*
+     * *Obligación de denuncia penal en 24 horas ante Fiscalía, Carabineros o PDI si los hechos revisten carácter de delito (Art. 175 letra e del Código Procesal Penal).*
+4. **Trazabilidad Visual de Fuentes y Badges:**
+   * En la sección desplegable **«Fuentes y Artículos Citados»**, el usuario puede identificar de un vistazo el origen legal de cada fragmento:
+     * 🏛️ **Circular N° 482 (Superintendencia):** Distintivo dorado que certifica la aplicación supletoria de la normativa nacional.
+     * 🏫 **RICE Establecimiento:** Distintivo índigo que acredita los artículos del propio colegio.
+5. **Banner de Recomendación de Gestión para Convivencia Escolar:**
+   * Cada vez que se active la normativa subsidiaria, el sistema despliega un aviso formal destacando que, al no contar el colegio con dicho protocolo en su texto local, se instruye al Encargado/a de Convivencia Escolar y al Equipo Directivo actualizar el RICE del establecimiento para incorporar formalmente el protocolo obligatorio exigido por la Superintendencia de Educación.
+
+---
+
 ### 18. Navegación Unificada y Acceso Rápido Permanente
 En cualquier sección del sistema —incluso al consultar la ficha de un estudiante, registrar un nuevo incidente o revisar un protocolo RICE paso a paso— dispondrás de:
 * **Menú Lateral Persistente (Sidebar):** Permite cambiar de módulo (Dashboard, Estudiantes, Incidentes, Protocolos, Cierre de Año, etc.) en un solo clic sin necesidad de volver atrás en el navegador. En dispositivos móviles se despliega mediante el botón de menú hamburguesa.
