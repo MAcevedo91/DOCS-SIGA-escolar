@@ -90,14 +90,15 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 - **Resultado Esperado:** Redirección inmediata al Dashboard principal mostrando el nombre del usuario y su rol.
 - **Severidad en caso de falla:** **Bloqueante**.
 
-### CP-02: Control de Acceso Basado en Roles (RBAC)
-- **Objetivo:** Verificar que cada rol visualiza y accede únicamente a las opciones autorizadas según la matriz de permisos.
-- **Precondición:** Cuentas con roles Administrador, Inspector y Docente disponibles.
+### CP-02: Control de Acceso Basado en Roles (RBAC) y Confidencialidad
+- **Objetivo:** Verificar que cada rol escolar visualiza y accede estrictamente a las opciones autorizadas según la matriz de permisos y la Ley N° 19.628 de Protección de la Vida Privada.
+- **Precondición:** Cuentas con roles Administrador, Directivo, Equipo de Formación, Inspector y Docente disponibles.
 - **Pasos:**
-  1. Iniciar sesión como Administrador y verificar acceso al módulo "Gestión de Usuarios".
-  2. Iniciar sesión como Inspector y constatar que el módulo "Gestión de Usuarios" no se muestra en el menú lateral.
-  3. Intentar acceder directamente mediante la URL `/usuarios` como Inspector o Docente.
-- **Resultado Esperado:** El sistema bloquea el acceso directo y muestra una pantalla o mensaje de "Acceso No Autorizado" (403 Forbidden).
+  1. Iniciar sesión como Administrador y verificar acceso a los módulos "Gestión de Usuarios", "Configuración" y bitácora de auditoría global.
+  2. Iniciar sesión como Directivo y constatar que visualiza Dashboard analítico y descarga de informes ejecutivos en PDF, pero no tiene acceso a configuración institucional ni gestión de cuentas de usuario.
+  3. Iniciar sesión como Inspector y constatar que el menú lateral oculta Dashboard analítico institucional (`/analytics`), protocolos RICE y configuración, accediendo solo a registro operativo de incidentes, mediaciones y citaciones.
+  4. Iniciar sesión como Docente y constatar la redirección inicial a su nómina de cursos (`/estudiantes`). Intentar acceder mediante URL directa a `/analytics`, `/protocolos/nuevo` o expedientes de salud reservados.
+- **Resultado Esperado:** El sistema bloquea el acceso en Backend con HTTP 403 Forbidden y redirige en Frontend a la pantalla de "Acceso No Autorizado", resguardando datos médicos sensibles y analítica global de la escuela.
 - **Severidad en caso de falla:** **Bloqueante**.
 
 ### CP-03: Visualización del Dashboard Analítico

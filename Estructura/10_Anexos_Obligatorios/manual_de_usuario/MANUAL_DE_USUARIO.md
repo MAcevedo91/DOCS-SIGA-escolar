@@ -47,17 +47,49 @@ A través de este sistema podrás:
 
 ---
 
-## 2. Perfiles de Usuario y Permisos
+## 2. Perfiles de Usuario y Permisos (Control de Acceso RBAC)
 
-Para proteger la privacidad de los menores y resguardar la información sensible, cada funcionario cuenta con un perfil de acceso adecuado a sus funciones en la escuela:
+Para proteger la privacidad de los menores de edad conforme a la **Ley N° 19.628 de Protección de la Vida Privada** y las directrices de la **Superintendencia de Educación (Circular N° 482)**, SIGA Escolar implementa un estricto **Control de Acceso Basado en Roles (RBAC)** en Backend y Frontend. Cada funcionario cuenta con un perfil adecuado a sus funciones en la escuela, resguardando la debida custodia de la información sensible:
 
-| Perfil / Cargo | ¿Qué puede hacer en SIGA Escolar? |
-|---|---|
-| **Directivo** | Visualiza estadísticas globales del colegio, consulta fichas de alumnos, monitorea protocolos activos y descarga informes oficiales. |
-| **Equipo de Formación / Convivencia** | Administra protocolos RICE, da seguimiento a medidas pedagógicas, registra incidentes y coordina derivaciones psicosociales o externas. |
-| **Inspector** | Registra incidentes ocurridos durante la jornada, busca antecedentes de alumnos y revisa alertas conductuales activas. |
-| **Docente** | Consulta la nómina de sus cursos, revisa antecedentes de apoyo pedagógico (PIE), contactos de emergencia e historial conductual, y registra incidentes de aula directamente. |
-| **Administrador** | Gestiona las cuentas de los funcionarios, realiza la carga masiva de nóminas de estudiantes y configura los parámetros generales del colegio. |
+### A. Matriz Detallada de Visibilidad y Capacidades por Rol
+
+| Módulo del Sistema | 👑 Administrador | 👔 Directivo | 🤝 Equipo de Formación | 📋 Inspector | 👨‍🏫 Docente |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **Panel Principal (Dashboard)** | ✅ Total | ✅ Total | ✅ Total | ❌ Acceso denegado | ❌ Acceso denegado |
+| **Analítica Institucional (`/analytics`)** | ✅ Total | ✅ Total (incluye PDF) | ✅ Total (incluye PDF) | 👁️ Solo Lectura (sin PDF) | ❌ 403 Forbidden |
+| **Informe Ejecutivo Mensual PDF (IA)** | ✅ Emisión y descarga | ✅ Emisión y descarga | ✅ Emisión y descarga | ❌ Denegado | ❌ Denegado |
+| **Cursos y Alumnos (`/estudiantes`)** | ✅ Gestión total | 👁️ Visualización global | 👁️ Visualización y apoyo | 👁️ Visualización de patio | 👨‍🏫 Nómina de sus cursos |
+| **Registro de Incidentes (`/incidentes`)** | ✅ Total | 👁️ Supervisión | ✅ Registro y seguimiento | ✅ Registro de patio | ✅ Registro de aula |
+| **Protocolos RICE (`/protocolos`)** | ✅ Total | ⚖️ Visado y Cautelares | 🛡️ Apertura y Gestión | ❌ No autorizado | 👁️ Consulta expediente |
+| **Mediación Escolar (`/mediaciones`)** | ✅ Total | 👁️ Supervisión | 🤝 Mediador principal | 👁️ Consulta y apoyo | 👁️ Consulta acuerdos |
+| **Citaciones Formativas (`/citaciones`)** | ✅ Total | ✅ Citación y revisión | ✅ Citación y mediación | ✅ Citación operativa | ✅ Citación pedagógica |
+| **Expedientes de Salud (Fichas Médicas)** | ✅ Auditado | ✅ Visado confidencial | ✅ Custodia técnica | ❌ Confidencial | ❌ Confidencial |
+| **Cierre de Año Lectivo (`/cierre-anio`)** | ✅ Ejecución | 👁️ Supervisión | 👁️ Supervisión | 👁️ Supervisión | ❌ No autorizado |
+| **Gestión de Usuarios (`/usuarios`)** | ✅ Exclusivo | ❌ No autorizado | ❌ No autorizado | ❌ No autorizado | ❌ No autorizado |
+| **Configuración y RICE (`/configuracion`)**| ✅ Exclusivo | ❌ No autorizado | ❌ No autorizado | ❌ No autorizado | ❌ No autorizado |
+| **Bitácora de Auditoría Global (`/logs`)** | ✅ Exclusivo | ❌ No autorizado | ❌ No autorizado | ❌ No autorizado | ❌ No autorizado |
+
+### B. Descripción y Responsabilidades de Cada Perfil
+
+1. **👑 Administrador de la Plataforma:**
+   - **Propósito:** Gestión técnica, seguridad informática y configuración institucional del establecimiento.
+   - **Capacidades Exclusivas:** Creación, edición y desactivación de usuarios (`/usuarios`), ajuste de parámetros de ponderación de gravedad y plazos normativos RICE (`/configuracion`), carga masiva de nóminas de estudiantes vía CSV y revisión de la bitácora integral de auditoría forense (`/auditoria/logs`).
+
+2. **👔 Directivo (Director / Directora / Subdirectora / Jefe de UTP):**
+   - **Propósito:** Liderazgo formativo, toma de decisiones estratégicas, supervisión normativa y aplicación de medidas cautelares conforme a la Ley de Aula Segura (Ley N° 21.128).
+   - **Capacidades:** Visualiza el Dashboard analítico general y el Mapa de Calor de Clima Escolar por curso, aprueba o visa los reportes normativos redactados con asistencia de Inteligencia Artificial (Gemini Flash), emite el Informe Ejecutivo Mensual en PDF con firma institucional y supervisa el cumplimiento de plazos legales de todos los protocolos en trámite.
+
+3. **🤝 Equipo de Formación (Encargado de Convivencia, Orientador, Psicólogo, Asistente Social):**
+   - **Propósito:** Liderazgo operativo del clima escolar, intervención socioemocional, tramitación de protocolos RICE y mediación restaurativa.
+   - **Capacidades:** Apertura y seguimiento paso a paso de los 10 protocolos normativos de la Circular N° 482, liderazgo y levantamiento de actas en mediaciones escolares (`/mediaciones`), acceso seguro a fichas y expedientes médicos confidenciales (Ley N° 19.628) con hash SHA-256 para derivaciones externas protegidas, y emisión de citaciones a entrevistas presenciales con apoderados.
+
+4. **📋 Inspector (Inspector General e Inspectores de Patio):**
+   - **Propósito:** Mantenimiento de la disciplina formativa, seguridad física de los patios y zonas comunes, y control del cumplimiento de la jornada escolar.
+   - **Capacidades:** Registro ágil de incidentes ocurridos en recreos, comedores o accesos; emisión de citaciones formativas operativas para apoderados; consulta del sociograma y redes de convivencia para prevención de conflictos; y visualización del listado de riesgo institucional. No tiene acceso a información médica sensible ni a la apertura formal de protocolos de investigación RICE.
+
+5. **👨‍🏫 Docente (Profesores Jefes y Profesores de Asignatura):**
+   - **Propósito:** Gestión pedagógica del clima de aula, acompañamiento formativo de los estudiantes de su curso y comunicación directa con el apoderado.
+   - **Capacidades:** Al iniciar sesión es redirigido directamente a su nómina de cursos y estudiantes (`/estudiantes`); registra incidentes de convivencia de aula con tipificación formativa; emite citaciones pedagógicas; y revisa antecedentes de apoyo escolar (pertenencia a Programa PIE y contactos de emergencia). Por estricta protección de privacidad, no puede ver expedientes de salud de alumnos, ni la analítica global de otros niveles o cursos ajenos.
 
 ---
 
