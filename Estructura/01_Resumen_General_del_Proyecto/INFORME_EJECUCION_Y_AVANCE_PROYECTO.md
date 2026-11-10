@@ -1351,6 +1351,11 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * **Filtrado Inteligente de Tablas de Contenidos:** Implementación de la función discriminadora `esChunkDeIndice` en backend y exclusión de cadenas `.....` en la función RPC de Supabase (`buscar_contexto_rice`), evitando que las páginas de sumario/índice del RICE compitan con los artículos de fondo o con los 10 protocolos de la Circular N° 482.
     * **Ordenamiento por Niveles de Afinidad Semántica:** Reestructuración del ranking SQL mediante redondeo por deciles `ROUND((1 - (rc.embedding <=> p_embedding))::numeric, 1) DESC`, garantizando que la normativa nacional subsidiaria prevalezca de forma natural cuando el colegio local carezca de un protocolo específico para la falta consultada.
     * **Resultados Certificados:** 67/67 suites de backend aprobadas en Jest (534 tests pasando al 100%), 19/19 tests en `riceRag.test.js` y 5/5 tests en Vitest para `AsistenteNormativoModal.test.jsx`.
+  * *Prueba 23 (Rediseño Estructural del Fallback Determinista y Observabilidad RAG en Producción):*
+    * **Diagnóstico de Producción:** Identificación de contingencia en Render por ausencia de `GEMINI_API_KEY` en las variables de entorno del servidor y detección de truncado tosco a 300 caracteres (`slice(0, 300)`) en el fallback anterior que mutilaba palabras a la mitad.
+    * **Reescritura Completa del Fallback Normativo:** Implementación de `limpiarContenidoFragmento` respetando límites de oraciones sin cortes arbitrarios, generación de estructura Markdown institucional con títulos `### {idx}. {articulo}`, detalle íntegro del procedimiento recuperado y adición automática de directrices críticas de debido proceso escolar (notificación 24 horas, descargos individuales y deber de denuncia penal en 24 horas conforme al Art. 175 letra e del CPP).
+    * **Observabilidad y Trazabilidad:** Incorporación de los campos `modo` (`ia_gemini` | `fallback`) y `motivo_fallback` en la respuesta de `consultarRice` y registro enriquecido en la bitácora de auditoría.
+    * **Resultados Certificados:** 67/67 suites de backend aprobadas en Jest (535 tests pasando al 100%), 20/20 tests en `riceRag.test.js` y 54/54 suites de frontend aprobadas en Vitest (250 tests pasando al 100%).
 
 ---
 
