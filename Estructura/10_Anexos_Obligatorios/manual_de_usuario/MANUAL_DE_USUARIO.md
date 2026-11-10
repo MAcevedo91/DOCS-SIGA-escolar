@@ -747,7 +747,22 @@ En cualquier sección del sistema —incluso al consultar la ficha de un estudia
 
 ## 19. Sociograma Escolar y Redes de Convivencia de Aula (Matriz de Co-ocurrencias)
 
-### 19.1 Propósito y Fundamento Formativo
+### 19.1 Acceso Integrado desde la Ficha del Curso
+Para facilitar una experiencia de usuario fluida y centralizar la gestión pedagógica del aula en un único espacio, el Sociograma Escolar se encuentra integrado directamente dentro de la vista de cada curso:
+
+1. **Paso 1: Ingreso a Cursos:** Haz clic en **"Cursos"** en el menú lateral izquierdo (icono de birrete 🎓).
+2. **Paso 2: Selección del Curso:** Pulsa sobre la tarjeta del curso que deseas analizar (por ejemplo, *5° Básico A*, *8° Básico B*).
+3. **Paso 3: Selector de Modo (Switch Contextual):**
+   - En la parte superior de la nómina, debajo del banner del curso, encontrarás un selector segmentado:
+     - **[ 👥 Nómina de estudiantes ]**: Vista habitual con el listado oficial, filtros PIE/Riesgo, exportación a Excel/PDF y accesos a perfiles individuales.
+     - **[ 🕸️ Sociograma de aula ]**: Activa inmediatamente el lienzo interactivo del sociograma, calculando en tiempo real las métricas de red y el grafo relacional del curso seleccionado.
+
+> [!NOTE]
+> **Permisos de Visualización:** El acceso a la pestaña de Sociograma de aula está disponible para los roles con atribuciones formativas y de convivencia (`Administrador`, `Directivo`, `Equipo de Formación`, `Inspector`, `Docente`), manteniendo la confidencialidad de la información según el perfil institucional.
+
+---
+
+### 19.2 Propósito y Fundamento Formativo
 El **Sociograma Escolar** es una herramienta analítica avanzada basada en teoría de grafos y matrices de adyacencia ponderada. Permite al Equipo Directivo, Dupla Psicosocial y Profesores Jefes visualizar y comprender la topología relacional de un curso completo:
 1. **Identificar Dinámicas Grupales Ocultas:** Detectar patrones de conflicto reiterado entre pares que pasan desapercibidos en incidentes aislados.
 2. **Detección Temprana de Estudiantes Aislados:** Identificar estudiantes que no presentan interacción ni conflicto registrado, orientando intervenciones preventivas para evitar marginación o soledad escolar.
@@ -759,30 +774,31 @@ El **Sociograma Escolar** es una herramienta analítica avanzada basada en teor�
 
 ---
 
-### 19.2 Interpretación de Métricas y Vínculos de la Red
-Al consultar el sociograma de un curso (`/api/sociograma/curso/:cursoId`), el sistema computa y clasifica automáticamente los resultados:
+### 19.3 Interpretación de Métricas, Grafo y Semáforo Relacional Formativo
+Al consultar el sociograma de un curso, el sistema computa y clasifica automáticamente los resultados:
 
-* **Clasificación de Vínculos (Aristas entre Estudiantes):**
-  - **Conflicto Severo (Peso $\ge 5$):** Enlace rojo destacado; indica confrontaciones graves reiteradas o gravísimas que requieren mediación obligatoria o intervención de inspectoría.
-  - **Conflicto Moderado (Peso $3$ a $4$):** Enlace naranja; alerta sobre roces persistentes que deben ser abordados por el profesor jefe.
-  - **Conflicto Leve (Peso $1$ a $2$):** Enlace amarillo; situaciones menores en observación.
-  - **Acuerdo Restaurativo (Peso $< 0$):** Enlace verde o cian; indica pares donde los acuerdos formativos de mediación han reducido exitosamente la tensión vincular.
+* **Semáforo Relacional Formativo (Color de Aristas):**
+  - **Verde Esmeralda (`#10b981`, trazo discontinuo):** *Acuerdo Restaurativo* (peso neto $< 0$); refleja la superación exitosa de tensiones previas mediante mediación escolar.
+  - **Rojo Intenso (`#ef4444`):** *Conflicto Severo* (peso acumulado $\ge 5$); alerta prioritaria de convivencia que requiere mediación o protocolo RICE.
+  - **Naranja (`#f97316`):** *Conflicto Moderado* (peso acumulado entre $3$ y $4$); roces persistentes que requieren acompañamiento docente.
+  - **Ámbar Cálido (`#f59e0b`):** *Conflicto Leve* (peso acumulado entre $1$ y $2$); fricciones menores en observación preventiva.
+  - **Morado Violeta (`#8b5cf6`, trazo discontinuo):** *Mediación en Proceso*; caso en abordaje con compromisos vigentes.
+  - **Gris Slate (`#94a3b8`):** *Interacción Registrada*; vínculo documentado sin escalamiento.
 
 * **Métricas Globales del Clima de Aula (Análisis de Redes SNA):**
-  - **Índice Integral de Cohesión de Aula ($0 \text{ a } 100$):** Indicador sintético que combina la tasa de integración de los alumnos, la cohesión relacional (transitividad) y la efectividad de las mediaciones formativas, clasificando el clima institucional en:
-    - $\ge 75$: *«Cohesión positiva y clima colaborativo»*
-    - $50 - 74$: *«Cohesión moderada con dinámicas estables»*
-    - $25 - 49$: *«Requiere fortalecimiento de vínculos formativos»*
-    - $< 25$: *«Foco de atención prioritaria para mediación grupal»*
+  - **Estudiantes en Red:** Número de estudiantes del curso que presentan interacciones activas.
   - **Densidad de la Red ($0 \text{ a } 100\%$):** Porcentaje de vínculos activos respecto al máximo combinatorio del grupo curso.
-  - **Coeficiente de Agrupamiento Promedio (Watts-Strogatz):** Mide la tendencia de los estudiantes a formar subgrupos o triángulos de apoyo y convivencia ($0 \text{ a } 100\%$).
-  - **Centralidad de Grado Normalizada:** Porcentaje de interacción de cada estudiante respecto al total de compañeros del aula ($0 \text{ a } 100\%$).
-  - **Estudiantes Aislados:** Alumnos con grado de centralidad $0$ y sin registro de incidentes o mediaciones, permitiendo orientar dinámicas de integración grupal.
-  - **Pares Críticos:** Listado priorizado de las duplas con mayor peso acumulado para focalizar acuerdos y entrevistas familiares.
+  - **Tasa de Integración ($0 \text{ a } 100\%$):** Porcentaje de estudiantes integrados socialmente en el aula.
+  - **Índice Integral de Cohesión de Aula ($0 \text{ a } 100$):** Indicador sintético que combina inclusión relacional, transitividad (Watts-Strogatz) y balance restaurativo, con diagnósticos institucionales constructivos.
+
+* **Herramientas de Exportación y Análisis:**
+  - **Exportar PNG / PDF:** Permite descargar el diagrama del grafo para carpetas de acompañamiento o informes de jefatura.
+  - **Panel de Orientaciones Pedagógicas:** Sugerencias formativas automáticas basadas en la topología de la red sin etiquetas peyorativas.
+  - **Modal de Detalle del Estudiante:** Al hacer clic en cualquier nodo, se despliegan sus vínculos con compañeros y clasificaciones formativas.
 
 ---
 
-### 19.3 Enfoque Ético y Protección contra la Estigmatización Escolar
+### 19.4 Enfoque Ético y Protección contra la Estigmatización Escolar
 En estricto cumplimiento con la **Ley N° 19.628 de Protección de Datos Personales** y la **Política Nacional de Convivencia Educativa**:
 1. **Terminología Formativa y Respetuosa:** El sistema prohíbe y suprime etiquetas estigmatizantes (`agresor`, `víctima`, `problemático`, `conflictivo`). Cada situación es tipificada según su nivel de acompañamiento pedagógico:
    - *Acompañamiento formativo prioritario*

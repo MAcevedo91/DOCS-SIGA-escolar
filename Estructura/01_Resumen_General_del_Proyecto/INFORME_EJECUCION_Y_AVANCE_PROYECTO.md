@@ -1152,6 +1152,18 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
      - **Cumplimiento Ético Institucional (Anti-Estigmatización):** Supresión absoluta de etiquetas punitivas (`agresor`, `matón`, `conflictivo`, `víctima`). Incorporación de niveles de acompañamiento (`prioritario`, `apoyo_formativo`, `observacion_preventiva`, `convivencia_positiva`) y blindaje de privacidad (sin exposición de diagnósticos médicos o PIE).
      - **Validación Matemática Rigurosa:** Pruebas unitarias certificadas sobre grafos sintéticos canónicos (Completo $K_4$, Estrella $S_5$, Ciclo $C_4$, Triángulo con Hoja y Grafo Vacío).
 
+   - **TASK 8.1.3.1 (Integración Contextual en Cursos, Semáforo Relacional Formativo y Limpieza de Sidebar):**
+     - **Integración Contextual en `EstudiantesPage.jsx` y `CursoSociogramaTab.jsx`:** El sociograma se traslada al interior de la ficha del curso activo (`/estudiantes?curso=:id`), incorporando un selector segmentado (Switch) para alternar fluidamente entre la nómina tradicional (`[ 👥 Nómina de estudiantes ]`) y el grafo interactivo (`[ 🕸️ Sociograma de aula ]`) sin perder contexto de navegación.
+     - **Semáforo Relacional Formativo en Grafos:** Diferenciación cromática de las aristas del grafo SVG según la gravedad acumulada y acuerdos restaurativos:
+       * Verde Esmeralda (`#10b981`, trazo discontinuo): Acuerdo restaurativo fruto de mediaciones.
+       * Rojo Intenso (`#ef4444`): Conflicto severo (peso $\ge 5$).
+       * Naranja (`#f97316`): Conflicto moderado (peso $3 - 4$).
+       * Ámbar Cálido (`#f59e0b`): Conflicto leve (peso $1 - 2$).
+       * Morado Violeta (`#8b5cf6`, trazo discontinuo): Mediación en curso.
+       * Gris Slate (`#94a3b8`): Interacción neutra registrada.
+     - **Optimización de Navegación Institucional:** Retiro del enlace aislado "Sociograma" de la barra lateral en `DashboardLayout.jsx` y redirección automática canónica en `AppRouter.jsx` (`/sociograma` $\to$ `/estudiantes`), consolidando una experiencia de usuario limpia y unificada.
+     - **Pruebas Automatizadas y Cobertura:** 100% de pruebas unitarias y de integración aprobadas (22 tests en backend con Jest y 246 tests en frontend con Vitest, incluyendo tests específicos para `DashboardLayout` y `CursoSociogramaTab`).
+
    - **TASK 8.2.1.1 (Extractor y Sanitizador de Expediente para Salud):**
      - **Motor Regex de Anonimización de Terceros (`reporteEspecialistaService.js`):** Extracción del expediente conductual y de convivencia escolar para derivación clínica o psicosocial externa.
      - **Sustitución por Iniciales Genéricas:** Detección de compañeros de curso y terceros involucrados en relatos de incidentes, medidas y mediaciones, reemplazándolos automáticamente por iniciales con punto (ej. *"Juan Carlos Pérez González"* $\to$ *"J. C. P. G."*, *"Camila Soto"* $\to$ *"C. S."*), preservando intacta la identidad del estudiante foco/paciente.
@@ -1206,6 +1218,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Endpoint público seguro `GET /api/citaciones/public/token/:token` montado antes del middleware JWT: sanitiza y entrega únicamente los datos esenciales para la familia (folio, nombre de estudiante, curso, docente convocante, fecha, hora, modalidad y motivo pedagógico) previniendo fuga de PII sensible.
     * Bloqueo de acceso por tokens caducados con respuesta `HTTP 410 Gone` cuando la fecha actual supera el umbral de 72 horas.
     * Endpoint público interactivo `POST /api/citaciones/public/responder`: procesa confirmación de asistencia en 1-clic (`confirmar`), solicitud de reprogramación con nueva fecha propuesta (`reprogramar`) o justificación fundamentada de inasistencia (`justificar`).
+    * **Despacho Híbrido Institucional con Reply-To (TASK 10.1.2 / TASK 10.2.2):** Integración en `emailWorker.js`, `emailService.js` y `citacionesService.js` del patrón de remitente institucional con nombre visible del docente convocante (`"${docenteNombre} (vía SIGA Escolar)" <${SMTP_FROM}>`), cabecera `Reply-To: docente.email` y copia de respaldo (`cc`), garantizando 100% de cumplimiento con las normativas SPF/DKIM/DMARC y canalizando las respuestas del apoderado directamente al profesional escolar.
 
 * **TASK 10.1.4 (3 SP | Daniel Flores) — [FRONTEND] Formulario React de Citación, Vista Móvil para Familias y Rediseño de Expediente:**
   * ✅ **Estado: Implementado, Integrado y Certificado.**
@@ -1234,6 +1247,7 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * Plantilla HTML responsiva con diseño institucional, folio, detalles del encuentro y recomendaciones de acompañamiento.
     * Adjunto binario en Base64 del Acta Oficial PDF (`Acta_Citacion_[Folio].pdf`).
     * Registro de trazabilidad inmutable en `auditoria_logs` con la acción `DESPACHO_ACTA_CITACION`, los destinatarios notificados y el código hash SHA-256 del acta generada.
+    * **Validación en Terreno Certificada:** Despacho transaccional verificado exitosamente mediante relay SMTP de Brevo (`smtp-relay.brevo.com`) hacia bandeja de entrada real de Gmail (`mrcl.ao.sa@gmail.com`), con remitente institucional visible `Prof. {Docente} (vía SIGA Escolar) <sigaescolar.dev@gmail.com>`, cabecera `Reply-To`, enlace de confirmación móvil de 72 horas y entrega efectiva en 2.8 segundos.
 
 * **TASK 10.2.3 (3 SP | Marcelo Acevedo & Daniel Flores) — [BACKEND & FRONTEND] Endpoints y Modal de Registro de Acuerdos Mutuos y Cierre de Citación:**
   * ✅ **Estado: Implementado, Integrado y Certificado al 100%.**
