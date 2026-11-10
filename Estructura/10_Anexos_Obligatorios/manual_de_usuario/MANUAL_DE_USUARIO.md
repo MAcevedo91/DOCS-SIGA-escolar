@@ -273,6 +273,26 @@ Al entrar al detalle de cualquier protocolo, verás una **lista de chequeo paso 
      - **Anexo Probatorio de Evidencias:** Tabla forense que individualiza cada archivo respaldado en los pasos, fecha y hora de subida, tamaño en KB y profesional que lo certificó.
      - **Firma Única Institucional:** Bloque centrado exclusivo para la firma y timbre del/de la **Encargado(a) de Convivencia Escolar**, dando fe del debido proceso formativo ante los inspectores de la Superintendencia de Educación.
 
+### D. Estructura Visual del Detalle del Expediente (Diseño a 2 Columnas)
+La pantalla de detalle del protocolo (`/protocolos/:id`) adopta la misma arquitectura visual moderna y ergonomía de 2 columnas presente en el resto de la plataforma:
+1. **Barra Superior de Navegación y Acciones Rápidas:**
+   - Botón **"Volver a Protocolos"** para un retorno ágil al listado.
+   - Botón **"Consultar RICE"**: Acceso directo al Copiloto Normativo con IA para despejar dudas legales sobre el procedimiento o la Circular N° 482.
+   - Botón **"Descargar Expediente RICE (PDF)"**: Emisión en tiempo real del documento oficial foliado para auditorías.
+2. **Hero Header del Expediente:**
+   - Folio interactivo con copia al portapapeles con un clic (`Protocolo RICE #ID`).
+   - Badge de estado con semáforo institucional (`Abierto`, `En Investigación`, `Derivado`, `Cerrado`).
+   - Título formal de la tipología RICE, nombre completo del estudiante titular y fecha de apertura formal.
+3. **Columna Principal (Izquierda - 8 columnas):**
+   - **Alerta de Escalada Preventiva:** Si el estudiante presenta recurrencia conductual o antecedentes de riesgo, se despliega el banner crítico preventivo con recomendaciones de abordaje.
+   - **Checklist de Pasos Normativos RICE:** Tarjetas interactivas por cada paso legal, con checkbox de certificación, glosa obligatoria y gestor de evidencias probatorias adjuntas.
+   - **Hechos y Observaciones Iniciales:** Tarjeta con los antecedentes registrados en la apertura formal del caso.
+4. **Columna Lateral Contextual (Derecha - 4 columnas):**
+   - **Ficha del Estudiante Titular:** Avatar con iniciales, curso actual, RUT validado y enlace directo a su perfil conductual (`/estudiantes/:id`).
+   - **Incidente de Origen Vinculado:** Acceso directo al caso de origen con badges de severidad y fecha de ocurrencia (si el protocolo nació a partir de un incidente).
+   - **Línea de Tiempo Administrativa (Stepper Vertical):** Visualización del progreso de etapas (`Abierto` → `En Investigación` → `Derivado` → `Cerrado`).
+   - **Panel de Control de Estado:** Botón interactivo para avanzar a la siguiente etapa administrativa. Si existen pasos pendientes en el checklist, el sistema bloquea preventivamente el avance mostrando una advertencia normativa que asegura el debido proceso antes del cierre.
+
 ---
 
 ## 10. Importación Masiva de Alumnos (Uso Administrativo)
