@@ -1346,6 +1346,11 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * **Columna Lateral Contextual (4 columnas):** Ficha institucional del estudiante titular con avatar de iniciales y enlace a su expediente (`/estudiantes/:id`), acceso directo al incidente de origen vinculado, stepper vertical administrativo (`Abierto` → `En Investigación` → `Derivado` → `Cerrado`) y panel de control de avance de estado con bloqueo reactivo si restan pasos pendientes.
     * **Hero Header y Barra Superior:** Folio interactivo con copiado rápido (`Protocolo RICE #ID`), badges de estado en semáforo, botón directo de consulta al Copiloto RICE (`AsistenteNormativoModal`) y botón de descarga de Expediente RICE oficial en PDF. Cobertura completa de modo claro y oscuro (`dark:`).
     * **Resultados Certificados:** 3/3 tests unitarios aprobados en Vitest (`ProtocoloDetallePage.test.jsx`) y compilación exitosa para producción con Vite (`npm run build`).
+  * *Prueba 22 (Endurecimiento del Pipeline RAG RICE y Depuración de Índices con Gemini 3.8 Flash):*
+    * **Actualización de Modelos de Inferencia:** Migración de modelos en `riceRagService.js` hacia `gemini-3.8-flash` (1M tokens, arquitectura nativa vigente) y `gemini-4-argon`, reemplazando los modelos obsoletos que retornaban errores 404 (`gemini-2.0-flash` y `gemini-1.5-flash`).
+    * **Filtrado Inteligente de Tablas de Contenidos:** Implementación de la función discriminadora `esChunkDeIndice` en backend y exclusión de cadenas `.....` en la función RPC de Supabase (`buscar_contexto_rice`), evitando que las páginas de sumario/índice del RICE compitan con los artículos de fondo o con los 10 protocolos de la Circular N° 482.
+    * **Ordenamiento por Niveles de Afinidad Semántica:** Reestructuración del ranking SQL mediante redondeo por deciles `ROUND((1 - (rc.embedding <=> p_embedding))::numeric, 1) DESC`, garantizando que la normativa nacional subsidiaria prevalezca de forma natural cuando el colegio local carezca de un protocolo específico para la falta consultada.
+    * **Resultados Certificados:** 67/67 suites de backend aprobadas en Jest (534 tests pasando al 100%), 19/19 tests en `riceRag.test.js` y 5/5 tests en Vitest para `AsistenteNormativoModal.test.jsx`.
 
 ---
 
