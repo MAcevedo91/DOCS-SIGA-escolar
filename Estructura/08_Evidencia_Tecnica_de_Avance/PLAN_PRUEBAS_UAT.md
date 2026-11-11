@@ -254,6 +254,23 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 - **Resultado Esperado:** Ingesta y vectorización inmediata sin errores; las respuestas del asistente están 100% fundadas en el reglamento del colegio sin alucinaciones, citando las fuentes y protegiendo la identidad de los involucrados.
 - **Severidad en caso de falla:** **Mayor**.
 
+### CP-16: Centro de Notificaciones en Tiempo Real (WebSockets) y Alertas Críticas por Rol
+- **Objetivo:** Validar la recepción reactiva de notificaciones sin recarga de página ante incidentes graves, protocolos RICE, confirmación pública de citaciones y mediaciones escolares, asegurando la entrega por rol, el contador no leído y la navegación directa (deep link).
+- **Precondición:** Usuarios con roles `Directivo`, `Equipo de Formación`, `Inspector` y `Docente` activos; conexión WebSocket establecida en el puerto HTTP unificado.
+- **Pasos:**
+  1. Iniciar sesión con un usuario Directivo o Encargado de Convivencia y observar el ícono de campana en el navbar superior.
+  2. En otra ventana/sesión (o simulado vía API), registrar un incidente con gravedad **Grave** o **Gravísima**, o aperturar un **Protocolo RICE**.
+  3. Verificar que en la sesión del Directivo/Convivencia aparezca de forma inmediata el **badge rojo** con el incremento de notificaciones no leídas, sin recargar el navegador.
+  4. Hacer clic sobre la campana de notificaciones:
+     - Constatar que se despliega el listado con título, extracto descriptivo, tiempo transcurrido e ícono temático correspondiente (`🚨 Incidente Grave` o `🛡️ Protocolo RICE`).
+  5. Hacer clic sobre la notificación:
+     - Verificar que el sistema redirija inmediatamente al detalle del expediente correspondiente (`/incidentes/:id` o `/protocolos/:id`).
+     - Constatar que la notificación pase automáticamente a estado leída y disminuya el contador en la campana.
+  6. En el caso de una citación formativa a apoderado, ingresar a la vista pública de respuesta desde un teléfono móvil simulado y pulsar "Confirmar Asistencia".
+  7. Verificar que el docente citador reciba en tiempo real la notificación de confirmación (`📅 Citación Confirmada`).
+- **Resultado Esperado:** Transmisión reactiva en tiempo real vía WebSockets sin bloqueo; filtrado estricto por rol según la matriz de seguridad escolar; persistencia correcta en base de datos multi-tenant y redirección fluida al expediente.
+- **Severidad en caso de falla:** **Mayor**.
+
 ---
 
 ## 4. Clasificación de Severidad y Criterios de Aprobación
@@ -269,7 +286,7 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 ### 4.2 Criterio Formal de Aprobación
 El UAT se dictaminará formalmente como **APROBADO** si se cumplen simultáneamente las siguientes condiciones:
 1. El **100% de los casos de prueba clasificados como Bloqueantes** (CP-01, CP-02, CP-04, CP-05, CP-07, CP-11) resultan aprobados exitosamente.
-2. Al menos **14 de los 15 casos de prueba totales** resultan aprobados.
+2. Al menos **15 de los 16 casos de prueba totales** resultan aprobados.
 3. No existe riesgo de filtración de datos sensibles ni inconsistencias en la base de datos de producción.
 
 ---

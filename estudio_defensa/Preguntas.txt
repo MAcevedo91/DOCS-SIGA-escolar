@@ -1,0 +1,54 @@
+1- cuál es tu mercado y de que tamaño es.
+2- Cuál es el método de venta de tu proyecto: licencias de uso o una sola venta. ( podría ser: cuál es tu modelo de negocio?)
+3- Cuál es la expectativa de venta: cuánto por mes o meses.
+4- Qué nivel de TRL tiene el proyecto: (si es prototipo sin validación real es TRL-4)
+5- Si quiero comprarte la ideas y el prototipo, en cuánto lo venden. (considerar gastos hasta ahora y expectativa de ganancia futura limitada)
+6- Cuál es el precio de la contratación de su servicio.
+7- Cómo protegen el sistema de los ciberataques.
+8- Cómo aseguran que no hay violación a la intimidad de los datos almacenados.
+9- Cuál es el principal aporte de valor del proyecto.
+10- Cuantos objetivos específicos están cumplidos en su proyecto.
+11- Quién es el stakeholders y cómo se comunican con ellos.
+12- Cuál es su principal competidor y en que se diferencian.
+13- Qué tiene que hacer un cliente para comprar su servicio (necesita personal, habilitar obras civiles, cambiar procedimientos, restructurar el negocio, etc.)
+14- Que nivel CMMI debe tener la empresa que adopta el sistema.
+15- Qué se debe hacer antes de usar el sistema (preparar datos, poblar bases de datos, entrenar IA, capacitar personal, etc).
+16- Si alguien compra sistema, en cuánto tiempo lo tienen instalado listo para usar.
+17- Se necesita respaldo energético o respaldo de datos o respaldo de comunicaciones para funcionar correctamente.
+18- Es necesario cambiar algo en mi negocio o empresa para adoptar la solución.
+10- Cuáles son los SLA críticos que prometen y que valores propones.
+20- Cómo manejarán los incidentes de operación del uso del sistema.
+21- Qué grado de confiabilidad tiene el sistema (principalmente los que tienen IA)
+22- Cómo se maneja la seguridad de acceso al sistema.
+23- Quién se preocupa de la mantención de componentes (sensores, cámaras, antenas).
+24- Cómo se lograron los requerimientos funcionales de la solución.
+25- Cuál es la principal innovación de la solución.
+26- Cuál es el problema principal que resuelven. Cómo impacta en la operación actual de la empresa o cliente.
+27- Que consecuencias tiene la empresa si no hace uso de esta solución (Idealmente en cifra de gasto o pérdidas).
+28- Cuál es el principal riesgo de la operación de la solución. Cómo mitigan si se produce el riesgo.
+29- Cuantas personas necesitan contratar para que su nueva empresa tecnológica funcione.
+30- Qué necesitan para hacer funcionar esta nueva empresa.
+31- Existen soluciones similares ya presentes en el mercado y cómo pretenden atraer a sus clientes.
+32- Qué condiciones básicas debe tener la empresa que los contrate (servidores, internet, personal técnico, etc).
+33- La empresa que los contrata, debe despedir personal si adopta la solución.
+34- Cuánto dinero necesitan para echar andar el negocio.
+35- Cuál es el costo de inversión de un cliente para adoptar la solución.
+36- El sistema lo instala y lo usa el cliente o ustedes deben instalar.
+37- Por qué usaron estas tecnologías (medio de comunicación, tipo de base de datos, lenguajes de programación).
+38- De dónde se obtuvieron los datos para entrenar a las IA utilizadas.
+39- Cómo afectan las condiciones operacionales a las capacidades del sistema (polvo, lluvia, terremotos).
+40- Cómo impiden que se roben las componentes del sistema.
+41- Hacia que mercado se puede escalar la solución.
+42. Por qué este trabajo es de nivel de ingeniería y no de un técnico.
+43- Es posible que un técnico de la especialidad pueda hacer este sistema. 
+44- A que tipo de pruebas ha sido sometido el sistema (unitarias, integración, de resistencia,  de seguridad, etc).
+45- Quién ha validado la funcionalidad.
+46- Qué tecnología es la ideal para un funcionamiento real (tipo de sensores, equipos de proceso, cámaras, etc.).
+47- Qué hace falta para pasar prototipo a TRL 5.
+48- Cuál es la funcionalidad más relevante que genera diferenciación.
+49- Qué usuario es clave para validad el prototipo (dimensiones críticas).
+50- Cuál es el roadmap para dejar la solución funcionando (cambios de procedimientos, compras de equipos, capacitación, preparación de datos, entrenamientos de IA, carga de datos, pilotos de prueba supervisada, etc.)
+51- De que se trata tu proyecto, que problema resuelve o que valor agrega.
+
+
+  

@@ -30,7 +30,9 @@
 18. [Navegación Unificada y Acceso Rápido Permanente](#18-navegación-unificada-y-acceso-rápido-permanente)
 19. [Sociograma Escolar y Redes de Convivencia de Aula (Matriz de Co-ocurrencias)](#19-sociograma-escolar-y-redes-de-convivencia-de-aula-matriz-de-co-ocurrencias)
 20. [Expediente Escolar Sanitizado para Especialistas de Salud Externa](#20-expediente-escolar-sanitizado-para-especialistas-de-salud-externa)
-21. [Preguntas Frecuentes y Solución de Problemas](#21-preguntas-frecuentes-y-solución-de-problemas)
+21. [Módulo de Citaciones Formativas y Alianza Familia-Escuela](#21-módulo-de-citaciones-formativas-y-alianza-familia-escuela)
+22. [Centro de Notificaciones en Tiempo Real y Alertas Críticas de Convivencia](#22-centro-de-notificaciones-en-tiempo-real-y-alertas-críticas-de-convivencia)
+23. [Preguntas Frecuentes y Solución de Problemas](#23-preguntas-frecuentes-y-solución-de-problemas)
 
 ---
 
@@ -1051,6 +1053,38 @@ Para facilitar el trabajo cotidiano de los equipos directivos, de inspectoría y
 
 5. **Pestaña en Ficha de Estudiante (`TabCitacionesEstudiante`):**
    * En el perfil de cualquier estudiante (`/estudiantes/:id`), la pestaña de citaciones presenta sus métricas individuales, la lista cronológica de entrevistas, el botón para emitir nuevas citaciones directas y la descarga de actas oficiales con 1 solo clic.
+
+---
+
+## 22. Centro de Notificaciones en Tiempo Real y Alertas Críticas de Convivencia
+
+### ¿Qué es el Centro de Notificaciones?
+El **Centro de Notificaciones** de SIGA Escolar es un sistema reactivo impulsado por WebSockets que mantiene a todo el equipo educativo sincronizado al instante. Ya no es necesario recargar la página ni consultar manualmente si hubo novedades: las alertas críticas y actualizaciones operativas llegan en milisegundos directamente a la interfaz del usuario según su rol institucional.
+
+### ¿Dónde se ubica y cómo funciona la Campana?
+1. **Acceso Permanente en la Barra Superior (Navbar):**
+   * En la esquina superior derecha de cualquier pantalla del sistema encontrarás el **ícono de Campana**.
+   * Si tienes notificaciones no leídas, aparecerá una **insignia roja pulsante (badge)** con el número exacto de avisos pendientes (ej. `3`).
+   * Al hacer clic sobre la campana, se desplegará el panel interactivo con la lista cronológica de alertas recientes.
+
+2. **Categorías Visuales e Insignias Temáticas:**
+   Cada notificación cuenta con un diseño distintivo e iconografía temática para reconocer su urgencia de inmediato:
+   * 🚨 **Incidentes Graves y Gravísimos (`incidente_grave`):** Borde y fondo en tonos ámbar/rojo con ícono de advertencia. Notifica inmediatamente la ocurrencia de conductas graves en el establecimiento.
+   * 🛡️ **Apertura de Protocolos RICE (`protocolo_rice`):** Insignia de escudo protector. Informa que se ha activado un protocolo obligatorio de la Circular N° 482 (acoso escolar, vulneración de derechos, violencia, etc.).
+   * 📅 **Confirmación de Citación (`citacion_confirmada`):** Ícono verde de calendario verificado. Alerta al docente o funcionario citador en el instante en que el apoderado confirma su asistencia desde su teléfono móvil.
+   * ⚖️ **Mediación Escolar Asignada (`mediacion_creada`):** Ícono índigo de balanza formativa. Notifica a los profesionales de convivencia y orientación sobre una nueva mediación abierta con compromisos pendientes.
+   * ℹ️ **Avisos Generales del Sistema (`sistema`):** Notificaciones operativas generales o de configuración institucional.
+
+3. **Matriz de Recepción de Notificaciones por Rol:**
+   * **Administrador y Directivo:** Reciben alertas institucionales globales (todos los incidentes graves, aperturas de protocolos RICE y mediaciones).
+   * **Equipo de Formación (Convivencia y Orientación):** Recibe de inmediato todas las aperturas de protocolos RICE, incidentes graves/gravísimos y nuevas mediaciones para rápida intervención formativa.
+   * **Inspector General e Inspectores:** Reciben las alertas operativas de incidentes graves para rápida acción en patios y recintos escolares.
+   * **Docentes y Profesores Jefes:** Reciben confirmaciones directas cuando los apoderados de sus citaciones responden, además de alertas de incidentes que involucren a alumnos de sus jefaturas.
+
+4. **Interacción y Navegación Rápida (Deep Linking):**
+   * **Clic para Acceso Directo:** Al pulsar sobre cualquier notificación en el panel, el sistema te redirigirá automáticamente a la pantalla del caso correspondiente (ej. `/protocolos/:id`, `/incidentes/:id`, `/citaciones` o `/mediaciones`), marcándola como leída en ese instante.
+   * **Marcar Individualmente como Leída:** Puedes hacer clic en el botón de verificación de una notificación específica para quitar el punto indicador sin salir de tu pantalla actual.
+   * **Marcar Todas como Leídas:** Presiona el botón de doble visto bueno en la cabecera del panel para limpiar el contador de pendientes de una sola vez.
 
 ---
 
