@@ -50,23 +50,26 @@ En un colegio, el software interactúa con diferentes perfiles con intereses y d
 
 ---
 
-## 4. EL MERCADO EDUCATIVO EN CHILE (ESTRUCTURA Y CIFRAS)
+## 4. EL MERCADO EDUCATIVO EN CHILE (ESTRUCTURA Y CIFRAS — BASE 2025)
 
-### 4.1. Tamaño del Universo Escolar en Chile
-* **Universo Total Nacional:** Existen aproximadamente **11.500 a 11.800 establecimientos escolares** reconocidos oficialmente por el Ministerio de Educación (MINEDUC) en Chile.
-* **Composición por Dependencia:**
-  1. **Sector Público (SLEP y Municipales):** Representa cerca del **43% a 45%** de los establecimientos (~5.000 colegios). En plena transición a los Servicios Locales de Educación Pública (Ley N° 21.040).
-  2. **Sector Particular Subvencionado:** Representa cerca del **48% a 49%** de los colegios (~5.600 establecimientos), pero atiende a más del **54% de la matrícula escolar nacional**. Son administrados por corporaciones o fundaciones privadas sin fines de lucro.
-  3. **Sector Particular Pagado:** Representa entre el **7% y 8%** del mercado (~800 a 900 colegios de élite).
+### 4.1. Tamaño y Segmentación del Universo Escolar en Chile
+Para mantener comparabilidad homogénea del dimensionamiento, se utiliza como referencia la **base estadística 2025** de establecimientos educacionales en Chile:
+* **Total de establecimientos:** **10.945** establecimientos educacionales (`100%` del total).
+* **Establecimientos con convenio SEP:** **7.811** establecimientos (`71,4%` del total), habilitados por la Ley N.º 20.248 para financiar iniciativas de Convivencia Escolar vía PME.
+* **Establecimientos administrados por SLEP:** **1.707** establecimientos (`15,6%` del total), pertenecientes a los Servicios Locales de Educación Pública en transición desde las administraciones municipales (Ley N.º 21.040).
+* **Resto del universo:** Establecimientos municipales/corporaciones municipales aún no traspasados a SLEP, establecimientos particulares subvencionados sin convenio SEP y establecimientos particulares pagados.
 
 ### 4.2. Tipología de Mercado: B2B y B2G
-* **B2B (Business-to-Business):** Venta directa a Fundaciones y Corporaciones Educacionales que gestionan redes de colegios particulares subvencionados y pagados.
-* **B2G (Business-to-Government):** Venta institucional a Direcciones de Educación Municipal (DAEM), Corporaciones Municipales y **Servicios Locales de Educación Pública (SLEP)** mediante licitaciones en Mercado Público o Convenio Marco.
+* **B2B (Business-to-Business):** Venta directa a Fundaciones y Corporaciones Educacionales que gestionan colegios particulares subvencionados (especialmente aquellos con convenio SEP) y particulares pagados, con ciclos de decisión rápidos.
+* **B2G (Business-to-Government):** Venta institucional a Direcciones de Educación Municipal (DAEM), Corporaciones Municipales y **Servicios Locales de Educación Pública (SLEP)** mediante Mercado Público (Compra Ágil `< 30 UTM`, licitaciones o Convenio Marco).
 
 ### 4.3. Dimensionamiento del Mercado (TAM / SAM / SOM)
-* **TAM (Total Addressable Market - Mercado Total):** Los **11.600 colegios de Chile**. Todo colegio por ley está obligado a llevar un RICE y gestionar incidentes de violencia escolar.
-* **SAM (Serviceable Available Market - Mercado Disponible):** Los **~10.600 colegios públicos y particulares subvencionados** que operan bajo el sistema de fiscalización estricta de la Superintendencia de Educación y que disponen de financiamiento público vía Ley SEP.
-* **SOM (Serviceable Obtainable Market - Mercado Objetivo Inicial):** Los **60 establecimientos educacionales dependientes del SLEP Atacama** (zona geográfica de despliegue inicial de la Escuela El Salvador), con una meta de penetración inmediata del 15% (9 establecimientos en el año 1).
+* **TAM (Total Addressable Market - Mercado Total):** Los **10.945 establecimientos educacionales de Chile** (`100%` — Base 2025). Todo establecimiento reconocido debe contar con un RICE y gestionar la convivencia escolar bajo fiscalización de la Superintendencia de Educación.
+* **SAM (Serviceable Available Market - Mercado Disponible):** Los **7.811 establecimientos con convenio SEP (`71,4%`)**, porque cuentan con presupuesto específico y legalmente rendible para acciones de Convivencia Escolar en su PME. Dentro de este mercado disponible destacan **1.707 establecimientos administrados por SLEP (`15,6%`)** como foco B2G de red territorial.
+* **SOM (Serviceable Obtainable Market - Mercado Objetivo Inicial):** En lugar de depender exclusivamente de los **60 establecimientos escolares del SLEP Atacama** (donde opera nuestro piloto, la Escuela Coeducacional N.º 1 El Salvador), el SOM combina **dos carriles comerciales complementarios**:
+  1. **Carril de Proximidad (tracción rápida B2B/B2G):** Colegios particulares subvencionados y públicos con convenio SEP en el radio geográfico directo del equipo fundador (venta directa o Compra Ágil `< 30 UTM` con acompañamiento presencial de bajo costo).
+  2. **Carril de Referencia en Red (B2G):** Establecimientos del **SLEP Atacama (60 escuelas/liceos)** apalancados en la validación documentada de la Escuela El Salvador.
+  * **Meta operativa realista Año 1 (capacidad de 3 socios):** Captar entre **5 y 10 establecimientos** (superando el punto de equilibrio proyectado de 3 colegios sin concentrar el riesgo en un único sostenedor).
 
 ---
 
@@ -110,9 +113,11 @@ El calendario de ventas en educación está rígidamente ligado al año presupue
 
 * **Ventana de Venta Crítica (Octubre a Diciembre):** Es el momento exacto en que los equipos directivos formulan el **PME** y comprometen los recursos de la **Ley SEP** para el año entrante. Si no se vende en esta ventana, se debe esperar al año siguiente o ingresar mediante contratos de ajuste a mitad de año.
 
-### 6.2. Estrategia "Land & Expand" (Aterrizar y Expandir)
-1. **Land (Aterrizaje):** Implementar y certificar el caso de éxito en la **Escuela Coeducacional N°1 El Salvador** (483 estudiantes).
-2. **Expand (Expansión):** Con métricas validadas (reducción del 65% en tiempos de actas y cero no-conformidades ante la Superintendencia), presentar la propuesta al Director Ejecutivo del **SLEP Atacama** para consolidar los **60 colegios del territorio**.
+### 6.2. Estrategia "Land & Expand" Dual (Aterrizar y Expandir sin Dependencia Única)
+1. **Land (Aterrizaje y Validación):** Implementar y validar el piloto en la **Escuela Coeducacional N°1 El Salvador** (483 estudiantes), midiendo desempeño real en terreno frente a las tareas prioritarias de convivencia y cumplimiento RICE.
+2. **Expand por Dos Carriles (Red + Proximidad):**
+   * *Carril de Proximidad (tracción temprana):* Usar el caso documentado como respaldo para captar colegios **particulares subvencionados y públicos con convenio SEP (`7.811` a nivel nacional)** cercanos al equipo, mediante venta directa B2B o Compra Ágil (`< 30 UTM`).
+   * *Carril de Red Institucional (SLEP):* Presentar los resultados certificados al **SLEP Atacama (60 escuelas/liceos)** y progresivamente a otros servicios del universo de **1.707 establecimientos SLEP**.
 
 ### 6.3. Fuentes de Financiamiento del Emprendimiento (Ecosistema Startup Chile)
 * **Fase 1 (Bootstrapping):** Piloto validado con la Escuela El Salvador financiado con el servicio de puesta en marcha.
@@ -342,7 +347,7 @@ graph TD
 - [ ] **483 alumnos** en la Escuela Coeducacional N°1 El Salvador.
 - [ ] **~30 casos por semana** en terreno (~1.300 incidentes/año).
 - [ ] **20 minutos a 3 minutos** (ahorro del 65% en redacción de actas).
-- [ ] **11.600 colegios** en Chile (TAM).
+- [ ] **10.945 establecimientos** en Chile (TAM — Base 2025) / **7.811 con SEP** (`71,4%`, SAM) / **1.707 en SLEP** (`15,6%`).
 - [ ] **10 protocolos RICE** normativos de la Superintendencia (Res. Exenta 781).
 - [ ] **Multas de hasta 1.000 UTM** (> \$67.000.000 CLP) que previene el sistema.
 - [ ] **Plazo legal fatal de 24 horas** para denunciar delitos (Art. 175 letra e) CPP).
@@ -383,9 +388,9 @@ Para consulta rápida y dominio léxico durante la defensa, los términos clave 
 * **B2G (Business-to-Government):** Modelo comercial enfocado en transacciones con organismos de la administración del Estado mediante compras públicas o licitaciones (ej. SIGA contratado por un SLEP o Municipio).
 * **Best-of-Breed (Especialización Vertical):** Enfoque estratégico de producto que consiste en desarrollar la solución líder y más profunda en un nicho funcional concreto (ej. Convivencia Escolar), superando en calidad a las soluciones genéricas.
 * **ERP Escolar (Enterprise Resource Planning):** Sistema integral de gestión escolar generalista orientado al registro masivo de calificaciones, asistencia curricular y emisión de certificados (ej. Lirmi, WebClass, Colegium).
-* **TAM (Total Addressable Market):** Mercado Total Direccionable; el universo completo de demanda teórica existente para un producto o servicio (en Chile, los ~11.600 colegios).
-* **SAM (Serviceable Available Market):** Mercado Disponible que se ajusta a nuestro modelo específico de producto y segmento regulado (~10.600 colegios públicos y particulares subvencionados con Ley SEP).
-* **SOM (Serviceable Obtainable Market):** Mercado Objetivo Inicial que el emprendimiento puede capturar en el corto plazo con sus capacidades operativas (los 60 colegios del SLEP Atacama).
+* **TAM (Total Addressable Market):** Mercado Total Direccionable; el universo completo de demanda teórica existente para un producto o servicio (**10.945 establecimientos educacionales en Chile**, base estadística 2025).
+* **SAM (Serviceable Available Market):** Mercado Disponible que se ajusta a nuestro modelo específico de producto y capacidad de pago (**7.811 establecimientos con convenio SEP vigente — `71,4%`**, incluyendo **1.707 administrados por SLEP — `15,6%`**).
+* **SOM (Serviceable Obtainable Market):** Mercado Objetivo Inicial alcanzable en el corto plazo con la capacidad operativa del equipo (estrategia dual: colegios con SEP en proximidad geográfica + expansión por referencia en los **60 colegios del SLEP Atacama**, con meta realista de **5 a 10 establecimientos** en el Año 1).
 * **CAC (Customer Acquisition Cost):** Inversión total en ventas y marketing dividida entre el número de nuevos clientes adquiridos en un periodo determinado.
 * **LTV (Lifetime Value):** Valor monetario total que un cliente deja a la empresa a lo largo de toda su relación contractual comercial.
 * **Ratio LTV / CAC:** Indicador de eficiencia del modelo de negocio; mide cuánto valor entrega un cliente frente a lo que costó capturarlo (en SIGA estimado en ~24x).
