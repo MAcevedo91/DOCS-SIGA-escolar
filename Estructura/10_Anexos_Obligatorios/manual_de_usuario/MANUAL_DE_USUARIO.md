@@ -858,9 +858,17 @@ Para evitar la ineficacia de respuestas vacías ante consultas sobre materias no
 ---
 
 ### 18. Navegación Unificada y Acceso Rápido Permanente
-En cualquier sección del sistema —incluso al consultar la ficha de un estudiante, registrar un nuevo incidente o revisar un protocolo RICE paso a paso— dispondrás de:
-* **Menú Lateral Persistente (Sidebar):** Permite cambiar de módulo (Dashboard, Estudiantes, Incidentes, Protocolos, Cierre de Año, etc.) en un solo clic sin necesidad de volver atrás en el navegador. En dispositivos móviles se despliega mediante el botón de menú hamburguesa.
-* **Barra Superior Siempre Visible (Navbar):** Permite buscar alumnos rápidamente por nombre o RUT desde cualquier pantalla, cambiar entre modo claro y oscuro, consultar el Copiloto RICE y revisar las notificaciones en tiempo real.
+En cualquier sección del sistema —incluso al consultar la ficha de un estudiante, registrar un nuevo incidente o revisar un protocolo RICE paso a paso— dispondrás de una experiencia de navegación fluida, moderna y adaptable:
+
+* **Menú Lateral con Fondo Oscuro Institucional y Muesca Curva (Notched Curved Sidebar):**
+  - **Fondo Oscuro Elegante:** Conserva la identidad visual institucional original en tonos pizarra y azul oscuro (`slate-900` / `slate-950`), ofreciendo un marco sobrio y descansado para la jornada pedagógica.
+  - **Apertura Fluida hacia la Pantalla:** Al seleccionar cualquier módulo, el ítem activo adopta una pastilla con extremo izquierdo en cápsula redondeada profunda que abraza al botón circular de color, y se extiende directamente hacia la pantalla sin líneas divisorias, conectado por amplias curvas cóncavas superior e inferior (*inverted border radius* de 24px) que se funden de forma orgánica con el fondo del panel principal.
+  - **Cápsula Circular Temática por Módulo:** El icono activo resalta en una pastilla circular de color distintivo (Cian para Panel Principal, Índigo para Analítica, Esmeralda para Cursos, Ámbar para Incidentes, Carmesí para Protocolos RICE, Violeta para Mediaciones, Celeste para Citaciones, Fucsia para Cierre de Año, etc.).
+  - **Modo Expandido y Colapsado:** En pantallas de escritorio, puedes alternar entre el modo completo (256px con nombres y logotipo) y el modo compacto de iconos (76px) pulsando el botón de flecha en la cabecera del menú. El sistema recuerda tu preferencia automáticamente para maximizar el área de trabajo en computadores de aula o tablets.
+  - **Pie Integrado de Usuario y Salida Rápida:** En la parte inferior del menú lateral se ubica tu fotografía o iniciales, tu nombre (protegido automáticamente por el motor DLP cuando activas el modo privacidad `Alt + P`), tu rol institucional y un botón directo para cerrar sesión de forma segura.
+  - **Acceso Móvil y Cobertura de Privacidad:** En teléfonos inteligentes se despliega como un panel lateral suave con fondo difuminado al pulsar el botón de menú. Además, al activarse la **Sesión Protegida** por inactividad o minimización de ventana, la cortina de seguridad cubre el 100% de la pantalla de forma absoluta, ocultando por completo la barra lateral para evitar cualquier filtración visual.
+
+* **Barra Superior Siempre Visible (Navbar):** Permite buscar alumnos rápidamente por nombre o RUT desde cualquier pantalla, activar o desactivar el Modo Privacidad DLP (`Alt + P`), alternar entre modo claro y oscuro, consultar el Copiloto Normativo RICE y monitorear las notificaciones en tiempo real.
 
 ---
 
