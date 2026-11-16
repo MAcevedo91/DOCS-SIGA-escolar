@@ -1408,6 +1408,18 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
       * Botones inferiores de alta fidelidad: `Ver` (outline) y `Descargar PDF` (botón oscuro `bg-gray-950`) para informes aprobados; `Previsualizar` (outline) y `Revisar y aprobar` (botón oscuro) para borradores en revisión.
     * **Accesibilidad Universal y Blindaje Retroactivo:** Inclusión de etiquetas semánticas y accesibles (`sr-only` y `aria-label`) que aseguran compatibilidad total con lectores de pantalla y el 100% de aserciones en las pruebas automatizadas.
     * **Resultados Certificados:** 10/10 pruebas en verde en `IncidenteDetallePage.test.jsx`, 11/11 en `DlpComponents.test.jsx` y 68/68 pruebas aprobadas (11/11 archivos) en la suite completa de páginas de frontend.
+  * *Prueba 32 (Modernización Visual e Interactiva del Escudo de Sesión Protegida DLP contra Shoulder Surfing):*
+    * **Diagnóstico y Motivación de Experiencia de Usuario:** Transformación de la cortina estática de bloqueo por inactividad en una experiencia visual metafórica, didáctica e inmersiva que refleja explícitamente el resguardo activo de la privacidad de los estudiantes según la Ley N° 19.628 y la Circular N° 482.
+    * **Arquitectura Visual con SVG Vectorial Dinámico:**
+      * Fondo con gradiente radial envolvente (`radial-gradient(ellipse at 50% 0%, var(--bg), var(--bg2))`).
+      * Tarjeta central flotante de 380px con sombra profunda `0 24px 60px rgba(0, 0, 0, 0.45)` y esquinas suaves de 20px.
+      * Ilustración vectorial con 3 fichas de alumnos protegidas mediante barras de redacción animadas (`rect.bar`) que simulan el tachado continuo de datos sensibles.
+      * Haz de barrido luminoso (`rect.scan`) con gradiente esmeralda (`#0f9d8a`) y anillo perimetral de ondas de seguridad (`circle.ring`).
+      * Escudo de protección trazado (`path.sh`) con candado dinámico de grillete móvil (`path.shackle`).
+    * **Micro-interacción de Reanudación y Desbloqueo Fluido:**
+      * Al pulsar el botón "Reanudar sesión" o hacer clic en cualquier parte del fondo exterior, se dispara la clase `.is-open`: el grillete del candado se abre (`rotate(-18deg) translateY(-4px)`), el escudo se ilumina en color esmeralda institucional, las barras de redacción se retraen y el botón transiciona temporalmente a "Sesión reanudada" antes de restablecer la vista.
+      * Respeto estricto a directivas de accesibilidad: detección de `prefers-reduced-motion: reduce` y entorno de pruebas para desactivar animaciones pesadas y ejecutar el desbloqueo instantáneo.
+    * **Resultados Certificados:** 11/11 pruebas aprobadas en `DlpComponents.test.jsx`, 5/5 pruebas en verde en `DashboardLayout.test.jsx` y 21/21 pruebas en tests combinados sin regresión.
 
 ---
 
