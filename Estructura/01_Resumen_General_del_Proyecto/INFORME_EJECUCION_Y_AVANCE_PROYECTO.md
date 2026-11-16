@@ -1420,6 +1420,21 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
       * Al pulsar el botón "Reanudar sesión" o hacer clic en cualquier parte del fondo exterior, se dispara la clase `.is-open`: el grillete del candado se abre (`rotate(-18deg) translateY(-4px)`), el escudo se ilumina en color esmeralda institucional, las barras de redacción se retraen y el botón transiciona temporalmente a "Sesión reanudada" antes de restablecer la vista.
       * Respeto estricto a directivas de accesibilidad: detección de `prefers-reduced-motion: reduce` y entorno de pruebas para desactivar animaciones pesadas y ejecutar el desbloqueo instantáneo.
     * **Resultados Certificados:** 11/11 pruebas aprobadas en `DlpComponents.test.jsx`, 5/5 pruebas en verde en `DashboardLayout.test.jsx` y 21/21 pruebas en tests combinados sin regresión.
+  * *Prueba 33 (Optimización Visual de Informes Oficiales, Jerarquía Vertical de Alumnos, Filtros Cápsula Multicolores y Blindaje DLP en Incidentes y Protocolos):*
+    * **Diagnóstico y Requerimientos de Usabilidad y Seguridad:**
+      * Detección de sobrecarga cognitiva en la tabla principal de incidentes por la presencia de insignias de rol disciplinario (agresor/víctima) y aglutinación de cursos en la columna de estudiantes.
+      * Necesidad de separar la columna de Curso y ofrecer filtrado rápido ergonómico mediante cápsulas interactivas coloreadas para Gravedad y Estado, homologando la experiencia visual del módulo de cursos.
+      * Reestructuración vertical de la información en las tarjetas de alumnos involucrados en el detalle del incidente (Nombre → RUT → Rol → Curso) para facilitar la lectura secuencial en entrevistas pedagógicas.
+      * Corrección del problema de "Curso sin asignar" en backend y frontend vinculando la relación relacional `cursos(id, nombre)` en los servicios de incidentes, reportes y protocolos.
+      * Resolución del bloqueo en la aprobación multiestudiante en el modal de redacción de informes oficiales (donde la aprobación del primer estudiante forzaba la pestaña y bloqueaba la validación del segundo informe).
+      * Eliminación de texto plano vulnerable con el nombre del estudiante bajo el encabezado de protocolos activos, protegiendo la identidad del menor ante miradas indiscretas.
+    * **Implementación Técnica en Backend y Frontend:**
+      * **Servicios de Backend (`incidentesService.js`, `reportesService.js`, `protocolosService.js`):** Inclusión de la relación `cursos(id, nombre)` en las consultas relacionales de Supabase y normalización del objeto `cursos` y string `curso` en los DTOs de respuesta.
+      * **Listado de Incidentes (`IncidentesPage.jsx`):** Separación de la columna de curso escolar en cabecera y cuerpo; remoción de insignias de rol en la lista general para resguardar la presunción de inocencia y privacidad; incorporación de cápsulas interactivas de filtro rápido para Gravedad (Leve, Grave, Gravísima) y Estado (En Investigación, Derivado, Cerrado) con puntos de estado, bordes temáticos y botón de deselección directa.
+      * **Detalle de Incidente (`IncidenteDetallePage.jsx`):** Jerarquización vertical en fichas individuales de alumnos (Nombre protegido con DLP, RUT protegido con DLP, Rol disciplinario sensible al género, Curso escolar asignado), acompañadas de paletas cromáticas suaves diferenciadas para cada estudiante.
+      * **Modal de Redacción y Revisión Normativa (`ModalRevisionReporteIA.jsx`):** Control de selección de pestañas mediante referencia de apertura (`prevIsOpenRef`), selección automática del siguiente informe pendiente tras aprobar y rediseño de acciones con botones formales de descarga y aprobación, reubicando la opción de regeneración como acción contextual en el panel de borrador.
+      * **Detalle de Protocolo RICE (`ProtocoloDetallePage.jsx`):** Remoción de menciones en texto plano del estudiante en el encabezado superior y visualización del curso real en la tarjeta lateral de expediente.
+    * **Resultados Certificados:** 24/24 pruebas unitarias aprobadas en backend (`incidentesService.test.js`, `reportesService.test.js`), 26/26 pruebas unitarias e integración en frontend (`IncidenteDetallePage.test.jsx`, `ModalRevisionReporteIA.test.jsx`, `IncidentesPage.test.jsx`, `ProtocoloDetallePage.test.jsx`) con 100% de éxito y cero regresiones.
 
 ---
 

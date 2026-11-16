@@ -247,7 +247,17 @@ Cualquier situación relevante ocurrida en recreo, entrada, salida o aula debe s
 
 Los incidentes no son solo un registro estático; tienen un ciclo de vida para asegurar que ningún caso quede en el olvido:
 
-1. En el listado de **"Incidentes"**, haz clic sobre el incidente que deseas revisar.
+### 8.1 Visualización y Filtrado Ágil de Incidentes
+En la pantalla principal de **"Incidentes"**, el equipo cuenta con una tabla organizada para la consulta rápida y segura de expedientes:
+- **Resguardo de Privacidad en Lista:** La columna **Estudiante(s)** exhibe únicamente los nombres de los alumnos vinculados, integrados con el motor de privacidad DLP (desenfoque o enmascaramiento con `Alt + P`). Para proteger la honra y presunción de inocencia de los menores ante miradas casuales, se omiten deliberadamente etiquetas de rol disciplinario (como *víctima* o *agresor*) en la vista general.
+- **Columna Independiente de Curso:** Cada incidente desglosa en una columna propia el curso o los cursos de los alumnos involucrados (*ej: 3° Básico A*).
+- **Filtros Interactivos Tipo Cápsula:** Encima de la tabla se disponen botones ergonómicos en formato de cápsula con indicadores visuales de color:
+  - **Gravedad:** Cápsulas cromáticas para *Todas*, *Leve* (azul), *Grave* (ámbar) y *Gravísima* (rojo). Al seleccionar una opción, la cápsula se destaca con fondo sólido y añade un botón `✕` para remover el filtro con un solo clic.
+  - **Estado:** Cápsulas para *Todos*, *En Investigación* (ámbar), *Derivado* (azul) y *Cerrado* (esmeralda).
+- **Buscador Dinámico:** Permite filtrar instantáneamente por número de folio o descripción de los hechos.
+
+### 8.2 Ciclo de Vida y Transición de Estados
+1. En el listado de incidentes, haz clic sobre el caso que deseas gestionar.
 2. En la sección superior verás el estado actual del caso:
    - **En Investigación:** Se están recabando testimonios o entrevistando a las partes.
    - **Derivado:** El caso fue derivado a Dupla Psicosocial, Inspectoría General o Dirección.
@@ -258,26 +268,33 @@ Los incidentes no son solo un registro estático; tienen un ciclo de vida para a
    - Presiona **"Actualizar Estado"**.
    - *Regla de integridad:* El sistema no permite retroceder estados para mantener la transparencia cronológica del proceso.
 
-### 8.1 Informes Oficiales Diferenciados y Versionado (Sprint 6)
+### 8.3 Informes Oficiales Diferenciados y Versionado (Sprint 6)
 Para asegurar el estricto cumplimiento de la **Ley N° 19.628** de Protección de la Vida Privada y las directrices de la **Circular N° 482** de la Superintendencia de Educación:
 - **Informes Individualizados por Estudiante:** Cuando un incidente involucra a dos o más alumnos, el sistema genera y almacena informes independientes para cada estudiante. Esto garantiza que cada apoderado reciba única y exclusivamente la información correspondiente a su pupilo sin divulgar datos sensibles ni vulnerar la privacidad de las otras partes.
 - **Trazabilidad y Control de Versiones:** Los reportes cuentan con gestión de versiones estructuradas en 5 secciones normativas (Contexto, Hechos objetivos, Medidas adoptadas, Compromisos/Acuerdos y Plan de seguimiento). El borrador sugerido por IA se conserva inmutable, registrando quién realizó ediciones intermedias y quién efectuó la aprobación final.
 - **Bloqueo Estricto tras Aprobación:** Una vez que un informe adquiere el estado **"Aprobado"**, el sistema bloquea cualquier edición posterior, garantizando que el documento descargado en PDF o despachado al apoderado sea inalterable y posea plena validez probatoria.
 
-### 8.2 Nueva Interfaz Minimalista de Informes Oficiales (Cuadrícula 2 Columnas)
-En la pantalla de detalle de incidente, el módulo de informes normativos cuenta con una interfaz ergonómica y minimalista diseñada para reducir la sobrecarga cognitiva:
+### 8.4 Interfaz de Informes Oficiales y Jerarquía Visual de Alumnos
+En la pantalla de detalle de incidente, el módulo de informes normativos cuenta con una disposición orientada a la claridad pedagógica:
 1. **Encabezado Despejado:** Presenta el título **"Informes oficiales"**, el indicador numérico de avance (ej: *1 de 2 validados*) y el botón superior **"Editar informes"** (o *"Generar informes con IA"* si aún no existen borradores).
-2. **Cuadrícula de Tarjetas por Estudiante:**
-   - **Avatar y Estado con Viñeta:** Cada tarjeta cuenta con un avatar circular con las iniciales del alumno (ej: *AA*, *JR*) y un badge con indicador puntual en color verde (**`● Aprobado`**) o ámbar (**`● En revisión`**).
-   - **Protección DLP Integrada:** El nombre completo y RUT del estudiante se integran con el motor DLP, permitiendo ocultar o desenfocar datos sensibles ante miradas externas o al activar el modo privacidad (`Alt + P`).
-   - **Fila de Metadatos Compacta:** Presenta en una sola línea clara el RUT, el rol sensible al género (*Agresora*, *Agresor*, *Víctima* o *Involucrado*) y el curso escolar correspondiente (*ej: 3° Básico A* o *Sin curso*).
-   - **Observación Individual con Acceso Rápido de Lápiz:** Muestra el hecho o medida particular asignada al alumno con un ícono de lápiz cliqueable (`Pencil`), permitiendo editar o complementar la derivación inmediatamente.
+2. **Tarjetas Individualizadas por Estudiante con Jerarquía Vertical:**
+   - **Paleta Cromática Diferenciada:** Cada alumno cuenta con un tono visual armónico propio (azul, esmeralda, púrpura o ámbar) que facilita su identificación inmediata en pantalla durante reuniones de convivencia.
+   - **Lectura Vertical Estructurada:** La información clave se presenta en estricto orden de arriba hacia abajo:
+     1. **Nombre completo:** Con soporte de anonimización y desenfoque DLP.
+     2. **RUT:** Identificador oficial con enmascaramiento de seguridad.
+     3. **Rol disciplinario:** Distinción formativa sensible al género (*Agresora*, *Agresor*, *Víctima* o *Involucrado/a*).
+     4. **Curso asignado:** Curso real del estudiante obtenido de la base de matrículas (ej: *4° Básico B*).
+   - **Observación Individual con Acceso Rápido de Lápiz:** Muestra la medida formativa particular asignada al alumno con un ícono de lápiz cliqueable (`Pencil`), permitiendo complementar la derivación inmediatamente.
    - **Alerta de Contacto con Apoderados:** Si el estudiante no cuenta con correo electrónico de apoderado registrado, el sistema despliega una advertencia ámbar puntual: **`⚠️ Apoderado sin correo`**, alertando al equipo sobre la necesidad de citación presencial.
-   - **Botones de Acción Inferiores:**
+   - **Botones de Acción:**
      - Si está **Aprobado:** Botón **"Ver"** (abre el PDF oficial en una nueva pestaña del navegador) y botón **"Descargar PDF"** (descarga directa del documento foliado).
      - Si está **En revisión:** Botón **"Previsualizar"** (abre el borrador con marca de agua previa de auditoría) y botón **"Revisar y aprobar"** (abre el modal de edición y validación con IA).
+3. **Flujo de Revisión Multiestudiante en Modal:**
+   - Al pulsar *"Revisar y aprobar"* o *"Editar informes"*, el modal presenta una barra superior de pestañas con los nombres de todos los estudiantes involucrados.
+   - La navegación entre pestañas es completamente independiente: el equipo puede revisar el informe del Estudiante A, realizar ajustes o aprobarlo, y el sistema avanzará fluidamente al siguiente estudiante pendiente sin bloquear pestañas ni cerrar el diálogo.
+   - Botonera optimizada: Permite previsualizar en pestaña nueva, guardar cambios en borrador o efectuar la aprobación formal definitiva.
 
-### 8.2 Derivaciones con Observaciones Individuales por Estudiante (Hallazgo 5)
+### 8.5 Derivaciones con Observaciones Individuales por Estudiante (Hallazgo 5)
 En incidentes que involucran a múltiples alumnos (riñas, agresiones o conflictos entre pares), las medidas pedagógicas y de apoyo no son idénticas para cada estudiante. SIGA Escolar incorpora la gestión individualizada de derivaciones:
 1. **Derivación al Cambiar de Estado:**
    - En el panel lateral derecho del caso, selecciona el estado **"Derivado"** y pulsa **"Actualizar Estado"**.

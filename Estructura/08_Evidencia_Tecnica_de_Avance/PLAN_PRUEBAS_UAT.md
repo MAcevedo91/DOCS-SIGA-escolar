@@ -133,16 +133,18 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 - **Resultado Esperado:** El incidente se almacena en base de datos, se despliega alerta visual de alta prioridad y se genera la notificación correspondiente para el Coordinador.
 - **Severidad en caso de falla:** **Bloqueante**.
 
-### CP-06: Trazabilidad y Transición de Estados del Incidente
-- **Objetivo:** Validar que el flujo de vida del incidente respete las reglas de transición sin permitir inconsistencias temporales.
-- **Precondición:** Incidente en estado `En Investigación`.
+### CP-06: Trazabilidad, Filtrado de Incidentes y Transición de Estados
+- **Objetivo:** Validar la consulta ágil de incidentes mediante filtros tipo cápsula, el resguardo de privacidad en la tabla general y el respeto estricto a las reglas de transición de estados sin permitir inconsistencias temporales.
+- **Precondición:** Incidentes registrados con distintos niveles de gravedad y estados (`En Investigación`, `Derivado`, `Cerrado`).
 - **Pasos:**
-  1. Abrir el detalle del incidente registrado.
-  2. Seleccionar "Cambiar Estado" y promover a `Derivado`.
-  3. Confirmar que el estado visual y en backend se actualiza.
-  4. Intentar retroceder manualmente a `En Investigación`.
-  5. Cambiar a estado `Cerrado` registrando el dictamen final.
-- **Resultado Esperado:** La máquina de estados permite avanzar ordenadamente (`En Investigación` -> `Derivado` -> `Cerrado`) y rechaza retrocesos indebidos.
+  1. En la lista principal de Incidentes, probar las cápsulas interactivas de filtro rápido por **Gravedad** (*Leve*, *Grave*, *Gravísima*) y por **Estado** (*En Investigación*, *Derivado*, *Cerrado*), verificando su punto de color y el botón de remoción rápida (`✕`).
+  2. Verificar que la columna de estudiantes muestre los nombres protegidos por DLP y sin etiquetas de rol disciplinario (agresor/víctima), contando con una columna independiente para el Curso escolar.
+  3. Abrir el detalle de un incidente en estado `En Investigación`.
+  4. Seleccionar "Cambiar Estado" y promover a `Derivado`.
+  5. Confirmar que el estado visual y en backend se actualiza.
+  6. Intentar retroceder manualmente a `En Investigación`.
+  7. Cambiar a estado `Cerrado` registrando el dictamen final.
+- **Resultado Esperado:** Las cápsulas filtran de forma instantánea; la tabla no divulga roles disciplinarios en vista pública; la máquina de estados permite avanzar ordenadamente (`En Investigación` -> `Derivado` -> `Cerrado`) y rechaza retrocesos indebidos.
 - **Severidad en caso de falla:** **Mayor**.
 
 ### CP-07: Apertura y Gestión de Protocolo Normativo RICE
@@ -191,14 +193,17 @@ Las pruebas UAT son evaluaciones de caja negra ejecutadas directamente por los u
 
 
 ### CP-11: Asistencia de Redacción Normativa con IA (Gemini Flash y DLP Escolar)
-- **Objetivo:** Verificar la generación automática de borradores de actas estructuradas bajo Circular N° 482 y la sanitización estricta de PII (RUTs, teléfonos y nombres).
-- **Precondición:** Incidente registrado con al menos un estudiante; usuario Inspector, Dupla Psicosocial o Directivo autenticado.
+- **Objetivo:** Verificar la generación automática de borradores de actas estructuradas bajo Circular N° 482, la sanitización estricta de PII (RUTs, teléfonos y nombres), la jerarquía vertical de alumnos involucrados y la aprobación secuencial multiestudiante sin bloqueo de pestañas.
+- **Precondición:** Incidente registrado con al menos dos estudiantes involucrados; usuario Inspector, Dupla Psicosocial o Directivo autenticado.
 - **Pasos:**
-  1. Ingresar al detalle de un incidente y pulsar "Generar Informe con IA".
-  2. Comprobar que el borrador propuesto por Google Gemini Flash se desglosa en las 5 secciones requeridas (Contexto, Hechos, Medidas, Acuerdos y Seguimiento).
-  3. Verificar que en incidentes con múltiples alumnos involucrados se generen informes diferenciados e independientes por estudiante.
+  1. Ingresar al detalle del incidente y constatar que las tarjetas de los alumnos involucrados presenten orden vertical claro: **Nombre** (DLP) → **RUT** (DLP) → **Rol disciplinario** → **Curso asignado** (con curso real de matrícula).
+  2. Pulsar "Generar Informes con IA" (o "Revisar y aprobar").
+  3. Comprobar que el borrador propuesto por Google Gemini Flash se desglosa en las 5 secciones requeridas (Contexto, Hechos, Medidas, Acuerdos y Seguimiento) y que se generan informes independientes por estudiante.
   4. Constatar que ningún RUT o dato de contacto real fue transmitido al modelo externo.
-- **Resultado Esperado:** El sistema produce una propuesta objetiva y formal en menos de 4 segundos, respetando la reserva de identidad de contrapartes y estructurando las 5 secciones normativas.
+  5. En el modal de redacción, seleccionar el informe del primer estudiante y pulsar "Aprobar y notificar":
+     - Verificar que el informe se apruebe exitosamente y cambie su estado a Aprobado.
+     - Constatar que el modal no se bloquee y permita cambiar fluidamente a la pestaña del segundo estudiante para editarlo o aprobarlo individualmente.
+- **Resultado Esperado:** El sistema produce propuestas objetivas en menos de 4 segundos, respetando la reserva de identidad de contrapartes; la visualización de tarjetas es vertical y el modal permite la validación secuencial multiestudiante sin bloqueos.
 - **Severidad en caso de falla:** **Bloqueante**.
 
 ### CP-12: Emisión Oficial de Informe en PDF y Notificación al Apoderado Titular
