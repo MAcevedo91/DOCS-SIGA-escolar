@@ -440,7 +440,8 @@ Una vez que el informe cuenta con la **Aprobación Formal** de la jefatura:
    - **Ficha del Alumno y del Caso:** Datos del estudiante foco, curso, apoderado titular, fecha y gravedad.
    - **Desarrollo Normativo:** Las 5 secciones estructuradas y redactadas formalmente.
    - **Líneas de Firma Física:** Espacios designados para la firma y timbre del Coordinador/a de Convivencia Escolar y del Director/a o Inspector/a General.
-3. **Regla de Seguridad e Inmutabilidad:** Los informes en estado *Borrador* no pueden descargarse en PDF, garantizando que ningún documento provisional o no aprobado circule fuera del establecimiento.
+   - **Pie de Página de Confidencialidad y Reserva Legal:** Todos los documentos PDF del ecosistema (informes oficiales, borradores de validación, actas de citación, fichas de especialista, mediaciones, sociogramas y listados) incorporan al pie la advertencia obligatoria: *"CONFIDENCIAL · Contiene datos sensibles de estudiantes protegidos por la Ley N° 19.628 y Circular N° 482. Prohibida su divulgación no autorizada"*, resguardando el interés superior del niño y la privacidad del estudiante.
+3. **Regla de Seguridad, Vista Previa e Inmutabilidad:** Los informes en estado *Borrador* no pueden descargarse como PDF oficial definitivo. No obstante, para facilitar la revisión colegiada entre Inspectoría y Convivencia Escolar, el sistema permite visualizar y descargar un **Borrador de Validación** con cintillo de advertencia superior (*DOCUMENTO DE VALIDACIÓN / VISTA PREVIA - NO OFICIAL - PENDIENTE DE APROBACIÓN*), marca de agua translúcida y bloque de firma en revisión (*DOCUMENTO EN REVISIÓN / PENDIENTE DE APROBACIÓN FORMAL*), resguardando que ningún documento sin validez jurídica sea emitido formalmente hacia el exterior sin previa aprobación.
 
 ### Notificación Automática por Correo Electrónico al Apoderado Titular
 
