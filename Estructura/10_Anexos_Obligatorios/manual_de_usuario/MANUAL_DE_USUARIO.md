@@ -171,7 +171,15 @@ El sistema cuenta con un flujo de navegación escolar jerárquico e intuitivo di
 - En la cabecera superior de cualquier pantalla, escribe el nombre, apellido o RUT del alumno en el buscador global.
 - Con solo **2 caracteres** se desplegará una ventana emergente en vivo con los resultados coincidentes y acceso directo a la ficha del estudiante.
 
-### C. Expediente Personal del Estudiante
+### C. Controles de Privacidad Visual DLP y Protección contra Miradas Ajenas (Anti-Shoulder Surfing)
+Para proteger la información confidencial de los alumnos en oficinas transitadas (Inspectoría, Convivencia Escolar o Salas de Profesores), la plataforma incorpora 4 mecanismos automáticos de prevención de fuga de datos (DLP Visual):
+1. **Modo Privacidad (`Alt + P`):** En la barra superior encontrarás el botón **"Privacidad"** con ícono de ojo. Al hacer clic (o presionar la combinación `Alt + P`), todos los RUTs, nombres de alumnos y diagnósticos se desenfocan instantáneamente (`blur`).
+   - *Develar Dato (Click-to-Reveal):* Si necesitas consultar un dato específico con el modo privacidad encendido, haz clic sobre el texto borroso; este se mostrará nítido durante **5 segundos** y volverá a protegerse solo.
+2. **Escudo de Pantalla Desatendida:** Si minimizas la ventana, abres otra pestaña o dejas el equipo inactivo por más de **2 minutos**, la pantalla se bloqueará con una cortina institucional de seguridad. Basta con hacer clic en cualquier lugar para reanudar la sesión.
+3. **Marca de Agua Forense:** Sobre toda la interfaz se proyecta una sutil marca de agua translúcida con tu nombre, correo institucional y fecha actual. Esto desincentiva y hace 100% trazable cualquier intento de tomar fotos con teléfonos celulares a la pantalla.
+4. **Protección contra Impresión Furtiva:** La función `Ctrl + P` del navegador se encuentra bloqueada por seguridad. Todos los antecedentes oficiales deben descargarse a través de los botones certificados en PDF que emiten folio legal y hash SHA-256.
+
+### D. Expediente Personal del Estudiante
 Al ingresar a la ficha del estudiante verás:
    - Haz clic sobre la fila o nombre del estudiante.
    - Se abrirá el **Expediente del Estudiante**, donde verás:
