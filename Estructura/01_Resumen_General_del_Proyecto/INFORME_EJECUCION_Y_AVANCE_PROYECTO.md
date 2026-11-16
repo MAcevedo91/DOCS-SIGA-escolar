@@ -1395,6 +1395,19 @@ Para dar continuidad y cierre al ciclo de desarrollo, se diseñó e integró la 
     * **Escudo de Pantalla Desatendida (`PrivacyShieldOverlay.jsx`):** Activación automática de cortina de seguridad al cambiar de pestaña o minimizar (`visibilitychange`) y tras 2 minutos de inactividad de teclado/mouse.
     * **Blindaje de Impresión Furtiva (`index.css`):** Bloqueo en `@media print` de la función de impresión nativa del navegador (`Ctrl + P`), canalizando las salidas físicas exclusivamente hacia los reportes PDF oficiales auditados.
     * **Resultados Certificados:** 55/55 suites de frontend aprobadas en Vitest (264 tests pasando al 100%, incluyendo 11/11 tests en `DlpComponents.test.jsx`, 5/5 en `DashboardLayout.test.jsx` y 10/10 en `EstudiantePerfilPage.test.jsx`).
+  * *Prueba 31 (Rediseño Minimalista y Ergonómico de la Sección de Informes Oficiales en el Detalle de Incidentes):*
+    * **Diagnóstico de Usabilidad y Ruido Visual:** Detección de sobrecarga cognitiva y visual en la sección de informes individuales de `IncidenteDetallePage.jsx` debido al uso de fondos degradados pesados, bordes estridentes y multiplicidad de badges heterogéneos, lo cual dificultaba una lectura ejecutiva y clara de la situación legal de cada estudiante en situaciones de alta exigencia escolar.
+    * **Arquitectura de Tarjetas Minimalistas en Cuadrícula (2 Columnas):** Implementación de una interfaz sobria en cuadrícula responsiva (`grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6`) con tarjetas limpias (`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/90 dark:border-gray-700/80 p-6 shadow-2xs`).
+    * **Fidelidad al Bosquejo y Jerarquía de Contenidos:**
+      * Encabezado sobrio con título `Informes oficiales`, subtítulo `{X} de {Y} validados` en gris suave y botón superior neutral `Editar informes` (o `Generar informes con IA`).
+      * Fila superior de cada tarjeta con avatar circular de iniciales (`AA`, `JR`) y estado minimalista con viñeta (`● Aprobado` en verde o `● En revisión` en ámbar).
+      * Nombre del estudiante protegido de forma nativa mediante `<DlpSensitiveText tipo="nombre">` contra miradas indiscretas (*shoulder surfing*).
+      * Metadatos compactos en una sola línea continua: `{RUT DLP} · {Rol sensible al género: Agresora / Agresor / Víctima} · {Curso}`.
+      * Hecho u observación individual con botón de lápiz (`Pencil`) para edición contextual expedita de derivación.
+      * Advertencia condicional compacta `⚠️ Apoderado sin correo` visible únicamente cuando no existe correo registrado.
+      * Botones inferiores de alta fidelidad: `Ver` (outline) y `Descargar PDF` (botón oscuro `bg-gray-950`) para informes aprobados; `Previsualizar` (outline) y `Revisar y aprobar` (botón oscuro) para borradores en revisión.
+    * **Accesibilidad Universal y Blindaje Retroactivo:** Inclusión de etiquetas semánticas y accesibles (`sr-only` y `aria-label`) que aseguran compatibilidad total con lectores de pantalla y el 100% de aserciones en las pruebas automatizadas.
+    * **Resultados Certificados:** 10/10 pruebas en verde en `IncidenteDetallePage.test.jsx`, 11/11 en `DlpComponents.test.jsx` y 68/68 pruebas aprobadas (11/11 archivos) en la suite completa de páginas de frontend.
 
 ---
 

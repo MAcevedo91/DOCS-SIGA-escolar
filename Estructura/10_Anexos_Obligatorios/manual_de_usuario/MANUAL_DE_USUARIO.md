@@ -262,6 +262,19 @@ Para asegurar el estricto cumplimiento de la **Ley N° 19.628** de Protección d
 - **Trazabilidad y Control de Versiones:** Los reportes cuentan con gestión de versiones estructuradas en 5 secciones normativas (Contexto, Hechos objetivos, Medidas adoptadas, Compromisos/Acuerdos y Plan de seguimiento). El borrador sugerido por IA se conserva inmutable, registrando quién realizó ediciones intermedias y quién efectuó la aprobación final.
 - **Bloqueo Estricto tras Aprobación:** Una vez que un informe adquiere el estado **"Aprobado"**, el sistema bloquea cualquier edición posterior, garantizando que el documento descargado en PDF o despachado al apoderado sea inalterable y posea plena validez probatoria.
 
+### 8.2 Nueva Interfaz Minimalista de Informes Oficiales (Cuadrícula 2 Columnas)
+En la pantalla de detalle de incidente, el módulo de informes normativos cuenta con una interfaz ergonómica y minimalista diseñada para reducir la sobrecarga cognitiva:
+1. **Encabezado Despejado:** Presenta el título **"Informes oficiales"**, el indicador numérico de avance (ej: *1 de 2 validados*) y el botón superior **"Editar informes"** (o *"Generar informes con IA"* si aún no existen borradores).
+2. **Cuadrícula de Tarjetas por Estudiante:**
+   - **Avatar y Estado con Viñeta:** Cada tarjeta cuenta con un avatar circular con las iniciales del alumno (ej: *AA*, *JR*) y un badge con indicador puntual en color verde (**`● Aprobado`**) o ámbar (**`● En revisión`**).
+   - **Protección DLP Integrada:** El nombre completo y RUT del estudiante se integran con el motor DLP, permitiendo ocultar o desenfocar datos sensibles ante miradas externas o al activar el modo privacidad (`Alt + P`).
+   - **Fila de Metadatos Compacta:** Presenta en una sola línea clara el RUT, el rol sensible al género (*Agresora*, *Agresor*, *Víctima* o *Involucrado*) y el curso escolar correspondiente (*ej: 3° Básico A* o *Sin curso*).
+   - **Observación Individual con Acceso Rápido de Lápiz:** Muestra el hecho o medida particular asignada al alumno con un ícono de lápiz cliqueable (`Pencil`), permitiendo editar o complementar la derivación inmediatamente.
+   - **Alerta de Contacto con Apoderados:** Si el estudiante no cuenta con correo electrónico de apoderado registrado, el sistema despliega una advertencia ámbar puntual: **`⚠️ Apoderado sin correo`**, alertando al equipo sobre la necesidad de citación presencial.
+   - **Botones de Acción Inferiores:**
+     - Si está **Aprobado:** Botón **"Ver"** (abre el PDF oficial en una nueva pestaña del navegador) y botón **"Descargar PDF"** (descarga directa del documento foliado).
+     - Si está **En revisión:** Botón **"Previsualizar"** (abre el borrador con marca de agua previa de auditoría) y botón **"Revisar y aprobar"** (abre el modal de edición y validación con IA).
+
 ### 8.2 Derivaciones con Observaciones Individuales por Estudiante (Hallazgo 5)
 En incidentes que involucran a múltiples alumnos (riñas, agresiones o conflictos entre pares), las medidas pedagógicas y de apoyo no son idénticas para cada estudiante. SIGA Escolar incorpora la gestión individualizada de derivaciones:
 1. **Derivación al Cambiar de Estado:**
