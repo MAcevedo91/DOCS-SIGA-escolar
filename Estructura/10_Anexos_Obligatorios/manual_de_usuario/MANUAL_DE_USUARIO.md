@@ -805,21 +805,36 @@ Para asegurar que el sistema opere con la versión oficial aprobada por el Conse
 
 ---
 
-### 17.3 Consulta Normativa Global (Copiloto RICE)
-Cualquier funcionario autenticado (**Directivo, Encargado de Convivencia, Inspector o Docente**) puede consultar el reglamento en lenguaje natural desde cualquier pantalla del sistema:
+### 17.3 Chatbot Flotante Interactivo «Sigi: Copiloto Escolar IA»
+Cualquier funcionario autenticado (**Directivo, Encargado de Convivencia, Inspector o Docente**) cuenta con un asistente virtual permanente disponible en toda la plataforma:
 
-1. En la barra superior de navegación, haz clic en el botón **«Copiloto RICE»** (icono de destellos).
-2. Se desplegará el asistente interactivo con sugerencias rápidas de consulta:
-   * *«¿Cuál es el protocolo y plazo ante agresión física o ciberacoso reiterado?»*
-   * *«¿Qué medidas formativas deben aplicarse antes de una suspensión?»*
-   * *«¿Cómo proceder ante sospecha de porte de armas o sustancias ilícitas?»*
-   * *«¿Cuáles son los plazos para citar al apoderado y otorgar derecho a descargos?»*
-3. Escribe tu consulta específica o selecciona una sugerencia y pulsa **«Consultar»**.
-4. El asistente responderá con:
-   * **Marco Normativo:** Artículos, Capítulos y páginas exactas del RICE de la escuela.
-   * **Procedimiento y Debido Proceso:** Pasos obligatorios y plazos requeridos.
-   * **Fuentes y Artículos Citados:** Acordeón desplegable en la parte inferior con los extractos textuales recuperados desde el documento para verificación inmediata.
-   * **Botón Copiar:** Permite copiar la recomendación completa al portapapeles con un clic para incorporarla en minutas o citaciones.
+1. **Identidad Visual de «Sigi» y Botón Flotante Permanente:**
+   * **El Personaje:** Sigi es el copiloto escolar de la plataforma, caracterizado como una amigable figura artesanal de cartón reciclado (`#06b6d4`), con antenas espirales multicolor, ojos expresivos, barritas de colores en su boca, resortes dorados en brazos y piernas, stickers pedagógicos y su mochila a la espalda donde lleva el reglamento interno de convivencia escolar (RICE).
+   * **Botón Flotante en Pantalla (Badge Circular Oficial y Animación de Saludo):** En la esquina inferior derecha (`bottom-6 right-6`), encontrarás el botón flotante circular luciendo la insignia depurada oficial de Sigi con su birrete de graduación, diadema con micrófono, bocadillo de diálogo (`...`) y útiles escolares sobre fondo limpio. Al posar el puntero del mouse sobre el botón, Sigi realiza una animación rítmica donde saluda con su mano (`animate-sigi-saludo` y 👋 interactiva), acompañado de un halo esmeralda de estado activo y el tooltip: *«¿Dudas con el RICE o protocolos? Pregúntale a Sigi»*.
+   * Al hacer clic sobre este botón o pulsar **«Copiloto RICE»** en la barra superior, se despliega el panel interactivo.
+
+2. **Panel de Chat Flotante y Tarjeta de Bienvenida con Sigi de Cuerpo Completo:**
+   * Al abrir el chat, Sigi te recibe con una tarjeta destacada con la cápsula unificada **«COPILOTO CONVIVENCIA ESCOLAR»**, donde se presenta en su versión completa de cartón saludando amistosamente con su brazo de resorte dorado, indicando: *«Llevo en mi mochila el reglamento interno para orientarte en lo que necesites»*.
+   * Cuenta con pestañas interactivas en la cabecera para alternar entre sus dos modos especializados de consulta:
+     * ⚖️ **RICE y Normas:** Para resolver dudas reglamentarias, tipificación de faltas (leves, graves, gravísimas), plazos del debido proceso y derechos y deberes escolares.
+     * 📋 **Pasos a Seguir:** Para obtener procedimientos operativos inmediatos paso a paso ante un incidente de convivencia en curso (contención emocional, citación, medidas de protección y plazos de 24 horas).
+     *(Nota: La redacción formal de relatos, actas y descargas en PDF se gestiona directamente en los módulos correspondientes de Registro de Incidentes y Medidas Pedagógicas).*
+
+3. **Sugerencias Rápidas Dinámicas:**
+   Según el modo seleccionado, Sigi te ofrecerá preguntas predefinidas que puedes enviar con un solo clic:
+   * *RICE y Normas:* «¿Qué medidas formativas aplicar antes de suspender?», «¿Cuáles son los plazos para citar al apoderado?», «¿Cómo tipifica el RICE el ciberacoso y agresiones digitales?», etc.
+   * *Pasos a Seguir:* «¿Cuáles son los 5 pasos obligatorios ante maltrato entre pares?», «¿Cómo actuar paso a paso ante una desregulación emocional en sala?», «¿A quién debo derivar a un estudiante tras un conflicto en recreo?», etc.
+
+4. **Interacción y Respuestas Enriquecidas:**
+   * **Visualización Markdown:** Respuestas estructuradas con títulos, viñetas, énfasis en negrita y pasos numerados de fácil lectura.
+   * **Citas Normativas Exactas:** Artículos y capítulos citados directamente del reglamento escolar indexado.
+   * **Botón Copiar Texto:** Cada mensaje de Sigi incluye un botón de copia rápida al portapapeles con confirmación visual (*«Copiado»*), ideal para trasladar acuerdos o pasos a minutas físicas o digitales.
+   * **Reinicio de Conversación:** Un botón de recarga en la cabecera permite limpiar el hilo conversacional e iniciar una nueva consulta desde cero.
+
+5. **Experiencia de Chat Real y Trato Personalizado en Lenguaje Natural:**
+   * **Reconocimiento del Funcionario:** Sigi detecta automáticamente tu nombre de pila desde tu sesión autenticada y se dirige a ti con calidez y cercanía (ej. *«¡Hola, María! ¿Cómo estás? Soy Sigi, tu copiloto escolar. Cuéntame, ¿en qué te puedo apoyar hoy?...»*).
+   * **Interacción Cotidiana Fluida (Small Talk):** Puedes saludarle (*«Hola Sigi»*, *«Buenos días»*), agradecerle (*«Muchas gracias Sigi»*), despedirte (*«Hasta pronto»*) o preguntarle por su función (*«¿Quién eres?»*), recibiendo respuestas naturales y cercanas junto a su ilustración de cuerpo completo.
+   * **Garantía RAG en Recomendaciones y Protocolos:** Tan pronto ingreses una consulta reglamentaria o de procedimiento ante un conflicto, Sigi suspende la charla casual y activa de inmediato su motor RAG, anclando el 100% de la orientación a las normas oficiales vigentes en la institución, asegurando cero alucinaciones y respaldo legal comprobable.
 
 ---
 
