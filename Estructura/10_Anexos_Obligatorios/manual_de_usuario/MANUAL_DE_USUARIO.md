@@ -248,7 +248,9 @@ Cualquier situación relevante ocurrida en recreo, entrada, salida o aula debe s
 Los incidentes no son solo un registro estático; tienen un ciclo de vida para asegurar que ningún caso quede en el olvido:
 
 ### 8.1 Visualización y Filtrado Ágil de Incidentes
-En la pantalla principal de **"Incidentes"**, el equipo cuenta con una tabla organizada para la consulta rápida y segura de expedientes:
+En la pantalla principal de **"Incidentes"**, el equipo cuenta con una tabla de alto rendimiento y diseño adaptable (`max-w-7xl` con cuadrícula fija `lg:table-fixed`) organizada para la consulta rápida, cómoda y segura de expedientes sin desplazamiento horizontal innecesario:
+- **Dimensionamiento Equilibrado y Relato Compacto:** La tabla distribuye proporcionalmente sus columnas (Fecha, Estudiante(s), Curso, Gravedad, Estado, Relato y Acciones) con padding compacto (`px-3 py-3`). La columna **Relato** muestra una vista previa concisa en una sola línea truncada (`...`), permitiendo leer el detalle completo al posar el cursor del mouse o al ingresar a la ficha del caso.
+- **Exportación Directa a Excel y PDF:** En la barra superior de herramientas dispones de botones rápidos **`[ Excel ]`** y **`[ Exportar PDF ]`** para descargar el listado filtrado directamente.
 - **Resguardo de Privacidad en Lista:** La columna **Estudiante(s)** exhibe únicamente los nombres de los alumnos vinculados, integrados con el motor de privacidad DLP (desenfoque o enmascaramiento con `Alt + P`). Para proteger la honra y presunción de inocencia de los menores ante miradas casuales, se omiten deliberadamente etiquetas de rol disciplinario (como *víctima* o *agresor*) en la vista general.
 - **Columna Independiente de Curso:** Cada incidente desglosa en una columna propia el curso o los cursos de los alumnos involucrados (*ej: 3° Básico A*).
 - **Filtros Interactivos Tipo Cápsula:** Encima de la tabla se disponen botones ergonómicos en formato de cápsula con indicadores visuales de color:
@@ -256,9 +258,16 @@ En la pantalla principal de **"Incidentes"**, el equipo cuenta con una tabla org
   - **Estado:** Cápsulas para *Todos*, *En Investigación* (ámbar), *Derivado* (azul) y *Cerrado* (esmeralda).
 - **Buscador Dinámico:** Permite filtrar instantáneamente por número de folio o descripción de los hechos.
 
-### 8.2 Ciclo de Vida y Transición de Estados
-1. En el listado de incidentes, haz clic sobre el caso que deseas gestionar.
-2. En la sección superior verás el estado actual del caso:
+### 8.2 Detalle del Incidente, Módulos Cromáticos y Ciclo de Vida
+Al ingresar a la ficha detallada de un incidente, cada módulo cuenta con una **identidad visual cromática intensa y diferenciada** para facilitar la lectura rápida en reuniones o auditorías:
+- **Encabezado del Caso:** Cambia dinámicamente su paleta según la gravedad (*Cian/Azul* para Leve, *Ámbar/Naranja* para Grave y *Rojo/Carmesí* para Gravísima).
+- **Módulo Azul/Índigo (Antecedentes del Suceso):** Metadatos clave (Fecha, Gravedad, Tipo de Abordaje y total de involucrados).
+- **Módulo Púrpura/Violeta (Relato Factual y Actuaciones Inmediatas):** Hechos objetivos y medidas adoptadas en dos bloques contrastados.
+- **Módulo Esmeralda/Teal (Informes Oficiales Individuales):** Tarjetas diferenciadas por estudiante y botón de redacción asistida con **Sigi**.
+- **Panel Lateral (Slate/Azul y Cian/Sky):** Stepper visual de 4 etapas de avance y accesos rápidos para abrir Protocolos RICE o iniciar Mediación Escolar.
+
+1. En el listado de incidentes, haz clic en **"Ver Detalle"** sobre el caso que deseas gestionar.
+2. En el panel lateral verás el estado actual del caso:
    - **En Investigación:** Se están recabando testimonios o entrevistando a las partes.
    - **Derivado:** El caso fue derivado a Dupla Psicosocial, Inspectoría General o Dirección.
    - **Cerrado:** Se cumplieron los compromisos formativos y se dio por finalizado el proceso.
@@ -315,7 +324,13 @@ Los Protocolos RICE son los procedimientos formales exigidos por la **Superinten
 ### A. Cuándo abrir un Protocolo
 Debe abrirse cuando un hecho califica dentro de las tipologías normativas reglamentarias del establecimiento (ej: *Acoso escolar*, *Ciberacoso*, *Maltrato entre adultos*, *Vulneración de derechos* —el cual canaliza denuncias graves, violencia intrafamiliar y agresiones sexuales conforme a la normativa educacional—, *Accidente escolar*, *Drogas o alcohol*, entre otras).
 
-### B. Cómo abrir un nuevo Protocolo (Nueva Interfaz 2 Columnas)
+### B. Bandeja de Protocolos y Columna de Progreso Normativo
+En la vista principal de **"Protocolos RICE"**, el listado general cuenta con un contenedor panorámico (`max-w-[1600px]`) que integra la columna **"Progreso"**:
+- **Barra de Avance Porcentual Dinámica:** Muestra el porcentaje exacto de completitud del expediente (ej: `0%`, `33%`, `66%`, `100%`) según los pasos del checklist normativo certificados por los profesionales o la etapa administrativa del caso.
+- **Identificación Cromática por Tramos:** La barra adopta color ámbar en etapas tempranas (<50%), azul en etapas intermedias (≥50%) y verde esmeralda al alcanzar el 100% o cerrarse el protocolo.
+- **Contador de Pasos Certificados:** Junto al porcentaje, el sistema detalla la cantidad de pasos cumplidos respecto al total reglamentario (ej: `2/4 pasos` o `✓ Completo`), permitiendo a directivos y convivencia supervisar el estado de cada caso sin necesidad de abrir expediente por expediente.
+
+### C. Cómo abrir un nuevo Protocolo (Nueva Interfaz 2 Columnas)
 1. Ve a **"Protocolos RICE"** y presiona **"+ Nuevo Protocolo"**.
 2. **Formulario en Secciones Temáticas:**
    - **1. Clasificación RICE (Índigo/Azul):** Selecciona directamente la tipología reglamentaria mediante las cápsulas interactivas oficiales. Cada tipología incluye su definición orientadora para una rápida identificación pedagógica.
@@ -327,7 +342,7 @@ Debe abrirse cuando un hecho califica dentro de las tipologías normativas regla
 4. **Confirmación y Activación:**
    - Haz clic en **"Aperturar Protocolo RICE"** y valida los antecedentes consolidados en el **Modal de Confirmación**. El sistema registrará el caso e iniciará el cómputo automático de plazos máximos legales.
 
-### C. Checklist de Pasos Obligatorios y Evidencias Probatorias
+### D. Checklist de Pasos Obligatorios y Evidencias Probatorias
 Al entrar al detalle de cualquier protocolo, verás una **lista de chequeo paso a paso**:
 - Medidas de protección inmediatas a la víctima.
 - Comunicación y citación formal a los apoderados.
@@ -458,17 +473,17 @@ Para optimizar el tiempo administrativo de inspectores, dupla psicosocial y dire
 
 1. **Paso 1: Localizar el Incidente**  
    - Dirígete al módulo **"Incidentes"** y haz clic sobre el caso que deseas documentar.
-2. **Paso 2: Generar Borrador con IA**  
-   - En la pestaña o sección de informes, haz clic en **"Generar Informe con IA"**.
-   - El sistema anonimizará los datos, consultará a Gemini Flash y presentará las 5 secciones estructuradas por cada alumno involucrado en pocos segundos.
+2. **Paso 2: Generar Borrador Asistido por Sigi**  
+   - En la pestaña o sección de informes, haz clic en el botón principal **`[ Redactar con Sigi (IA) ]`** o en el botón individual del alumno **`[ Redactar borrador con Sigi ]`**.
+   - El sistema anonimizará los datos mediante DLP, consultará el modelo formativo y presentará las 5 secciones estructuradas por cada alumno involucrado en pocos segundos.
 3. **Paso 3: Revisión y Ajustes (Human-in-the-Loop)**  
    - Revisa el texto propuesto. Puedes ajustar compromisos formativos, fechas de citación o medidas específicas en la sección editable antes de finalizar.
    - Haz clic en **"Guardar Borrador"** para conservar los cambios sin alterar el registro histórico.
 4. **Paso 4: Aprobación Formal (Directivos y Encargados de Convivencia)**  
    - Una vez validado el contenido, la jefatura autorizada presiona **"Aprobar Informe Oficial"**.
    - El estado cambia a **Aprobado** y el contenido queda blindado contra futuras modificaciones.
-5. **Paso 5: Emisión de PDF y Envío a la Familia**  
-   - El sistema habilita de inmediato el botón **"Descargar PDF Oficial"** y simultáneamente despacha el informe por correo al apoderado titular registrado.
+5. **Paso 5: Emisión de PDF Oficial y Envío a la Familia**  
+   - El sistema habilita de inmediato el botón **`[ Descargar PDF ]`** y simultáneamente despacha el informe por correo al apoderado titular registrado.
 
 ### Emisión y Descarga del Documento PDF Oficial
 
@@ -541,11 +556,11 @@ Al acceder a la sección de **Analítica**, el equipo directivo cuenta con un pa
    * **Tabla de Focalización:** Listado de estudiantes con reiteración de casos, sus cursos, nivel de riesgo y acceso directo a su expediente mediante el botón de ficha.
    * **Actividad de Funcionarios:** Registro institucional que detalla el rol de cada profesional y el volumen de casos reportados, garantizando debida diligencia.
 
-### 14.6 Emisión del Reporte Mensual Ejecutivo en PDF con Copiloto IA
+### 14.6 Emisión del Reporte Mensual Ejecutivo en PDF con Copiloto IA (Sigi)
 El sistema cuenta con un motor inteligente de generación de informes directivos oficiales en PDF:
 
 1. **Cómo generar el reporte:**
-   * En la cabecera superior de Analítica, haz clic en el botón verde institucional **"Reporte Mensual PDF"**.
+   * En la cabecera superior de Analítica, haz clic en el botón institucional **`[ Reporte Mensual PDF con Sigi ]`**, identificado con el avatar oficial de Sigi.
    * Se abrirá el **Modal Interactivo del Reporte Mensual** con diseño de hoja 3D, el sello del mes en curso (*ej. Noviembre 2026*) y un mini gráfico ilustrativo.
    * Haz clic en **"Descargar PDF"**.
 2. **Proceso del Copiloto IA:**
@@ -883,7 +898,9 @@ En cualquier sección del sistema —incluso al consultar la ficha de un estudia
   - **Pie Integrado de Usuario y Salida Rápida:** En la parte inferior del menú lateral se ubica tu fotografía o iniciales, tu nombre (protegido automáticamente por el motor DLP cuando activas el modo privacidad `Alt + P`), tu rol institucional y un botón directo para cerrar sesión de forma segura.
   - **Acceso Móvil y Cobertura de Privacidad:** En teléfonos inteligentes se despliega como un panel lateral suave con fondo difuminado al pulsar el botón de menú. Además, al activarse la **Sesión Protegida** por inactividad o minimización de ventana, la cortina de seguridad cubre el 100% de la pantalla de forma absoluta, ocultando por completo la barra lateral para evitar cualquier filtración visual.
 
-* **Barra Superior Siempre Visible (Navbar):** Permite buscar alumnos rápidamente por nombre o RUT desde cualquier pantalla, activar o desactivar el Modo Privacidad DLP (`Alt + P`), alternar entre modo claro y oscuro, consultar el Copiloto Normativo RICE y monitorear las notificaciones en tiempo real.
+* **Barra Superior Siempre Visible (Navbar):** Permite buscar alumnos rápidamente por nombre o RUT desde cualquier pantalla, activar o desactivar el Modo Privacidad DLP (`Alt + P`), alternar entre modo claro y oscuro, y monitorear las notificaciones en tiempo real (mientras que las consultas normativas y reglamentarias están disponibles de manera permanente a través del botón flotante de Sigi en la esquina inferior derecha).
+
+* **Ruta de Navegación Jerárquica (Breadcrumbs en Todas las Secciones):** En la parte superior de cada módulo (Incidentes, Detalle del Caso, Protocolos RICE, Mediación Escolar, Citaciones, Cursos, Analítica, Sociograma, Usuarios, Cierre de Año y Configuración), verás una cápsula moderna con tu ruta exacta desde el **Inicio** (ej. `Inicio › Incidentes › Caso #15`), permitiéndote retornar a cualquier nivel superior con un solo clic.
 
 ---
 
